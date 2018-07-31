@@ -15,7 +15,7 @@
 <%
 
     if (session.getAttribute("uid") == null || session.getAttribute("sid") == null) {
-        response.sendRedirect("http://192.168.0.103:8080/");
+        response.sendRedirect("login.html");
         return;
     }
 
@@ -41,7 +41,7 @@
     pst.close();
     c.close();
 
-    response.sendRedirect("http://192.168.0.103:8080/logout.html");
+    response.sendRedirect("logout.html");
     return;
 
 %>

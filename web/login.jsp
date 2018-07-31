@@ -60,7 +60,7 @@
         pst.close();
         c.close();
 
-        response.sendRedirect("http://192.168.0.103:8080/dashboard.jsp");
+        response.sendRedirect("dashboard.jsp");
     }
 
 %>

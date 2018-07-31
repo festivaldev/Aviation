@@ -15,7 +15,7 @@
 <%
 
     if (session.getAttribute("uid") == null || session.getAttribute("sid") == null) {
-        response.sendRedirect("http://192.168.0.103:8080/login.html");
+        response.sendRedirect("login.html");
         return;
     }
 
@@ -38,7 +38,7 @@
     c.close();
 
     if (!valid) {
-        response.sendRedirect("http://192.168.0.103:8080/login.html");
+        response.sendRedirect("login.html");
         return;
     }
 
@@ -74,7 +74,7 @@
                         <h5 class="aside-nav"><a href="#">Buchungen</a></h5>
                         <div class="divider my-1" style="width: 100%"></div>
                         <h5 class="aside-nav"><a href="#">Konto</a></h5>
-                        <h5 class="aside-nav"><a href="http://192.168.0.103:8080/logout.jsp">Abmelden</a></h5>
+                        <h5 class="aside-nav"><a href="logout.jsp">Abmelden</a></h5>
                     </div>
                 </aside>
 
