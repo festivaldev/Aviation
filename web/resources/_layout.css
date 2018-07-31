@@ -1,0 +1,35 @@
+/* 2 Column Layout */
+
+
+
+.columns {
+    display: flex;
+}
+
+.columns aside {
+    width: 25%;
+}
+
+.columns section {
+    padding-left: 48px;
+    width: 75%;
+}
+
+@media (max-width: 768px) {
+    .columns {
+        flex-wrap: wrap;
+    }
+
+    .columns.reverse {
+        flex-wrap: wrap-reverse;
+    }
+
+    .columns > * {
+        width: 100% !important;
+    }
+
+    .columns section {
+        padding-left: 0;
+        width: 75%;
+    }
+}

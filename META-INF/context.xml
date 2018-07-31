@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/">
+
+    <Resource name="jdbc/iae" auth="Container" type="javax.sql.DataSource" username="root" password="alpine" driverClassName="com.mysql.jdbc.Driver" url="jdbc:mysql://localhost:3306/iae?serverTimezone=UTC" />
+
+</Context>
