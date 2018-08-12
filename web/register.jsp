@@ -1,14 +1,24 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="ml.festival.aviation.*" %>
+<%@ page import="ml.festival.aviation.AuthManager" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.nio.charset.StandardCharsets" %>
 <%@ page import="java.security.MessageDigest" %>
 <%
-	Boolean incorrectForm = false;
+	Boolean invalidForm = false;
 	Boolean passwordNotEqual = false;
 	Boolean serverError = false;
 	AuthManager authManager = new AuthManager();
+ 
+	Cookie[] cookies = request.getCookies();
+	for (int i=0; i<cookies.length; i++) {
+		if (cookies[i].getName().equals("sid")) {
+			if (authManager.validate(cookies[i].getValue())) {
+				response.sendRedirect("dashboard.jsp");
+				return;
+			}
+		}
+	}
  
 	if (request.getParameter("firstName") != null &&
 		request.getParameter("lastName") != null &&
@@ -34,7 +44,7 @@
 						sessionCookie.setMaxAge(7200);
 						response.addCookie(sessionCookie);
  
-						response.sendRedirect("user-cp.html");
+						response.sendRedirect("dashboard.jsp");
 					}
 				} else {
 					serverError = true;
@@ -43,7 +53,7 @@
 				passwordNotEqual = true;
 			}
 		} else {
-			incorrectForm = true;
+			invalidForm = true;
 		}
 	}
 %>
@@ -63,12 +73,12 @@
 					<div class="column column-12 medium-4"><img src="img/logo-dark.svg"></div>
 				</div>
 			</section> 
-			<% if (incorrectForm || passwordNotEqual || serverError) { %>
+			<% if (invalidForm || passwordNotEqual || serverError) { %>
 			<section class="form-error">
 				<div class="section-content row centered">
 					<div class="column column-12 medium-4">
 						 
-						<% if (incorrectForm) { %>
+						<% if (invalidForm) { %>
 						<p>Bitte fülle das komplette Formular aus, um dich zu registrieren.</p> 
 						<% } else if (passwordNotEqual) { %>
 						<p>Die von dir eigegebenen Passwörter stimmen nicht überein. Bitte versuche es erneut.</p> 

@@ -46,15 +46,13 @@ public class AuthManager {
 			ResultSet existingAccount = statement.executeQuery();
 
 			if (!existingAccount.next()) {
-				String hashedPassword = new String(Base64.getEncoder().encode(MessageDigest.getInstance("SHA-256").digest(password.getBytes(StandardCharsets.UTF_8))));
-
 				statement = conn.prepareStatement("INSERT INTO `accounts` VALUES (?, ?, ?, ?, ?, default, default)");
 
-				statement.setString(1, bytesToHex(MessageDigest.getInstance("SHA-256").digest(String.format("%s%s%s%s%d", firstName, lastName, email, hashedPassword, System.currentTimeMillis() / 1000L).getBytes(StandardCharsets.UTF_8))).substring(0, 32));
+				statement.setString(1, bytesToHex(MessageDigest.getInstance("SHA-256").digest(String.format("%s%s%s%s%d", firstName, lastName, email, password, System.currentTimeMillis() / 1000L).getBytes(StandardCharsets.UTF_8))).substring(0, 32));
 				statement.setString(2, firstName);
 				statement.setString(3, lastName);
 				statement.setString(4, email);
-				statement.setString(5, hashedPassword);
+				statement.setString(5, password);
 
 				statement.execute();
 				return ErrorCode.OK;
@@ -67,8 +65,38 @@ public class AuthManager {
 		}
 	}
 
-	public ErrorCode login() {
-		return ErrorCode.SERVER_ERROR;
+	public Boolean validate(String sessionId) {
+		try {
+			PreparedStatement statement = conn.prepareStatement("SELECT accountId FROM sessions WHERE id = ?");
+			statement.setString(1, sessionId);
+
+			return statement.executeQuery().next();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return false;
+	}
+
+	public ErrorCode login(String email, String password) {
+		try {
+			PreparedStatement statement = conn.prepareStatement("SELECT * FROM accounts WHERE email = ?");
+			statement.setString(1, email);
+			ResultSet existingAccount = statement.executeQuery();
+
+			if (existingAccount.next()) {
+				if (password.equals(existingAccount.getString("password"))) {
+					return ErrorCode.OK;
+				} else {
+					return ErrorCode.PASSWORD_INCORRECT;
+				}
+			} else {
+				return ErrorCode.USER_NOT_FOUND;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ErrorCode.SERVER_ERROR;
+		}
 	}
 
 	public ErrorCode generateSession(String email) {

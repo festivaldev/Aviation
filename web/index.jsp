@@ -37,7 +37,7 @@
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
-					<li><a href="user-cp.jsp" class="link-user-cp"></a></li>
+					<li><a href="dashboard.jsp" class="link-user-cp"></a></li>
 				</ul>
 			</div>
 		</nav>
@@ -125,7 +125,7 @@
 							<li><a href="#">Link</a></li>
 							<li><a href="#">Link</a></li>
 							<li><a href="#">Link</a></li>
-							<li><a href="user-cp.html">Benutzerkontrollzentrum</a></li>
+							<li><a href="dashboard.jsp">Benutzerkontrollzentrum</a></li>
 						</ul>
 					</div>
 					<div class="footer-directory-column"></div>

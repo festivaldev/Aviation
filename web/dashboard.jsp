@@ -1,4 +1,35 @@
-<!DOCTYPE html>
+
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="ml.festival.aviation.AuthManager" %>
+<%!
+	private String defaultPage = "profile";
+	public Boolean isCurrentPage(String requestedPage, String pageName) {
+		if (requestedPage != null) {
+			return pageName.equals(requestedPage);
+		} else {
+			return pageName.equals(defaultPage);
+		}
+	}
+%>
+<%
+	Boolean validAuth = false;
+	AuthManager authManager = new AuthManager();
+ 
+	Cookie[] cookies = request.getCookies();
+	for (int i=0; i<cookies.length; i++) {
+		if (cookies[i].getName().equals("sid")) {
+			if (authManager.validate(cookies[i].getValue())) {
+				validAuth = true;
+				break;
+			}
+		}
+	}
+ 
+	if (!validAuth) {
+		response.sendRedirect("login.jsp");
+	}
+%>
+ <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8">
@@ -31,7 +62,7 @@
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
-					<li><a href="user-cp.jsp" class="link-user-cp"></a></li>
+					<li><a href="dashboard.jsp" class="link-user-cp"></a></li>
 				</ul>
 			</div>
 		</nav>
@@ -40,10 +71,13 @@
 				<div class="section-content row">
 					<div class="column column-3">
 						<ul class="user-cp-menu">
-							<li class="heading">Allgemein</li>
-							<li class="selected">Profil</li>
-							<li>Rechnungsadresse</li>
-							<li>Beschwerden</li>
+							<li class="menu-item heading">Allgemein</li> 
+							 <a href="?p=profile" class="menu-item <%= isCurrentPage(request.getParameter("p"), "profile") ? "selected" : "" %>">
+								<li>Profil</li></a> 
+							 <a href="?p=billing" class="menu-item <%= isCurrentPage(request.getParameter("p"), "billing") ? "selected" : "" %>">
+								<li>Rechnungsadresse</li></a> 
+							 <a href="?p=complaints" class="menu-item <%= isCurrentPage(request.getParameter("p"), "complaints") ? "selected" : "" %>">
+								<li>Beschwerden</li></a>
 						</ul>
 						<ul class="user-cp-menu">
 							<li class="heading">Buchungen</li>
@@ -52,7 +86,18 @@
 						</ul>
 					</div>
 					<div class="column column-8 offset-1">
-						<p>Test</p>
+						 
+						<% if (isCurrentPage(request.getParameter("p"), "profile")) { %>
+						<p>Profil</p> 
+						<% } %>
+						 
+						<% if (isCurrentPage(request.getParameter("p"), "billing")) { %>
+						<p>Rechnungsadresse</p> 
+						<% } %>
+						 
+						<% if (isCurrentPage(request.getParameter("p"), "complaints")) { %>
+						<p>Beschwerden</p> 
+						<% } %>
 					</div>
 				</div>
 			</section>
