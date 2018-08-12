@@ -1,65 +1,112 @@
-<%--suppress UnhandledExceptionInJSP --%>
 
-<%--
--
--   Festival Aviation - Registrierung
--   Fabian Krahtz
--
---%>
-
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="ml.festival.aviation.*" %>
+<%@ page import="java.util.*" %>
 <%@ page import="java.nio.charset.StandardCharsets" %>
 <%@ page import="java.security.MessageDigest" %>
-<%@ page import="java.util.Base64" %>
-<%@ page import="java.sql.*" %>
-<%@ page import="javax.naming.*" %>
-<%@ page import="javax.sql.DataSource" %>
-
 <%
-
-    String name = request.getParameter("name");
-    String surname = request.getParameter("surname");
-    String email = request.getParameter("email");
-    String id = request.getParameter("id");
-    String password = request.getParameter("password");
-
-    if (name == null || name.isEmpty() || surname == null || surname.isEmpty() || email == null || email.isEmpty() || id == null || id.isEmpty() || password == null || password.isEmpty()) {
-        // TODO Error: Missing Input
-    }
-
-    //noinspection UnhandledExceptionInJSP
-    MessageDigest digest = MessageDigest.getInstance("SHA-256");
-    byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
-    String b64Hash = new String(Base64.getEncoder().encode(hash));
-
-
-    Context initContext = new InitialContext();
-    Context envContext = (Context) initContext.lookup("java:/comp/env");
-    DataSource ds = (DataSource) envContext.lookup("jdbc/iae");
-    Connection c = ds.getConnection();
-
-
-    PreparedStatement pst = c.prepareStatement("INSERT INTO users VALUES (?, ?, ?, ?, ?)");
-    pst.setString(1, name);
-    pst.setString(2, surname);
-    pst.setString(3, email);
-    pst.setString(4, id);
-    pst.setString(5, b64Hash);
-
-    pst.execute();
-    pst.close();
-    c.close();
-
+	Boolean incorrectForm = false;
+	Boolean passwordNotEqual = false;
+	Boolean serverError = false;
+	AuthManager authManager = new AuthManager();
+ 
+	if (request.getParameter("firstName") != null &&
+		request.getParameter("lastName") != null &&
+		request.getParameter("email") != null &&
+		request.getParameter("password") != null &&
+		request.getParameter("passwordConfirm") != null) {
+ 
+		if (!request.getParameter("firstName").isEmpty() &&
+			!request.getParameter("lastName").isEmpty() &&
+			!request.getParameter("email").isEmpty() &&
+			!request.getParameter("password").isEmpty() &&
+			!request.getParameter("passwordConfirm").isEmpty()) {
+ 
+			if (request.getParameter("password").equals(request.getParameter("passwordConfirm"))) {
+				String firstName = request.getParameter("firstName");
+				String lastName = request.getParameter("lastName");
+				String email = request.getParameter("email");
+				String hashedPassword = new String(Base64.getEncoder().encode(MessageDigest.getInstance("SHA-256").digest(request.getParameter("password").getBytes(StandardCharsets.UTF_8))));
+ 
+				if (authManager.register(firstName, lastName, email, hashedPassword) == AuthManager.ErrorCode.OK) {
+					if (authManager.generateSession(email) == AuthManager.ErrorCode.OK) {
+						Cookie sessionCookie = new Cookie("sid", authManager.getCurrentSessionId(email));
+						sessionCookie.setMaxAge(7200);
+						response.addCookie(sessionCookie);
+ 
+						response.sendRedirect("user-cp.html");
+					}
+				} else {
+					serverError = true;
+				}
+			} else {
+				passwordNotEqual = true;
+			}
+		} else {
+			incorrectForm = true;
+		}
+	}
 %>
-
+ <!DOCTYPE html>
 <html>
-
-    <head>
-        <title>Festival Aviation</title>
-    </head>
-
-    <body>
-        <%= name%>
-    </body>
-
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+		<title>Registrieren – FESTIVAL Aviation</title>
+		<link rel="stylesheet" href="css/aviation.css">
+		<link rel="stylesheet" href="css/login.built.css">
+	</head>
+	<body>
+		<div class="content-wrapper">
+			<section class="logo-container">
+				<div class="section-content row centered">
+					<div class="column column-12 medium-4"><img src="img/logo-dark.svg"></div>
+				</div>
+			</section> 
+			<% if (incorrectForm || passwordNotEqual || serverError) { %>
+			<section class="form-error">
+				<div class="section-content row centered">
+					<div class="column column-12 medium-4">
+						 
+						<% if (incorrectForm) { %>
+						<p>Bitte fülle das komplette Formular aus, um dich zu registrieren.</p> 
+						<% } else if (passwordNotEqual) { %>
+						<p>Die von dir eigegebenen Passwörter stimmen nicht überein. Bitte versuche es erneut.</p> 
+						<% } else if (serverError) { %>
+						<p>Da hat etwas nicht geklappt. Bitte versuche es erneut.</p> 
+						<% } %>
+						 
+					</div>
+				</div>
+			</section> 
+			<% } %>
+			 
+			<section class="login">
+				<div class="section-content row centered">
+					<div class="column column-12 medium-4">
+						<div class="login-container">
+							<form method="POST" action="register.jsp" novalidate class="signin-form">
+								<div class="form-textbox-wrapper">
+									<input type="text" name="firstName" id="firstName" placeholder=" " required class="form-textbox"><span class="form-textbox-placeholder">Vorname</span>
+								</div>
+								<div class="form-textbox-wrapper">
+									<input type="text" name="lastName" id="lastName" placeholder=" " required class="form-textbox"><span class="form-textbox-placeholder">Nachname</span>
+								</div>
+								<div class="form-textbox-wrapper">
+									<input type="email" name="email" id="email" placeholder=" " required class="form-textbox"><span class="form-textbox-placeholder">E-Mail-Adresse</span>
+								</div>
+								<div class="form-textbox-wrapper">
+									<input type="password" name="password" id="password" placeholder=" " required class="form-textbox"><span class="form-textbox-placeholder">Passwort</span>
+								</div>
+								<div class="form-textbox-wrapper">
+									<input type="password" name="passwordConfirm" id="passwordConfirm" placeholder=" " required class="form-textbox"><span class="form-textbox-placeholder">Passwort bestätigen</span>
+								</div>
+								<button class="call">Registrieren</button>
+							</form><a href="login.jsp">Schon registriert?</a>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</body>
 </html>
