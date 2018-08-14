@@ -2,13 +2,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="ml.festival.aviation.AuthManager" %>
 <%!
-	private String defaultPage = "profile";
 	public Boolean isCurrentPage(String requestedPage, String pageName) {
 		if (requestedPage != null) {
 			return pageName.equals(requestedPage);
-		} else {
-			return pageName.equals(defaultPage);
 		}
+		return false;
 	}
 %>
 <%
@@ -28,15 +26,19 @@
 	if (!validAuth) {
 		response.sendRedirect("login.jsp");
 	}
+ 
+	if (request.getParameter("p") == null || request.getParameter("p").isEmpty()) {
+		response.sendRedirect("dashboard.jsp?p=profile");
+	}
 %>
  <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
-		<title>Benutzer – FESTIVAL Aviation</title>
+		<title>Dashboard – FESTIVAL Aviation</title>
 		<link rel="stylesheet" href="css/aviation.css">
-		<link rel="stylesheet" href="css/user-cp.built.css">
+		<link rel="stylesheet" href="css/dashboard.built.css">
 	</head>
 	<body>
 		<nav class="global-nav">
@@ -67,7 +69,7 @@
 			</div>
 		</nav>
 		<div class="content-wrapper">
-			<section class="user-cp">
+			<section class="dashboard">
 				<div class="section-content row">
 					<div class="column column-3">
 						<ul class="user-cp-menu">
@@ -80,15 +82,22 @@
 								<li>Beschwerden</li></a>
 						</ul>
 						<ul class="user-cp-menu">
-							<li class="heading">Buchungen</li>
-							<li>Vorherige Buchungen</li>
-							<li>Tickets</li>
+							<li class="menu-item heading">Buchungen</li> 
+							 <a href="?p=bookings" class="menu-item <%= isCurrentPage(request.getParameter("p"), "bookings") ? "selected" : "" %>">
+								<li>Alle Buchungen</li></a> 
+							 <a href="?p=tickets" class="menu-item <%= isCurrentPage(request.getParameter("p"), "tickets") ? "selected" : "" %>">
+								<li>Tickets</li></a>
 						</ul>
 					</div>
 					<div class="column column-8 offset-1">
 						 
 						<% if (isCurrentPage(request.getParameter("p"), "profile")) { %>
-						<p>Profil</p> 
+						<h2>Profil</h2>
+						<p>Hier kannst du die Details deines Profils anpassen.</p>
+						<form action="#">
+							<label for="firstName">Vorname</label>
+							<input type="text" name="firstName" id="firstName" value="<%= request.getParameter("p") %>">
+						</form> 
 						<% } %>
 						 
 						<% if (isCurrentPage(request.getParameter("p"), "billing")) { %>

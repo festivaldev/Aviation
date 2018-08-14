@@ -147,4 +147,23 @@ public class AuthManager {
 
 		return null;
 	}
+
+	public ResultSet getProfileDetails(String sessionId) {
+		try {
+			PreparedStatement statement = conn.prepareStatement("SELECT accountID FROM sessions WHERE id = ?");
+			statement.setString(1, sessionId);
+			ResultSet session = statement.executeQuery();
+
+			if (session.next()) {
+				statement = conn.prepareStatement("SELECT firstName, lastName, email FROM accounts WHERE id = ?");
+				statement.setString(1, session.getString("accountId"));
+
+				return statement.executeQuery();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
 }
