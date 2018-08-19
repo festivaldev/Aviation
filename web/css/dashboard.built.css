@@ -44,6 +44,11 @@ section.dashboard h2 {
   font-weight: 400;
   margin-bottom: 10px;
 }
+section.dashboard h3 {
+  font-size: 22px;
+  font-weight: 400;
+  margin: 20px 0 10px;
+}
 section.dashboard p {
   margin-bottom: 10px;
 }
@@ -54,12 +59,21 @@ section.dashboard label {
   margin-bottom: 5px;
 }
 section.dashboard input {
-  padding: 6px 8px;
   width: 100%;
   max-width: 374px;
+  margin-bottom: 15px;
+  padding: 6px 8px;
   border: 1px solid #c2c2c2;
   border-radius: 2px;
 }
+section.dashboard select {
+  height: 20px;
+  margin: 6px 0 21px;
+}
+section.dashboard .row .column label {
+  line-height: 32px;
+}
 section.dashboard form button {
   display: block;
+  margin-top: 8px;
 }

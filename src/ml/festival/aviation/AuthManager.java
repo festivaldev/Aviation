@@ -26,7 +26,7 @@ public class AuthManager {
 		try {
 			initialContext = new InitialContext();
 			environmentContext = (Context)initialContext.lookup("java:/comp/env");
-			dataSource = (DataSource)environmentContext.lookup("jdbc/iae_test");
+			dataSource = (DataSource)environmentContext.lookup("jdbc/aviation");
 			conn = dataSource.getConnection();
 		} catch (Exception e) {
 			e.printStackTrace();

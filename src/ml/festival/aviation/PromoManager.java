@@ -14,7 +14,7 @@ public class PromoManager {
 		try {
 			initialContext = new InitialContext();
 			environmentContext = (Context)initialContext.lookup("java:/comp/env");
-			dataSource = (DataSource)environmentContext.lookup("jdbc/iae_test");
+			dataSource = (DataSource)environmentContext.lookup("jdbc/aviation");
 			conn = dataSource.getConnection();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -54,6 +54,18 @@ public class PromoManager {
 	public ResultSet getLocationsForCategory(String categoryId) {
 		try {
 			PreparedStatement statement =conn.prepareStatement("SELECT * FROM promo_texts WHERE promo_texts.categoryId = ?");
+			statement.setString(1, categoryId);
+
+			return statement.executeQuery();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public ResultSet getLocationForCategory(String categoryId) {
+		try {
+			PreparedStatement statement =conn.prepareStatement("SELECT * FROM promo_texts WHERE promo_texts.categoryId = ? ORDER BY RAND() LIMIT 1");
 			statement.setString(1, categoryId);
 
 			return statement.executeQuery();

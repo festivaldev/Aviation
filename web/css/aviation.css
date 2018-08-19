@@ -58,6 +58,9 @@ a:hover {
   flex-wrap: wrap;
   align-items: flex-start;
 }
+.row.no-justify {
+  justify-content: flex-start;
+}
 .row.centered {
   justify-content: center;
 }

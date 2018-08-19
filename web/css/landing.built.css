@@ -197,12 +197,14 @@ section.promo-articles {
   font-weight: 500;
   text-transform: uppercase;
   margin-bottom: 6px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 .promo-article .header p.header-title,
 .spring-animatable.promo-animatable .header p.header-title,
 .promo-article-details .header p.header-title {
   font-size: 28px;
   font-weight: 500;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 .promo-article .header p.header-subtitle,
 .spring-animatable.promo-animatable .header p.header-subtitle,
@@ -211,6 +213,7 @@ section.promo-articles {
   bottom: 21px;
   font-size: 13px;
   padding-left: 20px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 .promo-article .header p.header-subtitle:before,
 .spring-animatable.promo-animatable .header p.header-subtitle:before,

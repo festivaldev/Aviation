@@ -25,9 +25,7 @@
  
 	if (!validAuth) {
 		response.sendRedirect("login.jsp");
-	}
- 
-	if (request.getParameter("p") == null || request.getParameter("p").isEmpty()) {
+	} else if (request.getParameter("p") == null || request.getParameter("p").isEmpty()) {
 		response.sendRedirect("dashboard.jsp?p=profile");
 	}
 %>
@@ -88,26 +86,116 @@
 							 <a href="?p=tickets" class="menu-item <%= isCurrentPage(request.getParameter("p"), "tickets") ? "selected" : "" %>">
 								<li>Tickets</li></a>
 						</ul>
-					</div>
+					</div> 
+					<% if (isCurrentPage(request.getParameter("p"), "profile")) { %>
 					<div class="column column-8 offset-1">
-						 
-						<% if (isCurrentPage(request.getParameter("p"), "profile")) { %>
 						<h2>Profil</h2>
 						<p>Hier kannst du die Details deines Profils anpassen.</p>
 						<form action="#">
 							<label for="firstName">Vorname</label>
-							<input type="text" name="firstName" id="firstName" value="<%= request.getParameter("p") %>">
-						</form> 
-						<% } %>
-						 
-						<% if (isCurrentPage(request.getParameter("p"), "billing")) { %>
-						<p>Rechnungsadresse</p> 
-						<% } %>
-						 
-						<% if (isCurrentPage(request.getParameter("p"), "complaints")) { %>
-						<p>Beschwerden</p> 
-						<% } %>
-					</div>
+							<input type="text" name="firstName" id="firstName">
+							<label for="lastName">Nachname</label>
+							<input type="text" name="lastName" id="lastName">
+							<label for="email">E-Mail-Adresse</label>
+							<input type="email" name="email" id="email">
+							<button>Profil speichern</button>
+						</form>
+						<h3>Passwort ändern</h3>
+						<form action="#">
+							<label for="oldPassword">Altes Passwort</label>
+							<input type="password" name="oldPassword" id="oldPassword">
+							<label for="oldPassword">Neues Passwort</label>
+							<input type="password" name="newPassword" id="newPassword">
+							<label for="oldPassword">Neues Passwort bestätigen</label>
+							<input type="password" name="newPasswordConfirm" id="newPasswordConfirm">
+							<button>Passwort ändern </button>
+						</form>
+					</div> 
+					<% } %>
+					 
+					<% if (isCurrentPage(request.getParameter("p"), "billing")) { %>
+					<div class="column column-8 offset-1">
+						<h2>Rechnungsadresse</h2>
+						<p>Zum Buchen von Flügen benötigst du eine gültige Rechnungsadresse. Diese kannst du hier jederzeit ändern.</p>
+						<form action="#">
+							<div class="row no-justify">
+								<div class="column column-3">
+									<label for="title">Anrede</label>
+								</div>
+								<div class="column column-6">
+									<select name="title" id="title">
+										<option value="none" selected></option>
+										<option value="male">Herr</option>
+										<option value="female">Frau</option>
+									</select>
+								</div>
+							</div>
+							<div class="row no-justify">
+								<div class="column column-3">
+									<label for="firstName">Vorname</label>
+								</div>
+								<div class="column column-6">
+									<input type="text" name="firstName" id="firstName">
+								</div>
+							</div>
+							<div class="row no-justify">
+								<div class="column column-3">
+									<label for="lastName">Nachname</label>
+								</div>
+								<div class="column column-6">
+									<input type="text" name="lastName" id="lastName">
+								</div>
+							</div>
+							<div class="row no-justify">
+								<div class="column column-3">
+									<label for="lastName">Straße</label>
+								</div>
+								<div class="column column-6">
+									<input type="text" name="street" id="street">
+								</div>
+							</div>
+							<div class="row no-justify">
+								<div class="column column-3">
+									<label for="lastName">PLZ/Ort</label>
+								</div>
+								<div class="column column-2">
+									<input type="text" name="zip" id="zip">
+								</div>
+								<div class="column column-4">
+									<input type="text" name="city" id="city">
+								</div>
+							</div>
+							<div class="row no-justify">
+								<div class="column column-3">
+									<label for="country">Land</label>
+								</div>
+								<div class="column column-6">
+									<select name="country" id="country">
+										<option value="de">Deutschland</option>
+										<option value="at">Österreich</option>
+										<option value="ch">Schweiz</option>
+									</select>
+								</div>
+							</div>
+							<div class="row no-justify">
+								<div class="column column-3">
+									<label for="email">E-Mail</label>
+								</div>
+								<div class="column column-6">
+									<input type="email" name="email" id="email">
+								</div>
+							</div>
+							<div class="row no-justify">
+								<div class="column column-3">
+									<label for="phone">Telefon</label>
+								</div>
+								<div class="column column-6">
+									<input type="phone" name="phone" id="phone">
+								</div>
+							</div>
+						</form>
+					</div> 
+					<% } %>
 				</div>
 			</section>
 		</div>
