@@ -1,0 +1,115 @@
+section.support .sc-menu {
+  list-style: none;
+  box-shadow: 0 0 0 1px #c2c2c2;
+  border-radius: 2px;
+}
+section.support .sc-menu.contents a {
+  cursor: pointer;
+}
+section.support .sc-menu + .sc-menu {
+  margin-top: 20px;
+}
+section.support .sc-menu .menu-item {
+  display: block;
+  position: relative;
+  padding: 8px 10px;
+  line-height: 22px;
+  text-decoration: none;
+}
+section.support .sc-menu .menu-item.heading {
+  pointer-events: none;
+  color: #586069;
+  background-color: #f3f5f8;
+  font-weight: 600;
+}
+section.support .sc-menu .menu-item.selected {
+  font-weight: 500;
+  color: #000;
+  cursor: default;
+}
+section.support .sc-menu .menu-item.selected:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: inset 2px 0 0 0 #00B0EE;
+}
+section.support .sc-menu .menu-item:not(.selected):hover {
+  background-color: #f6f8fa;
+}
+section.support .sc-menu .menu-item:not(:last-child) {
+  box-shadow: inset 0 -1px 0 0 #c2c2c2;
+}
+section.support h2 {
+  font-size: 28px;
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+section.support .faq-card {
+  margin-bottom: 1em;
+}
+section.support .faq-card.expanded .faq-card-header {
+  border-bottom-color: transparent;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  transition: all 0.2s ease;
+}
+section.support .faq-card.expanded .expand-button {
+  transform: rotate(180deg);
+}
+section.support .faq-card.expanded .faq-card-content {
+  padding: 1em;
+  transition: all ease 0.2s;
+}
+section.support .faq-card.expanded .faq-card-content * {
+  font-size: 15px;
+  opacity: 1;
+  transition: font-size 0.2s ease, margin 0.2s ease, padding 0.2s ease, opacity 0.2s ease 0.2s;
+}
+section.support .faq-card-header {
+  border: 1px solid #EEE;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  padding: 10px 1em;
+  transition: all 0.2s ease 0.2s;
+}
+section.support .expand-button {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20viewBox%3D%270%200%2026%2016%27%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%3E%3Cpolygon%20fill%3D%27%239B9B9B%27%20points%3D%273%200%2013%2010%2023%200%2026%203%2013%2016%200%203%27%3E%3C/polygon%3E%3C/svg%3E");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 13px 8px;
+  cursor: pointer;
+  float: right;
+  height: 17px;
+  margin-top: 3px;
+  transition: all 0.2s linear;
+  width: 13px;
+}
+section.support .faq-card-content {
+  background: #F3F5F8;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+  padding: 0;
+  transition: all 0.2s ease 0.2s;
+}
+section.support .faq-card-content * {
+  font-size: 0;
+  margin: 0;
+  opacity: 0;
+  padding: 0;
+  transition: opacity 0.2s ease, font-size 0.2s ease 0.2s, margin 0.2s ease 0.2s, padding 0.2s ease 0.2s;
+}
+section.support .faq-card-content a {
+  display: block;
+}
+section.support .faq-card-content a.permalink {
+  margin-top: 1em;
+}
+section.support .faq-card-content p {
+  margin: 0;
+}
