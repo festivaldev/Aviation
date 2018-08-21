@@ -17,7 +17,7 @@
 		<nav class="global-nav">
 			<div class="nav-content">
 				<div class="nav-svg-header">
-					<div class="nav-svg-wrapper">
+					<div onclick="document.querySelector('nav').classList.toggle('extended'); document.body.classList.toggle('no-scroll')" class="nav-svg-wrapper">
 						<svg width="24" height="24" viewBox="0 0 96 96" class="nav-svg nav-svg-top">
 							<rect x="0" y="44" width="96" height="8" fill="#FFFFFF" class="nav-svg-rect nav-svg-rect-top"></rect>
 						</svg>
@@ -31,12 +31,12 @@
 				</div>
 				<ul class="nav-list">
 					<li><a href="#" class="link-home"></a></li>
+					<li><a href="search.html">Flüge</a></li>
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
+					<li><a href="sc-index.html">Support</a></li>
 					<li><a href="dashboard.jsp" class="link-user-cp"></a></li>
 				</ul>
 			</div>
@@ -47,17 +47,21 @@
 				<h4 class="hero-subtitle">Einfach nur das buchen, was du wirklich brauchst – das ist aviation.</h4>
 				<div class="hero-search-bar">
 					<form method="post" action="search.html">
-						<div class="input-wrapper">
+						<div data-key="departure" class="input-wrapper">
 							<div class="column-title"><img src="img/icon-departure.svg">
 								<p>Von (Ort oder Flughafen)</p>
 							</div>
-							<input type="text" placeholder="Abreiseort eingeben">
+							<input type="text" id="depart" placeholder="Abreiseort eingeben">
+							<input type="text" id="depart_iata" name="depart_iata" class="hidden">
+							<ul class="suggestions"></ul>
 						</div>
-						<div class="input-wrapper">
+						<div data-key="arrival" class="input-wrapper">
 							<div class="column-title"><img src="img/icon-arrival.svg">
 								<p>Nach (Ort oder Flughafen)</p>
 							</div>
 							<input type="text" placeholder="Ankunftsort eingeben">
+							<input type="text" id="arrv_iata" name="arrv_iata" class="hidden">
+							<ul class="suggestions"></ul>
 						</div>
 						<div class="input-wrapper">
 							<div class="column-title"><img src="img/icon-date.svg" class="icon">
@@ -106,7 +110,31 @@
 				<div class="column column-12 medium-6">
 					<h4 class="eyebrow">Das FESTIVAL Prinzip</h4>
 					<h2 class="headline">Flugreisen – so wie du sie brauchst</h2>
-					<p class="body">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+					<p class="body">Flugreisen sind meist sehr teuer. Das liegt vor allem daran, dass oft Dienste im Preis enthalten sind, die vielleicht gar nicht benötigt werden. Dein Flug geht nur von Hamburg nach Berlin und du hast bereits gut gefrühstückt? Warum solltest du extra für Essen bezahlen, wenn du es doch sowieso nicht essen wirst?<br><br>Genau das will aviation ändern. Du buchst einfach nur deinen Platz im Flugzeug, und das drückt den Preis. Und wenn du einen zusätzlichen Dienst benötigst, buchst du ihn einfach dazu. Besser kann es gar nicht sein.</p>
+				</div>
+				<div class="column column-12 medium-5 medium-offset-1">
+					<p class="body">Test</p>
+				</div>
+			</div>
+		</section>
+		<section class="promo-text">
+			<div class="section-content row">
+				<div class="column column-12 medium-5 medium-offset-1">
+					<p class="body">Test</p>
+				</div>
+				<div class="column column-12 medium-6">
+					<h4 class="eyebrow">Gestalte deine Flugreise</h4>
+					<h2 class="headline">Ein Platz – viele Möglichkeiten</h2>
+					<p class="body">Wenn du eine Flugreise über aviation buchst, bekommst du grundsätzlich die Erlaubnis, das Flugzeug betreten zu dürfen. Im Grundpreis enthalten ist eine Beteiligung an den Flugkosten, wie etwa Treibstoff oder Parkgebühren. Das ist in etwa vergleichbar mit Car Sharing, wo sich die Passagiere auch an den Fahrtkosten beteiligen. Willst du zum Beispiel Gepäck mitnehmen, kostet dies nur eine geringe Gebühr statt einer festen Pauschale, die bereits im Ticketpreis enthalten ist. So können wir Flugreisen um bis zu 50% günstiger anbieten als die etablierte Konkurrenz.</p>
+				</div>
+			</div>
+		</section>
+		<section class="promo-text">
+			<div class="section-content row">
+				<div class="column column-12 medium-6">
+					<h4 class="eyebrow">Immer für dich da</h4>
+					<h2 class="headline">Nicht zufrieden? Dann sag's uns!</h2>
+					<p class="body">Sollte mal etwas nicht zu deiner Zufriedenheit sein, dann freuen wir uns, von dir zu hören! Nimm einfach Kontakt mit uns auf und wir helfen dir, dein Problem zu lösen. Außerdem arbeiten wir mit immer mehr Fluggesellschaften zusammen, um noch günstigere Reisen anbieten zu können. Damit kannst du dich bald auf eine noch größere Auswahl der bisher günstigsten Flüge freuen!</p>
 				</div>
 				<div class="column column-12 medium-5 medium-offset-1">
 					<p class="body">Test</p>
@@ -119,12 +147,12 @@
 					<div class="footer-directory-column">
 						<h3 class="footer-directory-column-title">Aviation</h3>
 						<ul class="footer-directory-column-list">
+							<li><a href="search.html">Flüge</a></li>
 							<li><a href="#">Link</a></li>
 							<li><a href="#">Link</a></li>
 							<li><a href="#">Link</a></li>
 							<li><a href="#">Link</a></li>
-							<li><a href="#">Link</a></li>
-							<li><a href="#">Link</a></li>
+							<li><a href="sc-index.html">Support</a></li>
 							<li><a href="dashboard.jsp">Benutzerkontrollzentrum</a></li>
 						</ul>
 					</div>
@@ -179,6 +207,7 @@
 		<%
 				}
 			}
+			promoManager.closeConnection();
 		%>
 		 
 		<div class="spring-background"></div>
