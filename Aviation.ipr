@@ -8,6 +8,9 @@
           <element id="directory" name="classes">
             <element id="module-output" name="Aviation" />
           </element>
+          <element id="directory" name="lib">
+            <element id="library" level="project" name="org.json:json:20180813" />
+          </element>
         </element>
         <element id="javaee-facet-resources" facet="Aviation/web/Web" />
         <element id="directory" name="META-INF">
@@ -65,5 +68,15 @@
         <auth-type>PASSWORD</auth-type>
       </ssh-properties>
     </data-source>
+  </component>
+  <component name="libraryTable">
+    <library name="org.json:json:20180813" type="repository">
+      <properties maven-id="org.json:json:20180813" />
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/json/json/20180813/json-20180813.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
   </component>
 </project>
