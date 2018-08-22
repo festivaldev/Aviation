@@ -33,6 +33,14 @@ public class AuthManager {
 		}
 	}
 
+	public void closeConnection() {
+		try {
+			conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	private String bytesToHex(byte[] bytes) {
 		StringBuffer result = new StringBuffer();
 		for (byte byt : bytes) result.append(Integer.toString((byt & 0xff) + 0x100, 16).substring(1));

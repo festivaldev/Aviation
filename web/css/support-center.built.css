@@ -1,6 +1,6 @@
 section.support .sc-menu {
   list-style: none;
-  box-shadow: 0 0 0 1px #c2c2c2;
+  box-shadow: 0 0 0 1px #C2C2C2;
   border-radius: 2px;
 }
 section.support .sc-menu.contents a {
@@ -19,7 +19,7 @@ section.support .sc-menu .menu-item {
 section.support .sc-menu .menu-item.heading {
   pointer-events: none;
   color: #586069;
-  background-color: #f3f5f8;
+  background-color: #F3F5F8;
   font-weight: 600;
 }
 section.support .sc-menu .menu-item.selected {
@@ -37,10 +37,10 @@ section.support .sc-menu .menu-item.selected:after {
   box-shadow: inset 2px 0 0 0 #00B0EE;
 }
 section.support .sc-menu .menu-item:not(.selected):hover {
-  background-color: #f6f8fa;
+  background-color: #F6F8FA;
 }
 section.support .sc-menu .menu-item:not(:last-child) {
-  box-shadow: inset 0 -1px 0 0 #c2c2c2;
+  box-shadow: inset 0 -1px 0 0 #C2C2C2;
 }
 section.support h2 {
   font-size: 28px;
@@ -112,4 +112,36 @@ section.support .faq-card-content a.permalink {
 }
 section.support .faq-card-content p {
   margin: 0;
+}
+section.support label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+section.support input {
+  border: 1px solid #C2C2C2;
+  border-radius: 2px;
+  margin-bottom: 15px;
+  max-width: 374px;
+  width: 100%;
+  padding: 6px 8px;
+}
+section.support textarea {
+  border: 1px solid #C2C2C2;
+  border-radius: 2px;
+  margin-bottom: 15px;
+  padding: 6px 8px;
+  width: 100%;
+}
+section.support select {
+  height: 20px;
+  margin: 6px 0 21px;
+}
+section.support .row .column label {
+  line-height: 32px;
+}
+section.support form button {
+  display: block;
+  margin-top: 8px;
 }

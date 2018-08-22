@@ -70,6 +70,14 @@
     </data-source>
   </component>
   <component name="libraryTable">
+    <library name="org.apache.tomcat:tomcat-dbcp:7.0.90" type="repository">
+      <properties maven-id="org.apache.tomcat:tomcat-dbcp:7.0.90" />
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/tomcat/tomcat-dbcp/7.0.90/tomcat-dbcp-7.0.90.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
     <library name="org.json:json:20180813" type="repository">
       <properties maven-id="org.json:json:20180813" />
       <CLASSES>

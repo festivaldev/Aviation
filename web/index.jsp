@@ -10,6 +10,7 @@
 		<title>FESTIVAL Aviation</title>
 		<link rel="stylesheet" href="css/aviation.css">
 		<link rel="stylesheet" href="css/landing.built.css">
+		<link rel="stylesheet" href="css/components/calendar.css">
 		<script src="lib/spring-animatable.js"></script>
 		<script src="lib/scroll-retractor.js"></script>
 	</head>
@@ -30,8 +31,8 @@
 					</div><a href="#" class="link-home"></a><a href="user-cp.jsp" class="link-user-cp"></a>
 				</div>
 				<ul class="nav-list">
-					<li><a href="#" class="link-home"></a></li>
-					<li><a href="search.html">Flüge</a></li>
+					<li><a href="/" class="link-home"></a></li>
+					<li><a href="search.jsp">Flüge</a></li>
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
@@ -46,12 +47,12 @@
 				<h2 class="hero-title">Die günstigsten Flugreisen aller Zeiten</h2>
 				<h4 class="hero-subtitle">Einfach nur das buchen, was du wirklich brauchst – das ist aviation.</h4>
 				<div class="hero-search-bar">
-					<form method="post" action="search.html">
+					<form method="post" action="search.jsp">
 						<div data-key="departure" class="input-wrapper">
 							<div class="column-title"><img src="img/icon-departure.svg">
 								<p>Von (Ort oder Flughafen)</p>
 							</div>
-							<input type="text" id="depart" placeholder="Abreiseort eingeben">
+							<input type="text" id="depart" placeholder="Abreiseort eingeben" required>
 							<input type="text" id="depart_iata" name="depart_iata" class="hidden">
 							<ul class="suggestions"></ul>
 						</div>
@@ -59,15 +60,17 @@
 							<div class="column-title"><img src="img/icon-arrival.svg">
 								<p>Nach (Ort oder Flughafen)</p>
 							</div>
-							<input type="text" placeholder="Ankunftsort eingeben">
+							<input type="text" placeholder="Ankunftsort eingeben" required>
 							<input type="text" id="arrv_iata" name="arrv_iata" class="hidden">
 							<ul class="suggestions"></ul>
 						</div>
-						<div class="input-wrapper">
-							<div class="column-title"><img src="img/icon-date.svg" class="icon">
+						<div data-key="date" class="input-wrapper">
+							<div class="column-title"><img src="img/icon-date.svg" required class="icon">
 								<p>Abflugdatum</p>
 							</div>
-							<input type="date" placeholder="Abflugdatum auswählen">
+							<input type="text" placeholder="Abflugdatum auswählen">
+							<input type="date" id="depart_date" name="depart_date" class="hidden">
+							<div class="calendar"></div>
 						</div>
 						<button class="search-button">Suchen</button>
 					</form>
@@ -119,10 +122,10 @@
 		</section>
 		<section class="promo-text">
 			<div class="section-content row">
-				<div class="column column-12 medium-5 medium-offset-1">
+				<div class="column column-12 medium-5">
 					<p class="body">Test</p>
 				</div>
-				<div class="column column-12 medium-6">
+				<div class="column column-12 medium-6 medium-offset-1">
 					<h4 class="eyebrow">Gestalte deine Flugreise</h4>
 					<h2 class="headline">Ein Platz – viele Möglichkeiten</h2>
 					<p class="body">Wenn du eine Flugreise über aviation buchst, bekommst du grundsätzlich die Erlaubnis, das Flugzeug betreten zu dürfen. Im Grundpreis enthalten ist eine Beteiligung an den Flugkosten, wie etwa Treibstoff oder Parkgebühren. Das ist in etwa vergleichbar mit Car Sharing, wo sich die Passagiere auch an den Fahrtkosten beteiligen. Willst du zum Beispiel Gepäck mitnehmen, kostet dies nur eine geringe Gebühr statt einer festen Pauschale, die bereits im Ticketpreis enthalten ist. So können wir Flugreisen um bis zu 50% günstiger anbieten als die etablierte Konkurrenz.</p>
@@ -147,7 +150,7 @@
 					<div class="footer-directory-column">
 						<h3 class="footer-directory-column-title">Aviation</h3>
 						<ul class="footer-directory-column-list">
-							<li><a href="search.html">Flüge</a></li>
+							<li><a href="search.jsp">Flüge</a></li>
 							<li><a href="#">Link</a></li>
 							<li><a href="#">Link</a></li>
 							<li><a href="#">Link</a></li>
@@ -211,6 +214,7 @@
 		%>
 		 
 		<div class="spring-background"></div>
+		<script type="text/javascript" src="lib/calendar.js"></script>
 		<script type="text/javascript" src="js/landing.js"></script>
 	</body>
 </html>

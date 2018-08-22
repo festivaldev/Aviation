@@ -1,4 +1,36 @@
-<!DOCTYPE html>
+
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.sql.*" %>
+<%@ page import="javax.sql.*" %>
+<%@ page import="javax.naming.*" %>
+<%@ page import="java.time.Instant" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+ 
+<%
+	InitialContext initialContext = new InitialContext();
+	Context environmentContext = (Context)initialContext.lookup("java:/comp/env");
+	DataSource dataSource = (DataSource)environmentContext.lookup("jdbc/aviation");
+	Connection conn = dataSource.getConnection();
+ 
+	ResultSet departure = null;
+	ResultSet arrival = null;
+	if (request.getParameter("depart_iata") != null && !request.getParameter("depart_iata").isEmpty()) {
+		PreparedStatement statement = conn.prepareStatement("SELECT * FROM airports WHERE iata_code = ?");
+		statement.setString(1, request.getParameter("depart_iata"));
+		departure = statement.executeQuery();
+	}
+ 
+	if (request.getParameter("arrv_iata") != null && !request.getParameter("arrv_iata").isEmpty()) {
+		PreparedStatement statement = conn.prepareStatement("SELECT * FROM airports WHERE iata_code = ?");
+		statement.setString(1, request.getParameter("arrv_iata"));
+		arrival = statement.executeQuery();
+	}
+ 
+	java.util.Date departureDate = null;
+	if (request.getParameter("depart_date") != null && !request.getParameter("depart_date").isEmpty()) {
+		departureDate = Date.from(Instant.parse(request.getParameter("depart_date")));
+	}
+%><!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8">
@@ -24,8 +56,8 @@
 					</div><a href="#" class="link-home"></a><a href="user-cp.jsp" class="link-user-cp"></a>
 				</div>
 				<ul class="nav-list">
-					<li><a href="#" class="link-home"></a></li>
-					<li><a href="search.html">Flüge</a></li>
+					<li><a href="/" class="link-home"></a></li>
+					<li><a href="search.jsp">Flüge</a></li>
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
@@ -44,13 +76,13 @@
 								<div class="column-title"><img src="img/icon-departure.svg">
 									<p>Von</p>
 								</div>
-								<input value="Hannover, Deutschland" class="column-content">
+								<input value="<%= departure != null && departure.next() ? departure.getString("name") : "" %>" class="column-content">
 							</div>
 							<div class="column column-12 medium-6">
 								<div class="column-title"><img src="img/icon-arrival.svg">
 									<p>Nach</p>
 								</div>
-								<input value="Los Angeles, USA" class="column-content">
+								<input value="<%= arrival != null && arrival.next() ? arrival.getString("name") : "" %>" class="column-content">
 							</div>
 						</div>
 						<div class="row">
@@ -58,7 +90,7 @@
 								<div class="column-title"><img src="img/icon-date.svg">
 									<p>Abflugdatum</p>
 								</div>
-								<input type="date" value="09 November 2027" class="column-content">
+								<input type="date" value="<%= departureDate != null ? new SimpleDateFormat("EEEE, dd. MMMM yyyy").format(departureDate) : "" %>" class="column-content">
 							</div>
 							<div class="column column-12 medium-2">
 								<div class="column-title"><img src="img/icon-passenger.svg">

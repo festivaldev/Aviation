@@ -55,8 +55,8 @@
 					</div><a href="#" class="link-home"></a><a href="user-cp.jsp" class="link-user-cp"></a>
 				</div>
 				<ul class="nav-list">
-					<li><a href="#" class="link-home"></a></li>
-					<li><a href="search.html">Flüge</a></li>
+					<li><a href="/" class="link-home"></a></li>
+					<li><a href="search.jsp">Flüge</a></li>
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
