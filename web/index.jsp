@@ -68,7 +68,7 @@
 							<div class="column-title"><img src="img/icon-date.svg" required class="icon">
 								<p>Abflugdatum</p>
 							</div>
-							<input type="text" placeholder="Abflugdatum auswählen">
+							<input type="text" placeholder="Abflugdatum auswählen" required>
 							<input type="date" id="depart_date" name="depart_date" class="hidden">
 							<div class="calendar"></div>
 						</div>

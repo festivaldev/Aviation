@@ -28,6 +28,8 @@
 	} else if (request.getParameter("p") == null || request.getParameter("p").isEmpty()) {
 		response.sendRedirect("dashboard.jsp?p=profile");
 	}
+ 
+	authManager.closeConnection();
 %>
  <!DOCTYPE html>
 <html>

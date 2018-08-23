@@ -76,6 +76,9 @@ section.search-results .search-results-container .search-results-header .row .co
   text-transform: uppercase;
   background: transparent;
 }
+section.search-results .search-results-container .search-results-header .row .column ::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+}
 section.search-results .search-results-container .search-results-header .row:not(:last-child) {
   box-shadow: inset 0 -1px 0 0 rgba(0, 0, 0, 0.16);
 }
@@ -116,6 +119,7 @@ section.search-results .search-results-container .scroll-container .result-heade
   margin-left: 20px;
 }
 section.search-results .search-results-container .scroll-container .results .result-cell {
+  position: relative;
   width: 100%;
   height: 44px;
   line-height: 44px;
@@ -130,6 +134,15 @@ section.search-results .search-results-container .scroll-container .results .res
 }
 section.search-results .search-results-container .scroll-container .results .result-cell .column.column-offset-1 {
   margin-left: 20px;
+}
+section.search-results .search-results-container .scroll-container .results .result-cell:after {
+  content: '';
+  position: absolute;
+  top: 13px;
+  left: calc((100% / 12) * 2);
+  width: 18px;
+  height: 18px;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D'18px'%20height%3D'17px'%20viewBox%3D'0%200%2018%2017'%20version%3D'1.1'%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%3E%3Cpolygon%20fill%3D'%23333333'%20points%3D'0%207.19824219%2014.5546875%207.19824219%208.63085938%201.27441406%209.89648438%200%2018%208.09472656%209.89648438%2016.1982422%208.63085938%2014.9238281%2014.5546875%209%200%209'%2F%3E%3C%2Fsvg%3E");
 }
 section.search-results .search-results-container .scroll-container .results .result-cell:hover:not(:active) {
   background-color: #FFFFFF;

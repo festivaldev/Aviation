@@ -1,36 +1,19 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.sql.*" %>
-<%@ page import="javax.sql.*" %>
-<%@ page import="javax.naming.*" %>
-<%@ page import="java.time.Instant" %>
-<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="ml.festival.aviation.SearchResultsDemo" %>
+<%@ page import="org.json.*" %>
+<%@ page import="java.time.*" %>
+<%@ page import="java.time.format.DateTimeFormatter"%>
+<%@ page import="java.sql.Time" %>
  
 <%
-	InitialContext initialContext = new InitialContext();
-	Context environmentContext = (Context)initialContext.lookup("java:/comp/env");
-	DataSource dataSource = (DataSource)environmentContext.lookup("jdbc/aviation");
-	Connection conn = dataSource.getConnection();
+	JSONObject demoData = new JSONObject();
  
-	ResultSet departure = null;
-	ResultSet arrival = null;
-	if (request.getParameter("depart_iata") != null && !request.getParameter("depart_iata").isEmpty()) {
-		PreparedStatement statement = conn.prepareStatement("SELECT * FROM airports WHERE iata_code = ?");
-		statement.setString(1, request.getParameter("depart_iata"));
-		departure = statement.executeQuery();
+	if (request.getParameter("depart_iata") != null && request.getParameter("arrv_iata") != null && request.getParameter("depart_date") != null) {
+		demoData = SearchResultsDemo.getDemoData(request.getParameter("depart_iata"), request.getParameter("arrv_iata"), LocalDate.parse(request.getParameter("depart_date"), DateTimeFormatter.ISO_DATE_TIME));
 	}
- 
-	if (request.getParameter("arrv_iata") != null && !request.getParameter("arrv_iata").isEmpty()) {
-		PreparedStatement statement = conn.prepareStatement("SELECT * FROM airports WHERE iata_code = ?");
-		statement.setString(1, request.getParameter("arrv_iata"));
-		arrival = statement.executeQuery();
-	}
- 
-	java.util.Date departureDate = null;
-	if (request.getParameter("depart_date") != null && !request.getParameter("depart_date").isEmpty()) {
-		departureDate = Date.from(Instant.parse(request.getParameter("depart_date")));
-	}
-%><!DOCTYPE html>
+%>
+ <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8">
@@ -76,13 +59,13 @@
 								<div class="column-title"><img src="img/icon-departure.svg">
 									<p>Von</p>
 								</div>
-								<input value="<%= departure != null && departure.next() ? departure.getString("name") : "" %>" class="column-content">
+								<input value="<%= demoData.get("departureName") != null ? demoData.get("departureName") : "" %>" placeholder="Abreiseort eingeben" required class="column-content">
 							</div>
 							<div class="column column-12 medium-6">
 								<div class="column-title"><img src="img/icon-arrival.svg">
 									<p>Nach</p>
 								</div>
-								<input value="<%= arrival != null && arrival.next() ? arrival.getString("name") : "" %>" class="column-content">
+								<input value="<%= demoData.get("arrivalName") != null ? demoData.get("arrivalName") : "" %>" placeholder="Ankunftsort eingeben" required class="column-content">
 							</div>
 						</div>
 						<div class="row">
@@ -90,7 +73,7 @@
 								<div class="column-title"><img src="img/icon-date.svg">
 									<p>Abflugdatum</p>
 								</div>
-								<input type="date" value="<%= departureDate != null ? new SimpleDateFormat("EEEE, dd. MMMM yyyy").format(departureDate) : "" %>" class="column-content">
+								<input type="date" value="<%= demoData.get("departureDate") != null ? ((LocalDate)demoData.get("departureDate")).format(DateTimeFormatter.ofPattern("EEEE, dd. MMMM yyyy")) : "" %>" placeholder="Abflugdatum auswählen" required class="column-content">
 							</div>
 							<div class="column column-12 medium-2">
 								<div class="column-title"><img src="img/icon-passenger.svg">
@@ -105,16 +88,21 @@
 								<p class="column-content">Alle Klassen</p>
 							</div>
 						</div>
-					</div>
-					<div class="scroll-container">
+					</div> 
+					<%
+						if (demoData.get("items") != null) {
+						 	for (int i=0; i<((JSONArray)demoData.get("items")).length(); i++) {
+								JSONObject resultObj = ((JSONArray)demoData.get("items")).getJSONObject(i);
+					%>
+					<div class="scroll-container"> 
 						<div class="result-header">
-							<h4 class="date"><span>Abflug</span> – 09 Nov</h4>
+							<h4 class="date"><span>Abflug</span> – <%= ((LocalDate)resultObj.get("departureDate")).format(DateTimeFormatter.ofPattern("dd MMM")) %></h4>
 							<div class="table-header row">
 								<div class="column column-2">
-									<p>$Departure</p>
+									<p><%= demoData.get("departureMunicipality") %></p>
 								</div>
 								<div class="column column-2 align-right">
-									<p>$Arrival</p>
+									<p><%= demoData.get("arrivalMunicipality") %></p>
 								</div>
 								<div class="column column-2 column-offset-1">
 									<p>Dauer</p>
@@ -129,30 +117,39 @@
 									<p>Preis</p>
 								</div>
 							</div>
-						</div>
+						</div> 
+						<%
+								for (int j=0; j<((JSONArray)resultObj.get("items")).length(); j++) {
+									JSONObject flightObj = ((JSONArray)resultObj.get("items")).getJSONObject(j);
+						%>
 						<div class="results">
 							<div class="result-cell row">
 								<div class="column column-2">
-									<p>09:42</p>
+									<p><%= ((Time)flightObj.get("departureTime")).toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")) %></p>
 								</div>
 								<div class="column column-2 align-right">
-									<p>22:52</p>
+									<p><%= ((Time)flightObj.get("arrivalTime")).toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")) %></p>
 								</div>
 								<div class="column column-2 column-offset-1">
 									<p>13h 10min</p>
 								</div>
 								<div class="column column-1">
-									<p>1</p>
+									<p><%= flightObj.get("stops") %></p>
 								</div>
 								<div class="column column-auto">
-									<p>LH420</p>
+									<p><%= flightObj.get("flightNumber") %></p>
 								</div>
 								<div class="column column-1 align-right">
-									<p>ab 184€</p>
+									<p>ab <%= flightObj.get("price") %>€</p>
 								</div>
 							</div>
-						</div>
-					</div>
+						</div> 
+						<%	} %>
+					</div> 
+					<%
+							}
+						} 
+					%>
 					<div class="fill-background"></div>
 					<div class="results-footer"></div>
 				</div>
