@@ -64,6 +64,17 @@ a:hover {
 .row.centered {
   justify-content: center;
 }
+@media all and (max-width: 768px) {
+  .row.reversed {
+    flex-direction: column-reverse;
+  }
+  .row.reversed .column:first-of-type {
+    margin-bottom: 0 !important;
+  }
+  .row.reversed .column:last-of-type {
+    margin-bottom: 1.5em !important;
+  }
+}
 .row .column.column-auto {
   flex: 1;
 }
@@ -448,6 +459,16 @@ a:hover {
   }
   .row .column.xlarge-offset-12 {
     margin-left: 100%;
+  }
+}
+@media all and (max-width: 768px) {
+  .row .column {
+    margin-bottom: 1.5em;
+    margin-left: 0;
+    width: 100% !important;
+  }
+  .row .column:last-of-type {
+    margin-bottom: 0 !important;
   }
 }
 

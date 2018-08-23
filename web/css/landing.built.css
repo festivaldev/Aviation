@@ -33,6 +33,7 @@ section.landing-hero .hero-content .hero-subtitle {
   text-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
 }
 section.landing-hero .hero-content .hero-search-bar {
+  position: relative;
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -42,6 +43,7 @@ section.landing-hero .hero-content .hero-search-bar {
   border-radius: 10px;
   margin-top: 48px;
   padding: 0 8px 0 16px;
+  z-index: 20;
 }
 section.landing-hero .hero-content .hero-search-bar form {
   display: flex;
@@ -115,6 +117,11 @@ section.landing-hero .hero-content .hero-search-bar form .input-wrapper[data-key
 }
 section.landing-hero .hero-content .hero-search-bar form .input-wrapper[data-key="arrival"] .suggestions .suggestion-item {
   padding-left: 12px;
+}
+section.landing-hero .hero-content .hero-search-bar form .input-wrapper[data-key="date"] .calendar {
+  position: absolute;
+  top: 56px;
+  left: -12px;
 }
 section.landing-hero .hero-content .hero-search-bar .search-button {
   position: relative;
