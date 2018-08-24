@@ -28,6 +28,8 @@
 	} else if (request.getParameter("p") == null || request.getParameter("p").isEmpty()) {
 		response.sendRedirect("dashboard.jsp?p=profile");
 	}
+ 
+	authManager.closeConnection();
 %>
  <!DOCTYPE html>
 <html>
@@ -42,7 +44,7 @@
 		<nav class="global-nav">
 			<div class="nav-content">
 				<div class="nav-svg-header">
-					<div class="nav-svg-wrapper">
+					<div onclick="document.querySelector('nav').classList.toggle('extended'); document.body.classList.toggle('no-scroll')" class="nav-svg-wrapper">
 						<svg width="24" height="24" viewBox="0 0 96 96" class="nav-svg nav-svg-top">
 							<rect x="0" y="44" width="96" height="8" fill="#FFFFFF" class="nav-svg-rect nav-svg-rect-top"></rect>
 						</svg>
@@ -55,13 +57,13 @@
 					</div><a href="#" class="link-home"></a><a href="user-cp.jsp" class="link-user-cp"></a>
 				</div>
 				<ul class="nav-list">
-					<li><a href="#" class="link-home"></a></li>
+					<li><a href="/" class="link-home"></a></li>
+					<li><a href="search.jsp">Flüge</a></li>
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
+					<li><a href="sc-index.html">Support</a></li>
 					<li><a href="dashboard.jsp" class="link-user-cp"></a></li>
 				</ul>
 			</div>

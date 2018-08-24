@@ -43,6 +43,8 @@
 		}
 	}
  
+	authManager.closeConnection();
+ 
 %>
  <!DOCTYPE html>
 <html>

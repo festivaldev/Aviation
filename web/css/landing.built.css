@@ -33,6 +33,7 @@ section.landing-hero .hero-content .hero-subtitle {
   text-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
 }
 section.landing-hero .hero-content .hero-search-bar {
+  position: relative;
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -42,12 +43,14 @@ section.landing-hero .hero-content .hero-search-bar {
   border-radius: 10px;
   margin-top: 48px;
   padding: 0 8px 0 16px;
+  z-index: 20;
 }
 section.landing-hero .hero-content .hero-search-bar form {
   display: flex;
   width: 100%;
 }
 section.landing-hero .hero-content .hero-search-bar form .input-wrapper {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 256px;
@@ -77,11 +80,48 @@ section.landing-hero .hero-content .hero-search-bar form .input-wrapper input {
   padding: 2px 0;
   background: transparent;
 }
+section.landing-hero .hero-content .hero-search-bar form .input-wrapper input.hidden {
+  display: none;
+}
+section.landing-hero .hero-content .hero-search-bar form .input-wrapper .suggestions {
+  position: absolute;
+  top: 56px;
+  left: -16px;
+  right: 0;
+  background-color: #F3F3F3;
+  list-style: none;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.16);
+  overflow: hidden;
+}
+section.landing-hero .hero-content .hero-search-bar form .input-wrapper .suggestions:not(.visible) {
+  display: none;
+}
+section.landing-hero .hero-content .hero-search-bar form .input-wrapper .suggestions .suggestion-item {
+  height: 32px;
+  padding: 6px 16px;
+  overflow: hidden ;
+  text-overflow: ellipsis;
+}
+section.landing-hero .hero-content .hero-search-bar form .input-wrapper .suggestions .suggestion-item:hover:not(:active) {
+  background-color: #FFFFFF;
+}
 section.landing-hero .hero-content .hero-search-bar form .input-wrapper ::placeholder {
   color: #555555;
 }
 section.landing-hero .hero-content .hero-search-bar form .input-wrapper + .input-wrapper {
   margin-left: 12px;
+}
+section.landing-hero .hero-content .hero-search-bar form .input-wrapper[data-key="arrival"] .suggestions {
+  left: -12px;
+}
+section.landing-hero .hero-content .hero-search-bar form .input-wrapper[data-key="arrival"] .suggestions .suggestion-item {
+  padding-left: 12px;
+}
+section.landing-hero .hero-content .hero-search-bar form .input-wrapper[data-key="date"] .calendar {
+  position: absolute;
+  top: 56px;
+  left: -12px;
 }
 section.landing-hero .hero-content .hero-search-bar .search-button {
   position: relative;
