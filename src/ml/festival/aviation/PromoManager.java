@@ -53,7 +53,7 @@ public class PromoManager {
 
 	public ResultSet getLocationsForCategory(String categoryId) {
 		try {
-			PreparedStatement statement =conn.prepareStatement("SELECT * FROM promo_texts WHERE promo_texts.categoryId = ?");
+			PreparedStatement statement =conn.prepareStatement("SELECT * FROM promo_texts WHERE promo_texts.categoryId = ? ORDER BY RAND()");
 			statement.setString(1, categoryId);
 
 			return statement.executeQuery();

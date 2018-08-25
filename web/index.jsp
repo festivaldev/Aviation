@@ -28,7 +28,7 @@
 						<svg width="24" height="24" viewBox="0 0 96 96" class="nav-svg nav-svg-bottom">
 							<rect x="0" y="44" width="96" height="8" fill="#FFFFFF" class="nav-svg-rect nav-svg-rect-bottom"></rect>
 						</svg>
-					</div><a href="#" class="link-home"></a><a href="user-cp.jsp" class="link-user-cp"></a>
+					</div><a href="#" class="link-home"></a><a href="dashboard.jsp" class="link-user-cp"></a>
 				</div>
 				<ul class="nav-list">
 					<li><a href="/" class="link-home"></a></li>
@@ -37,7 +37,7 @@
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
-					<li><a href="sc-index.html">Support</a></li>
+					<li><a href="sc-index.jsp">Support</a></li>
 					<li><a href="dashboard.jsp" class="link-user-cp"></a></li>
 				</ul>
 			</div>
@@ -88,7 +88,7 @@
 						index++;
 						ResultSet location = promoManager.getLocationForCategory(categories.getString("id"));
 						
-						while (location.next()) {
+						if (location.next()) {
 							locations[index - 1] = location.getString("id");
 				%>
 				 
@@ -155,7 +155,7 @@
 							<li><a href="#">Link</a></li>
 							<li><a href="#">Link</a></li>
 							<li><a href="#">Link</a></li>
-							<li><a href="sc-index.html">Support</a></li>
+							<li><a href="sc-index.jsp">Support</a></li>
 							<li><a href="dashboard.jsp">Benutzerkontrollzentrum</a></li>
 						</ul>
 					</div>
@@ -187,8 +187,9 @@
 				index++;
 		 
 				ResultSet location = promoManager.getLocationForId(locations[index - 1]);
+				ResultSet locationSet = promoManager.getLocationsForCategory(categories.getString("id"));
 		 
-				while(location.next()) {
+				if (location.next()) {
 		%>
 		 
 		<div data-spring-animatable-target="promo_<%= index %>" class="promo-article-details">
@@ -200,10 +201,25 @@
 			</div>
 			<div class="content-scroll-wrapper">
 				<div class="content">
-					 
 					<%= location.getString("content") %>
-					 
-					<p>Sehen Sie sich auch unsere weiteren Empfehlungen in der Kategorie "<%= categories.getString("title") %>" an.</p>
+					 <a href="featured.jsp?id=<%= location.getString("id") %>">Weiterlesen &#x00BB;</a>
+					<p>Sehen Sie sich auch unsere weiteren Empfehlungen in der Kategorie "<%= categories.getString("title") %>" an:</p>
+					<div class="promo-article-wrapper">
+						<%
+							while (locationSet.next()) {
+								if (!locationSet.getString("id").equals(location.getString("id"))) {
+						%><a href="featured.jsp?id=<%= locationSet.getString("id") %>">
+							<div class="promo-article">
+								<div style="background-image: url(<%= locationSet.getString("headerImage") %>)" class="header dark">
+									<p class="header-heading"><%= categories.getString("title") %></p>
+									<p class="header-title"><%= locationSet.getString("location") %></p>
+								</div>
+							</div></a> 
+						<%
+								}
+							}
+						%>
+					</div>
 				</div>
 			</div>
 		</div> 

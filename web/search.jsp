@@ -10,7 +10,8 @@
 	JSONObject demoData = new JSONObject();
  
 	if (request.getParameter("depart_iata") != null && request.getParameter("arrv_iata") != null && request.getParameter("depart_date") != null) {
-		demoData = SearchResultsDemo.getDemoData(request.getParameter("depart_iata"), request.getParameter("arrv_iata"), LocalDate.parse(request.getParameter("depart_date"), DateTimeFormatter.ISO_DATE_TIME));
+		ZonedDateTime zonedDateTime = Instant.parse(request.getParameter("depart_date")).atZone(ZoneId.of("Europe/Berlin"));
+		demoData = SearchResultsDemo.getDemoData(request.getParameter("depart_iata"), request.getParameter("arrv_iata"), zonedDateTime.toLocalDate());
 	}
 %>
  <!DOCTYPE html>
@@ -36,7 +37,7 @@
 						<svg width="24" height="24" viewBox="0 0 96 96" class="nav-svg nav-svg-bottom">
 							<rect x="0" y="44" width="96" height="8" fill="#FFFFFF" class="nav-svg-rect nav-svg-rect-bottom"></rect>
 						</svg>
-					</div><a href="#" class="link-home"></a><a href="user-cp.jsp" class="link-user-cp"></a>
+					</div><a href="#" class="link-home"></a><a href="dashboard.jsp" class="link-user-cp"></a>
 				</div>
 				<ul class="nav-list">
 					<li><a href="/" class="link-home"></a></li>
@@ -45,7 +46,7 @@
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
-					<li><a href="sc-index.html">Support</a></li>
+					<li><a href="sc-index.jsp">Support</a></li>
 					<li><a href="dashboard.jsp" class="link-user-cp"></a></li>
 				</ul>
 			</div>
@@ -59,13 +60,13 @@
 								<div class="column-title"><img src="img/icon-departure.svg">
 									<p>Von</p>
 								</div>
-								<input value="<%= demoData.get("departureName") != null ? demoData.get("departureName") : "" %>" placeholder="Abreiseort eingeben" required class="column-content">
+								<input value="<%= demoData.has("departureName") ? demoData.get("departureName") : "" %>" placeholder="Abreiseort eingeben" required class="column-content">
 							</div>
 							<div class="column column-12 medium-6">
 								<div class="column-title"><img src="img/icon-arrival.svg">
 									<p>Nach</p>
 								</div>
-								<input value="<%= demoData.get("arrivalName") != null ? demoData.get("arrivalName") : "" %>" placeholder="Ankunftsort eingeben" required class="column-content">
+								<input value="<%= demoData.has("arrivalName") ? demoData.get("arrivalName") : "" %>" placeholder="Ankunftsort eingeben" required class="column-content">
 							</div>
 						</div>
 						<div class="row">
@@ -73,7 +74,7 @@
 								<div class="column-title"><img src="img/icon-date.svg">
 									<p>Abflugdatum</p>
 								</div>
-								<input type="date" value="<%= demoData.get("departureDate") != null ? ((LocalDate)demoData.get("departureDate")).format(DateTimeFormatter.ofPattern("EEEE, dd. MMMM yyyy")) : "" %>" placeholder="Abflugdatum auswählen" required class="column-content">
+								<input type="date" value="<%= demoData.has("departureDate") ? ((LocalDate)demoData.get("departureDate")).format(DateTimeFormatter.ofPattern("EEEE, dd. MMMM yyyy")) : "" %>" placeholder="Abflugdatum auswählen" required class="column-content">
 							</div>
 							<div class="column column-12 medium-2">
 								<div class="column-title"><img src="img/icon-passenger.svg">
@@ -90,7 +91,7 @@
 						</div>
 					</div> 
 					<%
-						if (demoData.get("items") != null) {
+						if (demoData.has("items")) {
 						 	for (int i=0; i<((JSONArray)demoData.get("items")).length(); i++) {
 								JSONObject resultObj = ((JSONArray)demoData.get("items")).getJSONObject(i);
 					%>
@@ -131,7 +132,18 @@
 									<p><%= ((Time)flightObj.get("arrivalTime")).toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")) %></p>
 								</div>
 								<div class="column column-2 column-offset-1">
-									<p>13h 10min</p>
+									<%
+										LocalTime departureTime = ((Time)flightObj.get("departureTime")).toLocalTime();
+										LocalTime arrivalTime = ((Time)flightObj.get("arrivalTime")).toLocalTime();
+									 
+										Duration duration = null;
+										if (departureTime.toSecondOfDay() > arrivalTime.toSecondOfDay()) {
+											duration = Duration.between(arrivalTime, departureTime);
+										} else {
+											duration = Duration.between(departureTime, arrivalTime);
+										}
+									%>
+									<p><%= String.format("%02dh %02dmin", duration.getSeconds() / 3600, (duration.getSeconds() % 3600) / 60) %></p>
 								</div>
 								<div class="column column-1">
 									<p><%= flightObj.get("stops") %></p>
