@@ -100,7 +100,7 @@
 							<input type="text" name="lastName" id="lastName">
 							<label for="email">E-Mail-Adresse</label>
 							<input type="email" name="email" id="email">
-							<button>Profil speichern</button>
+							<button class="fill blue">Profil speichern</button>
 						</form>
 						<h3>Passwort ändern</h3>
 						<form action="#">
@@ -110,7 +110,7 @@
 							<input type="password" name="newPassword" id="newPassword">
 							<label for="oldPassword">Neues Passwort bestätigen</label>
 							<input type="password" name="newPasswordConfirm" id="newPasswordConfirm">
-							<button>Passwort ändern </button>
+							<button class="fill blue">Passwort ändern </button>
 						</form>
 					</div> 
 					<% } %>

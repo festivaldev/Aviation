@@ -52,8 +52,41 @@
 			</div>
 		</nav>
 		<section class="search-results">
-			<div class="section-content">
-				<div class="search-results-container">
+			<div class="section-content row">
+				<div class="progress-overview column medium-3">
+					<p class="progress-title">Flug buchen</p>
+					<p class="progress-section-title">Vorbereitung</p>
+					<ul>
+						<li data-progress-made="true">
+							 
+							 <span>Reiseziel wählen</span>
+							<div class="pipe"></div>
+						</li>
+						<li data-progress-made="true" class="current">
+							 
+							 <span>Flug wählen</span>
+							<div class="pipe"></div>
+						</li>
+						<li data-progress-made="false">
+							 
+							 <span>Dienste wählen</span>
+							<div class="pipe"></div>
+						</li>
+					</ul>
+					<p class="progress-section-title">Bezahlung</p>
+					<ul>
+						<li data-progress-made="false">
+							 
+							 <span>Rechnungsadresse</span>
+							<div class="pipe"></div>
+						</li>
+						<li data-progress-made="false">
+							 
+							 <span>Bestellung abschließen</span>
+						</li>
+					</ul>
+				</div>
+				<div class="search-results-container column column-12 medium-8">
 					<div class="search-results-header">
 						<div class="row">
 							<div class="column column-12 medium-6">
@@ -89,21 +122,23 @@
 								<p class="column-content">Alle Klassen</p>
 							</div>
 						</div>
-					</div> 
-					<%
-						if (demoData.has("items")) {
-						 	for (int i=0; i<((JSONArray)demoData.get("items")).length(); i++) {
-								JSONObject resultObj = ((JSONArray)demoData.get("items")).getJSONObject(i);
-					%>
-					<div class="scroll-container"> 
+					</div>
+					<div class="scroll-container">
+						 
+						<%
+							if (demoData.has("items")) {
+							 	for (int i=0; i<((JSONArray)demoData.get("items")).length(); i++) {
+									JSONObject resultObj = ((JSONArray)demoData.get("items")).getJSONObject(i);
+									LocalDate departureDate = (LocalDate)resultObj.get("departureDate");
+						%> 
 						<div class="result-header">
-							<h4 class="date"><span>Abflug</span> – <%= ((LocalDate)resultObj.get("departureDate")).format(DateTimeFormatter.ofPattern("dd MMM")) %></h4>
+							<h4 class="date"><span>Abflug</span> – <%= departureDate.format(DateTimeFormatter.ofPattern("dd MMM")) %></h4>
 							<div class="table-header row">
 								<div class="column column-2">
-									<p><%= demoData.get("departureMunicipality") %></p>
+									<p><%= !((String)demoData.get("departureMunicipality")).isEmpty() ? demoData.get("departureMunicipality") : demoData.get("departureName") %></p>
 								</div>
 								<div class="column column-2 align-right">
-									<p><%= demoData.get("arrivalMunicipality") %></p>
+									<p><%= !((String)demoData.get("arrivalMunicipality")).isEmpty() ? demoData.get("arrivalMunicipality") : demoData.get("arrivalName") %></p>
 								</div>
 								<div class="column column-2 column-offset-1">
 									<p>Dauer</p>
@@ -114,35 +149,33 @@
 								<div class="column column-auto">
 									<p>Flugnummer</p>
 								</div>
-								<div class="column column-1 align-right">
+								<div class="column column-2 align-right">
 									<p>Preis</p>
 								</div>
 							</div>
-						</div> 
-						<%
-								for (int j=0; j<((JSONArray)resultObj.get("items")).length(); j++) {
-									JSONObject flightObj = ((JSONArray)resultObj.get("items")).getJSONObject(j);
-						%>
+						</div>
 						<div class="results">
-							<div class="result-cell row">
+							 
+							<%
+									for (int j=0; j<((JSONArray)resultObj.get("items")).length(); j++) {
+										JSONObject flightObj = ((JSONArray)resultObj.get("items")).getJSONObject(j);
+										
+										LocalTime departureTime = ((Time)flightObj.get("departureTime")).toLocalTime().withSecond(0);
+										LocalTime arrivalTime = ((Time)flightObj.get("arrivalTime")).toLocalTime().withSecond(0);
+							 
+										Duration duration = Duration.between(departureTime, arrivalTime);
+										if (duration.isNegative()) {
+											duration = duration.plusDays(1);
+										}
+							%>
+							<div data-departure="<%= demoData.get("departureIATA") %>" data-arrival="<%= demoData.get("arrivalIATA") %>" data-departure-date="<%= departureDate.format(DateTimeFormatter.ISO_DATE) %>" data-departure-time="<%= departureTime.format(DateTimeFormatter.ISO_TIME) %>" data-arrival-time="<%= arrivalTime.format(DateTimeFormatter.ISO_TIME) %>" data-flight-number="<%= flightObj.get("flightNumber") %>" data-price="<%= flightObj.get("price") %>" class="result-cell row">
 								<div class="column column-2">
-									<p><%= ((Time)flightObj.get("departureTime")).toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")) %></p>
+									<p><%= departureTime.format(DateTimeFormatter.ofPattern("HH:mm")) %></p>
 								</div>
 								<div class="column column-2 align-right">
-									<p><%= ((Time)flightObj.get("arrivalTime")).toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")) %></p>
+									<p><%= arrivalTime.format(DateTimeFormatter.ofPattern("HH:mm")) %></p>
 								</div>
 								<div class="column column-2 column-offset-1">
-									<%
-										LocalTime departureTime = ((Time)flightObj.get("departureTime")).toLocalTime();
-										LocalTime arrivalTime = ((Time)flightObj.get("arrivalTime")).toLocalTime();
-									 
-										Duration duration = null;
-										if (departureTime.toSecondOfDay() > arrivalTime.toSecondOfDay()) {
-											duration = Duration.between(arrivalTime, departureTime);
-										} else {
-											duration = Duration.between(departureTime, arrivalTime);
-										}
-									%>
 									<p><%= String.format("%02dh %02dmin", duration.getSeconds() / 3600, (duration.getSeconds() % 3600) / 60) %></p>
 								</div>
 								<div class="column column-1">
@@ -151,21 +184,38 @@
 								<div class="column column-auto">
 									<p><%= flightObj.get("flightNumber") %></p>
 								</div>
-								<div class="column column-1 align-right">
+								<div class="column column-2 align-right">
 									<p>ab <%= flightObj.get("price") %>€</p>
 								</div>
-							</div>
+							</div> 
+							<%
+									}
+							%>
 						</div> 
-						<%	} %>
-					</div> 
-					<%
-							}
-						} 
-					%>
+						<%
+								}
+							} 
+						%>
+					</div>
 					<div class="fill-background"></div>
-					<div class="results-footer"></div>
+					<div class="results-footer">
+						<button class="outline red">Abbrechen</button>
+						<button disabled class="outline blue continue-button">Weiter</button>
+					</div>
 				</div>
 			</div>
 		</section>
+		<form action="#" method="POST" name="selectedItem" class="hidden">
+			<input name="depart_iata">
+			<input name="arrv_iata">
+			<input name="depart_date">
+			<input name="arrv_date">
+			<input name="flight_number"> 
+			 
+			<!-- DO NOT USE THIS IN PRODUCTION!!! -->
+			<!-- This is for demonstration purposes only! -->
+			<input name="price">
+		</form>
+		<script type="text/javascript" src="js/flight-search.js"></script>
 	</body>
 </html>

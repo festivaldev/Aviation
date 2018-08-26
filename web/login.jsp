@@ -91,7 +91,7 @@
 								<div class="form-textbox-wrapper">
 									<input type="password" name="password" id="password" placeholder=" " class="form-textbox"><span class="form-textbox-placeholder">Passwort</span>
 								</div>
-								<button class="call">Anmelden</button>
+								<button class="fill blue call">Anmelden</button>
 							</form><a href="register.jsp">Noch nicht registriert?</a>
 						</div>
 					</div>

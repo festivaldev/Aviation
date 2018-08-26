@@ -30,6 +30,9 @@ a:hover {
 .align-right {
   text-align: right;
 }
+.hidden {
+  display: none;
+}
 .content-wrapper {
   min-height: 100vh;
 }
@@ -683,13 +686,39 @@ button {
   padding: 0 16px;
   border-radius: 6px;
   cursor: pointer;
-  background-color: #00b0ee;
-  color: #fff;
   transition: opacity 0.2s;
 }
-button:active {
+button.fill:active {
   transition-duration: 0;
   opacity: 0.75;
+}
+button.fill.blue {
+  background-color: #00B0EE;
+  color: #FFFFFF;
+}
+button.fill.red {
+  background-color: #FF0000;
+  color: #FFFFFF;
+}
+button.outline {
+  background-color: transparent;
+}
+button.outline:active {
+  transition-duration: 0;
+  opacity: 0.4;
+}
+button.outline.blue {
+  box-shadow: inset 0 0 0 1px #00B0EE;
+  color: #00B0EE;
+}
+button.outline.red {
+  box-shadow: inset 0 0 0 1px #FF0000;
+  color: #FF0000;
+}
+button:disabled {
+  transition-duration: 0;
+  opacity: 0.4;
+  pointer-events: none;
 }
 button.call {
   height: auto;

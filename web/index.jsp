@@ -72,7 +72,7 @@
 							<input type="date" id="depart_date" name="depart_date" class="hidden">
 							<div class="calendar"></div>
 						</div>
-						<button class="search-button">Suchen</button>
+						<button class="fill blue search-button">Suchen</button>
 					</form>
 				</div>
 			</div>
