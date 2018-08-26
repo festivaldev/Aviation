@@ -213,6 +213,7 @@ section.promo-articles {
   background-color: #FFFFFF;
   border-radius: 8px;
   overflow: hidden;
+  transform: translate3d(0, 0, 0);
 }
 .promo-article .header,
 .spring-animatable.promo-animatable .header,
@@ -230,6 +231,23 @@ section.promo-articles {
   background-color: #FFFFFF;
   z-index: 5;
   pointer-events: none;
+}
+.promo-article .header::after,
+.spring-animatable.promo-animatable .header::after,
+.promo-article-details .header::after {
+  background-image: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.5));
+  content: "";
+  display: block;
+  left: 0;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+.promo-article .header > *,
+.spring-animatable.promo-animatable .header > *,
+.promo-article-details .header > * {
+  z-index: 9999;
 }
 .promo-article .header p.header-heading,
 .spring-animatable.promo-animatable .header p.header-heading,
@@ -353,6 +371,24 @@ section.promo-articles {
 .promo-article-details .content p span.italic {
   font-style: italic;
 }
+.promo-article .content > p:nth-child(2),
+.spring-animatable.promo-animatable .content > p:nth-child(2),
+.promo-article-details .content > p:nth-child(2) {
+  display: none;
+}
+.promo-article .content a:not(:last-child),
+.spring-animatable.promo-animatable .content a:not(:last-child),
+.promo-article-details .content a:not(:last-child) {
+  display: inline-block;
+  margin-bottom: 18px;
+}
+.promo-article .promo-article-wrapper,
+.spring-animatable.promo-animatable .promo-article-wrapper,
+.promo-article-details .promo-article-wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 15px;
+}
 .promo-article-details {
   display: flex;
   position: fixed;
@@ -392,6 +428,10 @@ section.promo-articles {
     width: 100vw;
     height: 100vh;
     transform: none;
+  }
+  .promo-article-details .promo-article-wrapper {
+    flex-direction: column;
+    padding: 0;
   }
   .spring-animatable.promo-animatable,
   .promo-article-details {
