@@ -21,7 +21,7 @@
 						<svg width="24" height="24" viewBox="0 0 96 96" class="nav-svg nav-svg-bottom">
 							<rect x="0" y="44" width="96" height="8" fill="#FFFFFF" class="nav-svg-rect nav-svg-rect-bottom"></rect>
 						</svg>
-					</div><a href="#" class="link-home"></a><a href="user-cp.jsp" class="link-user-cp"></a>
+					</div><a href="#" class="link-home"></a><a href="dashboard.jsp" class="link-user-cp"></a>
 				</div>
 				<ul class="nav-list">
 					<li><a href="/" class="link-home"></a></li>
@@ -30,18 +30,32 @@
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
-					<li><a href="sc-index.html">Support</a></li>
+					<li><a href="sc-index.jsp">Support</a></li>
 					<li><a href="dashboard.jsp" class="link-user-cp"></a></li>
 				</ul>
 			</div>
 		</nav>
+		<section class="modal">
+			<div class="modal-inner">
+				<div class="content">
+					<div id="modal-title-bar" class="title-bar"><span class="icon error"><span class="ai ai-error"></span></span><span class="icon info"><span class="ai ai-info"></span></span><span class="icon question"><span class="ai ai-question"></span></span><span class="icon success"><span class="ai ai-success"></span></span><span class="icon warning"><span class="ai ai-warning"></span></span>
+						<p id="modal-title" class="title"></p>
+					</div>
+					<p id="modal-text"></p>
+				</div>
+				<div class="buttons">
+					<button id="modal-primary"></button>
+					<button id="modal-close">Schließen</button>
+				</div>
+			</div>
+		</section>
 		<div class="content-wrapper">
 			<section class="support">
 				<div class="section-content row reversed">
 					<div class="column column-3">
 						<ul class="sc-menu">
-							<li class="menu-item heading">Support</li><a href="sc-index.html" class="menu-item">
-								<li>FAQ</li></a><a href="sc-contact.html" class="menu-item">
+							<li class="menu-item heading">Support</li><a href="sc-index.jsp" class="menu-item">
+								<li>FAQ</li></a><a href="sc-contact.jsp" class="menu-item">
 								<li>Kontakt</li></a><a href="sc-cancellations.html" class="menu-item selected">
 								<li>Stornierungen</li></a><a href="sc-complaints.html" class="menu-item">
 								<li>Beschwerden</li></a><a href="sc-rights.html" class="menu-item">
@@ -50,19 +64,27 @@
 					</div>
 					<div class="column column-8 offset-1">
 						<h2>Stornierungen</h2>
-						<p style="margin-bottom: 1em">Wenn Sie ein Ticket ohne Account erworben haben oder keinen Zugriff auf diesen Account haben, so können Sie dieses hier stornieren. Beachten Sie bitte, dass Sie jedes Ticket einzeln stornieren müssen.</p>
-						<form action="#">
+						<article class="flag warning">
+							<div class="header">
+								<div class="icon"><span><span class="ai ai-warning"></span></span></div><span class="title">Hinweis</span>
+							</div>
+							<div class="content">
+								<p>Wenn du auf den Account, mit dem das Ticket gekauft wurde, Zugriff hast, storniere dein Ticket bitte im <a href="#">Dashboard</a>. Nur wenn du dein Ticket ohne Account erworben hast oder keinen Zugriff auf den Account hast, solltest du dein Ticket hier stornieren.</p>
+							</div>
+						</article>
+						<form action="#" id="cancellationForm">
 							<label for="holder">Name des Passagiers</label>
 							<input type="text" name="holder" id="holder">
 							<label for="ticketId">Ticket-ID</label>
-							<input type="text" name="ticketId" id="ticketId">
+							<input type="text" name="ticketId" id="ticketId"><a data-modal-type="question" data-modal-title="Was ist die Ticket-ID?" data-modal-text="Die Ticket-ID ist eine für jedes Ticket einzigartige Nummer, die es ermöglicht ein Ticket eindeutig zu identifizieren. Sie befindet sich auf der Rechnung und am unteren Rand des Tickets." class="help modal-trigger">Was ist das?</a>
 							<label for="verification">Storno-Verifizierungs-ID</label>
-							<input type="text" name="verification" id="verification">
+							<input type="text" name="verification" id="verification"><a data-modal-type="question" data-modal-title="Was ist die Storno-Verifizierungs-ID?" data-modal-text="Bei der Storno-Verifizierungs-ID handelt es sich um eine Nummer die als Sicherheit benötigt wird, um die Stornierung durchzuführen. Die Storno-Verifizierungs-ID findest du in deiner Rechnung." class="help modal-trigger">Was ist das?</a>
 							<label for="accountEmail">E-Mail-Adresse</label>
+							<p class="description">Gib hier die E-Mail-Adresse des Accounts an, der die Gutschrift bekommen soll.</p>
 							<input type="email" name="accountEmail" id="accountEmail">
 							<label for="message">Grund der Stornierung (optional)</label>
 							<textarea name="message" id="message" lines="12"></textarea>
-							<button>Absenden</button>
+							<button data-modal-type="error" data-modal-title="Ticket wirklich stornieren?" data-modal-text="Wenn alle Eingaben korrekt sind, wird das Ticket unwiderruflich storniert und unbrauchbar. Die Stornierung kann nicht rückgängig gemacht werden." data-modal-primary="Ticket stornieren" data-modal-primary-action="submit" class="modal-trigger">Absenden</button>
 						</form>
 					</div>
 				</div>
@@ -79,7 +101,7 @@
 							<li><a href="#">Link</a></li>
 							<li><a href="#">Link</a></li>
 							<li><a href="#">Link</a></li>
-							<li><a href="sc-index.html">Support</a></li>
+							<li><a href="sc-index.jsp">Support</a></li>
 							<li><a href="dashboard.jsp">Benutzerkontrollzentrum</a></li>
 						</ul>
 					</div>
@@ -108,4 +130,6 @@
 		</footer>
 	</body>
 	<script src="js/support-center.js"></script>
+	<script src="js/modal.js"></script>
+	<script src="js/icons.js"></script>
 </html>

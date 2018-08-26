@@ -3,6 +3,46 @@ section.support .sc-menu {
   box-shadow: 0 0 0 1px #C2C2C2;
   border-radius: 2px;
 }
+@media all and (max-width: 768px) {
+  section.support .sc-menu.contents .menu-item.heading {
+    box-shadow: inset 0 0 0 0 #C2C2C2;
+    cursor: pointer;
+    pointer-events: all;
+    transition: box-shadow 0.2s ease;
+  }
+  section.support .sc-menu.contents .menu-item:not(.heading) {
+    box-shadow: inset 0 0 0 0 #C2C2C2;
+    padding: 0;
+  }
+  section.support .sc-menu.contents .menu-item:not(.heading),
+  section.support .sc-menu.contents .menu-item:not(.heading) * {
+    display: block;
+    font-size: 0;
+    line-height: 0;
+    opacity: 0;
+    transition: box-shadow 0.2s ease 0.2s, font-size 0.2s ease 0.2s, line-height 0.2s ease 0.2s, padding 0.2s ease 0.2s, opacity 0.2s ease;
+  }
+  section.support .sc-menu.contents.expanded .expand-button {
+    transform: rotate(180deg);
+  }
+  section.support .sc-menu.contents.expanded .menu-item.heading {
+    box-shadow: inset 0 -1px 0 0 #C2C2C2;
+    transition: box-shadow 0.2s ease 0.2s;
+  }
+  section.support .sc-menu.contents.expanded .menu-item:not(.heading) {
+    padding: 8px 10px;
+  }
+  section.support .sc-menu.contents.expanded .menu-item:not(.heading),
+  section.support .sc-menu.contents.expanded .menu-item:not(.heading) * {
+    font-size: 15px;
+    line-height: 22px;
+    opacity: 1;
+    transition: box-shadow 0.2s ease, font-size 0.2s ease, line-height 0.2s ease, padding 0.2s ease, opacity 0.2s ease 0.2s;
+  }
+  section.support .sc-menu.contents.expanded .menu-item:not(.heading):not(:last-child) {
+    box-shadow: inset 0 -1px 0 0 #C2C2C2;
+  }
+}
 section.support .sc-menu.contents a {
   cursor: pointer;
 }
@@ -41,6 +81,21 @@ section.support .sc-menu .menu-item:not(.selected):hover {
 }
 section.support .sc-menu .menu-item:not(:last-child) {
   box-shadow: inset 0 -1px 0 0 #C2C2C2;
+}
+section.support .ad {
+  border-radius: 3px;
+  box-shadow: 0 3px 10px 1px rgba(54, 54, 54, 0.102);
+  margin-top: 2em;
+  width: 100%;
+}
+section.support .ad img {
+  width: 100%;
+}
+section.support .ad .content {
+  padding: 1em;
+}
+section.support .ad button {
+  margin-bottom: 0;
 }
 section.support h2 {
   font-size: 28px;
@@ -104,10 +159,10 @@ section.support .faq-card-content * {
   padding: 0;
   transition: opacity 0.2s ease, font-size 0.2s ease 0.2s, margin 0.2s ease 0.2s, padding 0.2s ease 0.2s;
 }
-section.support .faq-card-content a {
+section.support .faq-card-content > a {
   display: block;
 }
-section.support .faq-card-content a.permalink {
+section.support .faq-card-content > a.permalink {
   margin-top: 1em;
 }
 section.support .faq-card-content p {
@@ -116,8 +171,12 @@ section.support .faq-card-content p {
 section.support label {
   display: block;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: 5px;
+}
+section.support .description {
+  font-size: 14px;
+  margin-bottom: 10px;
 }
 section.support input {
   border: 1px solid #C2C2C2;
@@ -127,6 +186,13 @@ section.support input {
   width: 100%;
   padding: 6px 8px;
 }
+section.support .help {
+  cursor: pointer;
+  display: block;
+  font-size: 13px;
+  margin-bottom: 15px;
+  margin-top: -10px;
+}
 section.support textarea {
   border: 1px solid #C2C2C2;
   border-radius: 2px;
@@ -135,8 +201,12 @@ section.support textarea {
   width: 100%;
 }
 section.support select {
-  height: 20px;
-  margin: 6px 0 21px;
+  border: 1px solid #C2C2C2;
+  border-radius: 2px;
+  height: 34px;
+  margin-bottom: 15px;
+  max-width: 374px;
+  width: 100%;
 }
 section.support .row .column label {
   line-height: 32px;
@@ -144,4 +214,243 @@ section.support .row .column label {
 section.support form button {
   display: block;
   margin-top: 8px;
+}
+section.support p.flow {
+  line-height: 1.5;
+  margin-bottom: 1em;
+}
+section.support .flag {
+  border-radius: 3px;
+  box-sizing: border-box;
+  box-shadow: #091E424D 4D 0px 20px 32px -8px;
+  margin: 1em 0;
+  padding: 16px;
+  transition: background-color 0.2s ease;
+  width: 100%;
+  z-index: 600;
+}
+section.support .flag.error {
+  background-color: #DE350B;
+  color: #FFF;
+}
+section.support .flag.error .icon span {
+  color: #FFF;
+  fill: #DE350B;
+}
+section.support .flag.info {
+  background-color: #0747A6;
+  color: #FFF;
+}
+section.support .flag.info .icon span {
+  color: #FFF;
+  fill: #0747A6;
+}
+section.support .flag.question {
+  background-color: #F3F5F8;
+  color: #172B4D;
+}
+section.support .flag.question .icon span {
+  color: #172B4D;
+  fill: #F3F5F8;
+}
+section.support .flag.success {
+  background-color: #33B025;
+  color: #FFF;
+}
+section.support .flag.success .icon span {
+  color: #FFF;
+  fill: #33B025;
+}
+section.support .flag.warning {
+  background-color: #FFC400;
+  color: #253858;
+}
+section.support .flag.warning .icon span {
+  color: #253858;
+  fill: #FFAB00;
+}
+section.support .flag .header {
+  align-items: center;
+  display: flex;
+  height: 32px;
+  -moz-box-align: center;
+}
+section.support .flag .icon {
+  flex: 0 0 auto;
+  width: 40px;
+}
+section.support .flag .icon span {
+  display: inline-block;
+  flex-shrink: 0;
+  line-height: 1;
+}
+section.support .flag .title {
+  font-size: 14px !important;
+  font-weight: 600;
+  flex: 1 1 0%;
+  margin-bottom: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+section.support .flag .content {
+  display: flex;
+  flex: 1 1 100%;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0px;
+  padding-left: 40px;
+  -moz-box-pack: center;
+}
+section.support .flag .content,
+section.support .flag .content * {
+  font-size: 14px !important;
+}
+section.support .flag a {
+  color: inherit;
+  text-decoration: underline;
+}
+section.support .flag a:hover {
+  text-decoration: none;
+}
+section.modal {
+  --modal-background: #FFF;
+  --modal-color: #000;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  left: 0;
+  opacity: 0;
+  padding: 0;
+  pointer-events: none;
+  position: fixed;
+  transition: all 0.2s ease 0.2s;
+  top: 0;
+  width: 100vw;
+  z-index: 9999999;
+  -webkit-backdrop-filter: saturate(100%) blur(20px);
+}
+@media all and (min-width: 576px) {
+  section.modal {
+    padding: 24px;
+  }
+}
+section.modal.error {
+  --modal-background: #DE350B;
+  --modal-color: #FFF;
+}
+section.modal.error .icon.error {
+  display: inline-block !important;
+}
+section.modal.info {
+  --modal-background: #0747A6;
+  --modal-color: #FFF;
+}
+section.modal.info .icon.info {
+  display: inline-block !important;
+}
+section.modal.question {
+  --modal-background: #F3F5F8;
+  --modal-color: #172B4D;
+}
+section.modal.question .icon.question {
+  display: inline-block !important;
+}
+section.modal.success {
+  --modal-background: #33B025;
+  --modal-color: #FFF;
+}
+section.modal.success .icon.success {
+  display: inline-block !important;
+}
+section.modal.warning {
+  --modal-background: #FFC400;
+  --modal-color: #253858;
+}
+section.modal.warning .icon.warning {
+  display: inline-block !important;
+}
+section.modal .modal-inner {
+  background-color: var(--modal-background);
+  color: var(--modal-color);
+  height: 100%;
+  opacity: 0;
+  padding: 1em;
+  position: relative;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+@media all and (min-width: 576px) {
+  section.modal .modal-inner {
+    border-radius: 12px;
+  }
+}
+@media all and (min-width: 768px) {
+  section.modal .modal-inner {
+    height: auto;
+    max-width: 90%;
+  }
+}
+@media all and (min-width: 992px) {
+  section.modal .modal-inner {
+    max-width: 75%;
+  }
+}
+@media all and (min-width: 1200px) {
+  section.modal .modal-inner {
+    max-width: 50%;
+  }
+}
+section.modal .modal-inner .content {
+  max-height: calc(100% - 1.5em - 32px);
+  min-height: 10em;
+  padding: 1em;
+  padding-bottom: 3em;
+}
+section.modal .modal-inner .content .title-bar {
+  display: flex;
+  margin-bottom: 1em;
+}
+section.modal .modal-inner .content .icon {
+  color: var(--modal-color);
+  display: none;
+  fill: var(--modal-background);
+  margin-right: 0.75em;
+}
+section.modal .modal-inner .content .title {
+  font-weight: 600;
+  line-height: 22px;
+}
+section.modal .modal-inner .buttons {
+  bottom: 1em;
+  display: flex;
+  position: absolute;
+  right: 1em;
+}
+section.modal .modal-inner .buttons button {
+  background-color: var(--modal-color);
+  color: var(--modal-background);
+  display: block;
+  font-size: 13px;
+  margin: 0;
+  margin-left: 0.5em;
+}
+section.modal .modal-inner .buttons button:last-of-type {
+  background-color: transparent;
+  border: 1px solid var(--modal-color);
+  color: var(--modal-color);
+}
+body.modal-open {
+  overflow-y: hidden;
+}
+body.modal-open section.modal {
+  opacity: 1;
+  pointer-events: all;
+  transition: all 0.2s ease;
+}
+body.modal-open section.modal .modal-inner {
+  opacity: 1;
+  transition: all 0.2s ease 0.2s;
 }
