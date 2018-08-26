@@ -3,6 +3,7 @@ package ml.festival.aviation;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.time.LocalDate;
@@ -42,7 +43,7 @@ public class SearchResultsDemo {
 				JSONArray objArray = new JSONArray();
 				for (int i = 0; i < new Random().nextInt(7) + 3; i++) {
 					JSONObject dateObj = new JSONObject();
-					dateObj.put("departureDate", departureDate); /// TODO: add days to departure date
+					dateObj.put("departureDate", departureDate);
 					departureDate = departureDate.plusDays(1);
 
 
@@ -64,6 +65,41 @@ public class SearchResultsDemo {
 				returnObj.put("items", objArray);
 
 				conn.close();
+				return returnObj;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	public static JSONObject getServiceData(JSONObject requestData) {
+		try {
+			InitialContext initialContext = new InitialContext();
+			Context environmentContext = (Context) initialContext.lookup("java:/comp/env");
+			DataSource dataSource = (DataSource) environmentContext.lookup("jdbc/aviation");
+			Connection conn = dataSource.getConnection();
+
+			PreparedStatement statement = conn.prepareStatement("SELECT * FROM airports WHERE iata_code = ?");
+			statement.setString(1, requestData.getString("depart_iata"));
+			ResultSet departureSet = statement.executeQuery();
+
+			statement = conn.prepareStatement("SELECT * FROM airports WHERE iata_code = ?");
+			statement.setString(1, requestData.getString("arrv_iata"));
+			ResultSet arrivalSet = statement.executeQuery();
+
+			if (departureSet.next() && arrivalSet.next()) {
+				JSONObject returnObj = new JSONObject();
+
+				returnObj.put("departureDate", LocalDate.parse(requestData.getString("depart_date"), DateTimeFormatter.ISO_DATE_TIME));
+				returnObj.put("departureName", departureSet.getString("name"));
+				returnObj.put("departureMunicipality", departureSet.getString("municipality"));
+				returnObj.put("departureIATA", departureSet.getString("iata_code"));
+				returnObj.put("arrivalName", arrivalSet.getString("name"));
+				returnObj.put("arrivalMunicipality", arrivalSet.getString("municipality"));
+				returnObj.put("arrivalIATA", arrivalSet.getString("iata_code"));
+
 				return returnObj;
 			}
 		} catch (Exception e) {

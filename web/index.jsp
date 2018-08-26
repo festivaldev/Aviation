@@ -32,7 +32,7 @@
 				</div>
 				<ul class="nav-list">
 					<li><a href="/" class="link-home"></a></li>
-					<li><a href="search.jsp">Flüge</a></li>
+					<li><a href="booking-search.jsp">Flüge</a></li>
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
@@ -47,7 +47,7 @@
 				<h2 class="hero-title">Die günstigsten Flugreisen aller Zeiten</h2>
 				<h4 class="hero-subtitle">Einfach nur das buchen, was du wirklich brauchst – das ist aviation.</h4>
 				<div class="hero-search-bar">
-					<form method="post" action="search.jsp">
+					<form method="post" action="booking-search.jsp">
 						<div data-key="departure" class="input-wrapper">
 							<div class="column-title"><img src="img/icon-departure.svg">
 								<p>Von (Ort oder Flughafen)</p>
@@ -150,7 +150,7 @@
 					<div class="footer-directory-column">
 						<h3 class="footer-directory-column-title">Aviation</h3>
 						<ul class="footer-directory-column-list">
-							<li><a href="search.jsp">Flüge</a></li>
+							<li><a href="booking-search.jsp">Flüge</a></li>
 							<li><a href="#">Link</a></li>
 							<li><a href="#">Link</a></li>
 							<li><a href="#">Link</a></li>

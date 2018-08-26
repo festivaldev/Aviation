@@ -4,18 +4,8 @@
 <%@ page import="javax.naming.Context" %>
 <%@ page import="javax.sql.DataSource" %>
 <%@ page import="java.sql.Connection" %>
-<%@ page import="java.security.MessageDigest" %>
-<%@ page import="java.nio.charset.StandardCharsets" %>
 <%@ page import="java.sql.PreparedStatement" %>
- 
- 
-<%!
-	private String bytesToHex(byte[] bytes) {
-		StringBuffer result = new StringBuffer();
-		for (byte byt : bytes) result.append(Integer.toString((byt & 0xff) + 0x100, 16).substring(1));
-		return result.toString();
-	}
-%>
+<%@ page import="java.sql.ResultSet" %>
  
 <%
 	InitialContext initialContext;
@@ -23,55 +13,70 @@
 	DataSource dataSource;
 	Connection conn = null;
  
-	String firstName = "";
-	String lastName = "";
+	String holder = "";
+	String ticketId = "";
+	String svid = "";
 	String email = "";
 	String message = "";
  
 	boolean invalid = false;
 	boolean send = false;
 	boolean error = false;
+	boolean inputError = false;
  
 	request.setCharacterEncoding("UTF-8");
  
 	if ("POST".equals(request.getMethod())) {
-	    firstName = request.getParameter("firstName");
-	    lastName = request.getParameter("lastName");
-	    email = request.getParameter("email");
-	    message = request.getParameter("message");
+		holder = request.getParameter("holder");
+		ticketId = request.getParameter("ticketId");
+		svid = request.getParameter("svid");
+		email = request.getParameter("email");
+		message = request.getParameter("message");
  
-	    if (firstName != null && !firstName.isEmpty() && lastName != null && !lastName.isEmpty() && email != null && !email.isEmpty() && message != null && !message.isEmpty()) {
-	        try {
-	            initialContext = new InitialContext();
-	            environmentContext = (Context)initialContext.lookup("java:/comp/env");
-	            dataSource = (DataSource)environmentContext.lookup("jdbc/aviation");
-	            conn = dataSource.getConnection();
+		if (holder != null && !holder.isEmpty() && ticketId != null && !ticketId.isEmpty() && email != null && !email.isEmpty() && svid != null && !svid.isEmpty()) {
+			try {
+				initialContext = new InitialContext();
+				environmentContext = (Context)initialContext.lookup("java:/comp/env");
+				dataSource = (DataSource)environmentContext.lookup("jdbc/aviation");
+				conn = dataSource.getConnection();
  
-	            PreparedStatement statement = conn.prepareStatement("INSERT INTO `contacts` VALUES (?, ?, ?, ?, 'contact', ?, default, default)");
+				PreparedStatement statement = conn.prepareStatement("SELECT svid, holder FROM tickets WHERE id = ?");
  
-	            statement.setString(1, bytesToHex(MessageDigest.getInstance("SHA-256").digest(String.format("%s%s%s%s%d", firstName, lastName, email, message, System.currentTimeMillis() / 1000L).getBytes(StandardCharsets.UTF_8))).substring(0, 32));
-	            statement.setString(2, firstName);
-	            statement.setString(3, lastName);
-	            statement.setString(4, email);
-	            statement.setString(5, message);
+				statement.setString(1, ticketId);
  
-	            statement.execute();
+				ResultSet ticket = statement.executeQuery();
  
-	            send = true;
-	        } catch (Exception e) {
-	            error = true;
-	            e.printStackTrace();
-	        }
-	    } else {
-	        invalid = true;
-	    }
+				if (ticket != null && ticket.next()) {
+				    if (ticket.getString("holder").equals(holder) && ticket.getString("svid").equals(svid)) {
+						statement = conn.prepareStatement("INSERT INTO `cancellations` VALUES (DEFAULT, ?, ?, ?)");
+ 
+						statement.setString(1, ticketId);
+						statement.setString(2, email);
+						statement.setString(3, message);
+ 
+						statement.execute();
+ 
+						send = true;
+					} else {
+				        inputError = true;
+					}
+				} else {
+				    error = true;
+				}
+			} catch (Exception e) {
+				error = true;
+				e.printStackTrace();
+			}
+		} else {
+			invalid = true;
+		}
 	}
 %><!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
-		<title>Kontakt – FESTIVAL Aviation Support</title>
+		<title>Stornierungen – FESTIVAL Aviation Support</title>
 		<link rel="stylesheet" href="css/aviation.css">
 		<link rel="stylesheet" href="css/support-center.built.css">
 	</head>
@@ -121,24 +126,24 @@
 					<div class="column column-3">
 						<ul class="sc-menu">
 							<li class="menu-item heading">Support</li><a href="sc-index.jsp" class="menu-item">
-								<li>FAQ</li></a><a href="sc-contact.jsp" class="menu-item selected">
-								<li>Kontakt</li></a><a href="sc-cancellations.jsp" class="menu-item">
+								<li>FAQ</li></a><a href="sc-contact.jsp" class="menu-item">
+								<li>Kontakt</li></a><a href="sc-cancellations.jsp" class="menu-item selected">
 								<li>Stornierungen</li></a><a href="sc-complaints.jsp" class="menu-item">
 								<li>Beschwerden</li></a><a href="sc-rights.html" class="menu-item">
 								<li>Fluggastrechte</li></a>
 						</ul>
 					</div>
 					<div class="column column-8 offset-1">
-						<h2>Kontakt</h2> 
+						<h2>Stornierungen</h2> 
 						<%
 							if (send) {
 						%>
 						<article class="flag success">
 							<div class="header">
-								<div class="icon"><span><span class="ai ai-success"></span></span></div><span class="title">Nachricht abgeschickt</span>
+								<div class="icon"><span><span class="ai ai-success"></span></span></div><span class="title">Ticket storniert</span>
 							</div>
 							<div class="content">
-								<p>Deine Nachricht wurde erfolgreich abgeschickt. Wir kümmern uns jetzt so schnell wie möglich um deine Anfrage.</p>
+								<p>Du hast das Ticket erfolgreich storniert. Die Gutschrift erfolgt in Kürze.</p>
 							</div>
 						</article> 
 						<%
@@ -151,7 +156,7 @@
 								<div class="icon"><span><span class="ai ai-error"></span></span></div><span class="title">Hier funktioniert etwas nicht</span>
 							</div>
 							<div class="content">
-								<p>Beim Absenden deiner Nachricht ist ein Fehler aufgetreten. Bitte versuch es später noch einmal.</p>
+								<p>Beim Absenden deiner Stornierung ist ein Fehler aufgetreten. Bitte versuch es später noch einmal oder überprüfe deine Ticket-ID.</p>
 							</div>
 						</article> 
 						<%
@@ -169,17 +174,41 @@
 						</article> 
 						<%
 							}
+						 
+							if (inputError) {
 						%>
-						<form method="POST" action="sc-contact.jsp" novalidate>
-							<label for="firstName">Vorname</label>
-							<input type="text" name="firstName" id="firstName" value="<%= firstName %>">
-							<label for="lastName">Nachname</label>
-							<input type="text" name="lastName" id="lastName" value="<%= lastName %>">
+						<article class="flag error">
+							<div class="header">
+								<div class="icon"><span><span class="ai ai-error"></span></span></div><span class="title">Ungültige Eingabe</span>
+							</div>
+							<div class="content">
+								<p>Deine Eingaben sind nicht korrekt. Überprüfe die Felder bitte auf ihre Richtigkeit. Wenn der Fehler weiterhin auftritt versuch das Ticket über das Dashboard zu stornieren oder <a href="sc-contact.jsp">melde dich bei uns</a>.</p>
+							</div>
+						</article> 
+						<%
+							}
+						%>
+						<article class="flag warning">
+							<div class="header">
+								<div class="icon"><span><span class="ai ai-warning"></span></span></div><span class="title">Hinweis</span>
+							</div>
+							<div class="content">
+								<p>Wenn du auf den Account, mit dem das Ticket gekauft wurde, Zugriff hast, storniere dein Ticket bitte im <a href="dashboard.jsp">Dashboard</a>. Nur wenn du dein Ticket ohne Account erworben hast oder keinen Zugriff auf den Account hast, solltest du dein Ticket hier stornieren.</p>
+							</div>
+						</article>
+						<form method="POST" action="sc-cancellations.jsp" novalidate>
+							<label for="holder">Name des Passagiers</label>
+							<input type="text" name="holder" id="holder" value="<%= holder %>">
+							<label for="ticketId">Ticket-ID</label>
+							<input type="text" name="ticketId" id="ticketId" value="<%= ticketId %>"><a data-modal-type="question" data-modal-title="Was ist die Ticket-ID?" data-modal-text="Die Ticket-ID ist eine für jedes Ticket einzigartige Nummer, die es ermöglicht ein Ticket eindeutig zu identifizieren. Sie befindet sich auf der Rechnung und am unteren Rand des Tickets." class="help modal-trigger">Was ist das?</a>
+							<label for="svid">Storno-Verifizierungs-ID (SVID)</label>
+							<input type="text" name="svid" id="svid" value="<%= svid %>"><a data-modal-type="question" data-modal-title="Was ist die Storno-Verifizierungs-ID?" data-modal-text="Bei der Storno-Verifizierungs-ID handelt es sich um eine Nummer die als Sicherheit benötigt wird, um die Stornierung durchzuführen. Die Storno-Verifizierungs-ID findest du in deiner Rechnung." class="help modal-trigger">Was ist das?</a>
 							<label for="email">E-Mail-Adresse</label>
-							<input type="email" name="email" id="email" value="<%= email %>"><a data-modal-type="question" data-modal-title="Warum muss ich eine E-Mail-Adresse angeben?" data-modal-text="Ohne Angabe einer E-Mail-Adresse können wir nicht auf dein Anliegen antworten. Aber keine Sorge, alle deine Daten werden vertraulich behandelt und nur bis zur Aufklärung deiner Anfrage aufbewahrt." class="help modal-trigger">Ist das notwendig?</a>
-							<label for="message">Ihre Nachricht</label>
-							<textarea name="message" id="message" rows="12"><%= message %></textarea>
-							<button data-modal-type="warning" data-modal-title="Passt das so?" data-modal-text="Du kannst deine Nachricht nach dem Abschicken nicht mehr bearbeiten. Bist du sicher, dass du deine Nachricht so abschicken willst?" data-modal-primary="Das passt so!" data-modal-primary-action="submit" data-modal-secondary="Ne noch nicht" class="fill blue modal-trigger">Absenden</button>
+							<p class="description">Gib hier die E-Mail-Adresse des Accounts an, der die Gutschrift bekommen soll.</p>
+							<input type="email" name="email" id="email" value="<%= email %>">
+							<label for="message">Grund der Stornierung (optional)</label>
+							<textarea name="message" id="message" lines="12"></textarea>
+							<button data-modal-type="error" data-modal-title="Ticket wirklich stornieren?" data-modal-text="Wenn alle Eingaben korrekt sind, wird das Ticket unwiderruflich storniert und unbrauchbar. Die Stornierung kann nicht rückgängig gemacht werden." data-modal-primary="Ticket stornieren" data-modal-primary-action="submit" class="fill blue modal-trigger">Absenden</button>
 						</form>
 					</div>
 				</div>

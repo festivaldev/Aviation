@@ -59,7 +59,7 @@ section.search-results .progress-overview ul li:first-child:before {
 section.search-results .progress-overview ul li:last-child:before {
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D'18px'%20height%3D'18px'%20viewBox%3D'0%200%2018%2018'%20version%3D'1.1'%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%3E%3Cpath%20d%3D'M4.50081368%2C1%20L5.50081368%2C2.73205081%20C2.75703758%2C4.31617068%201.41933211%2C7.54567735%202.2393329%2C10.6059619%20C3.05933369%2C13.6662465%205.83257394%2C15.7942286%209.00081368%2C15.7942286%20C12.1690534%2C15.7942286%2014.9422937%2C13.6662465%2015.7622945%2C10.6059619%20C16.5822953%2C7.54567735%2015.2445898%2C4.31617068%2012.5008137%2C2.73205081%20L13.5008137%2C1%20C17.0285258%2C3.03672555%2018.7484328%2C7.18894841%2017.6941461%2C11.1236%20C16.6398594%2C15.0582517%2013.0742648%2C17.7942286%209.00081368%2C17.7942286%20C4.92736258%2C17.7942286%201.36176797%2C15.0582517%200.307481248%2C11.1236%20C-0.746805478%2C7.18894841%200.973101545%2C3.03672555%204.50081368%2C1%20Z'%20%2F%3E%3C%2Fsvg%3E");
 }
-section.search-results .progress-overview ul li[data-progress-made="true"]:not(:first-child):not(:last-child) .pipe {
+section.search-results .progress-overview ul li[data-progress-made="true"]:not(:first-child) .pipe {
   position: absolute;
   left: -20px;
   bottom: 22px;
@@ -150,6 +150,12 @@ section.search-results .search-results-container .search-results-header .row .co
 section.search-results .search-results-container .search-results-header .row:not(:last-child) {
   box-shadow: inset 0 -1px 0 0 rgba(0, 0, 0, 0.16);
 }
+section.search-results .search-results-container .search-results-header .row.selected-flight .column {
+  box-shadow: none !important;
+}
+section.search-results .search-results-container .search-results-header .row.selected-flight .column .column-title p {
+  width: 100%;
+}
 section.search-results .search-results-container .scroll-container {
   position: relative;
   overflow: scroll;
@@ -157,7 +163,7 @@ section.search-results .search-results-container .scroll-container {
 section.search-results .search-results-container .scroll-container .result-header {
   position: relative;
   width: 100%;
-  height: 128px;
+  min-height: 128px;
   color: #FFFFFF;
   background-color: rgba(255, 255, 255, 0.02);
   -webkit-backdrop-filter: blur(50px);
@@ -172,6 +178,9 @@ section.search-results .search-results-container .scroll-container .result-heade
 section.search-results .search-results-container .scroll-container .result-header .date span {
   font-size: inherit;
   font-weight: 600;
+}
+section.search-results .search-results-container .scroll-container .result-header > p {
+  padding: 20px;
 }
 section.search-results .search-results-container .scroll-container .result-header .table-header {
   position: absolute;

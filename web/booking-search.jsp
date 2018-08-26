@@ -19,9 +19,9 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
-		<title>Suchen – FESTIVAL Aviation</title>
+		<title>Flugsuche – FESTIVAL Aviation</title>
 		<link rel="stylesheet" href="css/aviation.css">
-		<link rel="stylesheet" href="css/search.built.css">
+		<link rel="stylesheet" href="css/booking.built.css">
 	</head>
 	<body>
 		<nav class="global-nav">
@@ -41,7 +41,7 @@
 				</div>
 				<ul class="nav-list">
 					<li><a href="/" class="link-home"></a></li>
-					<li><a href="search.jsp">Flüge</a></li>
+					<li><a href="booking-search.jsp">Flüge</a></li>
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
@@ -89,13 +89,13 @@
 				<div class="search-results-container column column-12 medium-8">
 					<div class="search-results-header">
 						<div class="row">
-							<div class="column column-12 medium-6">
+							<div data-key="departure" class="column column-12 medium-6">
 								<div class="column-title"><img src="img/icon-departure.svg">
 									<p>Von</p>
 								</div>
 								<input value="<%= demoData.has("departureName") ? demoData.get("departureName") : "" %>" placeholder="Abreiseort eingeben" required class="column-content">
 							</div>
-							<div class="column column-12 medium-6">
+							<div data-key="arrival" class="column column-12 medium-6">
 								<div class="column-title"><img src="img/icon-arrival.svg">
 									<p>Nach</p>
 								</div>
@@ -103,7 +103,7 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="column column-12 medium-6">
+							<div data-key="date" class="column column-12 medium-6">
 								<div class="column-title"><img src="img/icon-date.svg">
 									<p>Abflugdatum</p>
 								</div>
@@ -113,13 +113,20 @@
 								<div class="column-title"><img src="img/icon-passenger.svg">
 									<p>Passagiere</p>
 								</div>
-								<input type="number" value="1" min="1" max="10" class="column-content">
+								<input type="number" name="passengers" value="1" min="1" max="10" oninput="passengerCountChanged(this)" class="column-content">
 							</div>
 							<div class="column column-12 medium-4">
 								<div class="column-title"><img src="img/icon-class.svg">
-									<p>Klassen</p>
+									<p>Klasse</p>
 								</div>
-								<p class="column-content">Alle Klassen</p>
+								<p class="column-content">
+									<select name="flight_class" onchange="classChanged(this)">
+										<option value="economy">Economy</option>
+										<option value="premium_economy">Premium Economy</option>
+										<option value="business">Business</option>
+										<option value="first">First Class</option>
+									</select>
+								</p>
 							</div>
 						</div>
 					</div>
@@ -168,7 +175,7 @@
 											duration = duration.plusDays(1);
 										}
 							%>
-							<div data-departure="<%= demoData.get("departureIATA") %>" data-arrival="<%= demoData.get("arrivalIATA") %>" data-departure-date="<%= departureDate.format(DateTimeFormatter.ISO_DATE) %>" data-departure-time="<%= departureTime.format(DateTimeFormatter.ISO_TIME) %>" data-arrival-time="<%= arrivalTime.format(DateTimeFormatter.ISO_TIME) %>" data-flight-number="<%= flightObj.get("flightNumber") %>" data-price="<%= flightObj.get("price") %>" class="result-cell row">
+							<div data-departure="<%= demoData.get("departureIATA") %>" data-arrival="<%= demoData.get("arrivalIATA") %>" data-departure-date="<%= departureDate.format(DateTimeFormatter.ISO_DATE) %>" data-departure-time="<%= departureTime.format(DateTimeFormatter.ISO_TIME) %>" data-arrival-time="<%= arrivalTime.format(DateTimeFormatter.ISO_TIME) %>" data-stops="<%= flightObj.get("stops") %>" data-flight-number="<%= flightObj.get("flightNumber") %>" data-price="<%= flightObj.get("price") %>" class="result-cell row">
 								<div class="column column-2">
 									<p><%= departureTime.format(DateTimeFormatter.ofPattern("HH:mm")) %></p>
 								</div>
@@ -200,20 +207,24 @@
 					<div class="fill-background"></div>
 					<div class="results-footer">
 						<button class="outline red">Abbrechen</button>
-						<button disabled class="outline blue continue-button">Weiter</button>
+						<button disabled class="fill blue continue-button">Fortfahren</button>
 					</div>
 				</div>
 			</div>
 		</section>
-		<form action="#" method="POST" name="selectedItem" class="hidden">
+		<form action="booking-services.jsp" method="POST" name="selectedItem" class="hidden">
 			<input name="depart_iata">
 			<input name="arrv_iata">
 			<input name="depart_date">
 			<input name="arrv_date">
-			<input name="flight_number"> 
+			<input name="flight_number">
+			<input name="passengers">
+			<input name="flight_class"> 
 			 
 			<!-- DO NOT USE THIS IN PRODUCTION!!! -->
 			<!-- This is for demonstration purposes only! -->
+			<input name="duration">
+			<input name="stops">
 			<input name="price">
 		</form>
 		<script type="text/javascript" src="js/flight-search.js"></script>

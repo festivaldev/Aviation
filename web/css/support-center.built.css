@@ -102,6 +102,22 @@ section.support h2 {
   font-weight: 400;
   margin-bottom: 10px;
 }
+section.support h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 1em 0 0.5em 0;
+}
+section.support .privacy h4 {
+  margin: 1em 0 0.5em 0;
+}
+section.support .privacy ul li {
+  line-height: 1.5;
+  margin-bottom: 1em;
+  margin-left: 42px;
+}
+section.support .privacy *:not(h4):not(h3) {
+  text-align: justify;
+}
 section.support .faq-card {
   margin-bottom: 1em;
 }
@@ -119,7 +135,7 @@ section.support .faq-card.expanded .faq-card-content {
   transition: all ease 0.2s;
 }
 section.support .faq-card.expanded .faq-card-content * {
-  font-size: 15px;
+  font-size: 15px !important;
   opacity: 1;
   transition: font-size 0.2s ease, margin 0.2s ease, padding 0.2s ease, opacity 0.2s ease 0.2s;
 }
@@ -153,7 +169,7 @@ section.support .faq-card-content {
   transition: all 0.2s ease 0.2s;
 }
 section.support .faq-card-content * {
-  font-size: 0;
+  font-size: 0 !important;
   margin: 0;
   opacity: 0;
   padding: 0;
@@ -196,6 +212,7 @@ section.support .help {
 section.support textarea {
   border: 1px solid #C2C2C2;
   border-radius: 2px;
+  font-family: "SF Compact Display", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   margin-bottom: 15px;
   padding: 6px 8px;
   width: 100%;
@@ -352,8 +369,8 @@ section.modal.info .icon.info {
   display: inline-block !important;
 }
 section.modal.question {
-  --modal-background: #F3F5F8;
-  --modal-color: #172B4D;
+  --modal-background: #172B4D;
+  --modal-color: #F3F5F8;
 }
 section.modal.question .icon.question {
   display: inline-block !important;
@@ -373,8 +390,8 @@ section.modal.warning .icon.warning {
   display: inline-block !important;
 }
 section.modal .modal-inner {
-  background-color: var(--modal-background);
-  color: var(--modal-color);
+  background-color: #FFF;
+  color: #172B4D;
   height: 100%;
   opacity: 0;
   padding: 1em;
@@ -414,9 +431,9 @@ section.modal .modal-inner .content .title-bar {
   margin-bottom: 1em;
 }
 section.modal .modal-inner .content .icon {
-  color: var(--modal-color);
+  color: var(--modal-background);
   display: none;
-  fill: var(--modal-background);
+  fill: var(--modal-color);
   margin-right: 0.75em;
 }
 section.modal .modal-inner .content .title {
@@ -430,17 +447,16 @@ section.modal .modal-inner .buttons {
   right: 1em;
 }
 section.modal .modal-inner .buttons button {
-  background-color: var(--modal-color);
-  color: var(--modal-background);
+  background-color: var(--modal-background);
+  color: var(--modal-color);
   display: block;
   font-size: 13px;
   margin: 0;
   margin-left: 0.5em;
 }
 section.modal .modal-inner .buttons button:last-of-type {
-  background-color: transparent;
-  border: 1px solid var(--modal-color);
-  color: var(--modal-color);
+  background-color: #EBECF0;
+  color: #172B4D;
 }
 body.modal-open {
   overflow-y: hidden;

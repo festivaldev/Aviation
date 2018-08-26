@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
-		<title>Stornierungen – FESTIVAL Aviation Support</title>
+		<title>Impressum – FESTIVAL Aviation Support</title>
 		<link rel="stylesheet" href="css/aviation.css">
 		<link rel="stylesheet" href="css/support-center.built.css">
 	</head>
@@ -26,10 +26,8 @@
 				<ul class="nav-list">
 					<li><a href="/" class="link-home"></a></li>
 					<li><a href="booking-search.jsp">Flüge</a></li>
-					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
+					<li><a href="#">Reiseziele</a></li>
+					<li><a href="sc-contact.jsp">Kontakt</a></li>
 					<li><a href="sc-index.jsp">Support</a></li>
 					<li><a href="dashboard.jsp" class="link-user-cp"></a></li>
 				</ul>
@@ -51,41 +49,28 @@
 		</section>
 		<div class="content-wrapper">
 			<section class="support">
-				<div class="section-content row reversed">
+				<div class="section-content row">
 					<div class="column column-3">
-						<ul class="sc-menu">
-							<li class="menu-item heading">Support</li><a href="sc-index.jsp" class="menu-item">
-								<li>FAQ</li></a><a href="sc-contact.jsp" class="menu-item">
-								<li>Kontakt</li></a><a href="sc-cancellations.html" class="menu-item selected">
-								<li>Stornierungen</li></a><a href="sc-complaints.html" class="menu-item">
-								<li>Beschwerden</li></a><a href="sc-rights.html" class="menu-item">
-								<li>Fluggastrechte</li></a>
-						</ul>
+						<ul class="sc-menu"><a href="imprint.html" class="menu-item selected">
+								<li>Impressum</li></a><a href="privacy.html" class="menu-item">
+								<li>Datenschutzerklärung</li></a></ul>
 					</div>
 					<div class="column column-8 offset-1">
-						<h2>Stornierungen</h2>
-						<article class="flag warning">
-							<div class="header">
-								<div class="icon"><span><span class="ai ai-warning"></span></span></div><span class="title">Hinweis</span>
-							</div>
-							<div class="content">
-								<p>Wenn du auf den Account, mit dem das Ticket gekauft wurde, Zugriff hast, storniere dein Ticket bitte im <a href="#">Dashboard</a>. Nur wenn du dein Ticket ohne Account erworben hast oder keinen Zugriff auf den Account hast, solltest du dein Ticket hier stornieren.</p>
-							</div>
-						</article>
-						<form action="#" id="cancellationForm">
-							<label for="holder">Name des Passagiers</label>
-							<input type="text" name="holder" id="holder">
-							<label for="ticketId">Ticket-ID</label>
-							<input type="text" name="ticketId" id="ticketId"><a data-modal-type="question" data-modal-title="Was ist die Ticket-ID?" data-modal-text="Die Ticket-ID ist eine für jedes Ticket einzigartige Nummer, die es ermöglicht ein Ticket eindeutig zu identifizieren. Sie befindet sich auf der Rechnung und am unteren Rand des Tickets." class="help modal-trigger">Was ist das?</a>
-							<label for="verification">Storno-Verifizierungs-ID</label>
-							<input type="text" name="verification" id="verification"><a data-modal-type="question" data-modal-title="Was ist die Storno-Verifizierungs-ID?" data-modal-text="Bei der Storno-Verifizierungs-ID handelt es sich um eine Nummer die als Sicherheit benötigt wird, um die Stornierung durchzuführen. Die Storno-Verifizierungs-ID findest du in deiner Rechnung." class="help modal-trigger">Was ist das?</a>
-							<label for="accountEmail">E-Mail-Adresse</label>
-							<p class="description">Gib hier die E-Mail-Adresse des Accounts an, der die Gutschrift bekommen soll.</p>
-							<input type="email" name="accountEmail" id="accountEmail">
-							<label for="message">Grund der Stornierung (optional)</label>
-							<textarea name="message" id="message" lines="12"></textarea>
-							<button data-modal-type="error" data-modal-title="Ticket wirklich stornieren?" data-modal-text="Wenn alle Eingaben korrekt sind, wird das Ticket unwiderruflich storniert und unbrauchbar. Die Stornierung kann nicht rückgängig gemacht werden." data-modal-primary="Ticket stornieren" data-modal-primary-action="submit" class="fill blue modal-trigger">Absenden</button>
-						</form>
+						<h2>Impressum</h2><img src="img/logo-dark.svg" width="200" style="margin: 2em 0" alt="Aviation Logo">
+						<h3>FESTIVΛL Aviation Oy</h3>
+						<p class="flow">Postfach 12 34<br>D-30421 Hannover</p>
+						<h3>Registereintrag</h3>
+						<p class="flow">Landgericht Hannover HRA 1234</p>
+						<h3>Umsatzsteuer-Ident-Nummer</h3>
+						<p class="flow">DE 123 456 789</p>
+						<h3>Herausgeber</h3>
+						<p class="flow">FESTIVΛL Aviation Oy<br>Konzernkommunikation</p>
+						<h3>Redaktion</h3>
+						<p class="flow">Jonas Z.</p>
+						<h3>Design & tech. Umsetzung</h3>
+						<p class="flow">Fabian K.<br>Janik S.</p>
+						<h3>Kontakt</h3>
+						<p class="flow">E-Mail: kustomersatisfaktion@festival.aero</p>
 					</div>
 				</div>
 			</section>
@@ -103,6 +88,8 @@
 							<li><a href="#">Link</a></li>
 							<li><a href="sc-index.jsp">Support</a></li>
 							<li><a href="dashboard.jsp">Benutzerkontrollzentrum</a></li>
+							<li><a href="imprint.html">Impressum</a></li>
+							<li><a href="privacy.html">Datenschutzerklärung</a></li>
 						</ul>
 					</div>
 					<div class="footer-directory-column"></div>
@@ -129,7 +116,6 @@
 			</div>
 		</footer>
 	</body>
-	<script src="js/support-center.js"></script>
 	<script src="js/modal.js"></script>
 	<script src="js/icons.js"></script>
 </html>

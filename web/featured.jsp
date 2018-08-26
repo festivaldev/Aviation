@@ -45,7 +45,7 @@
 				</div>
 				<ul class="nav-list">
 					<li><a href="/" class="link-home"></a></li>
-					<li><a href="search.jsp">Flüge</a></li>
+					<li><a href="booking-search.jsp">Flüge</a></li>
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
@@ -86,7 +86,7 @@
 					<div class="footer-directory-column">
 						<h3 class="footer-directory-column-title">Aviation</h3>
 						<ul class="footer-directory-column-list">
-							<li><a href="search.jsp">Flüge</a></li>
+							<li><a href="booking-search.jsp">Flüge</a></li>
 							<li><a href="#">Link</a></li>
 							<li><a href="#">Link</a></li>
 							<li><a href="#">Link</a></li>

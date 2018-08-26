@@ -58,7 +58,7 @@
 				</div>
 				<ul class="nav-list">
 					<li><a href="/" class="link-home"></a></li>
-					<li><a href="search.jsp">Flüge</a></li>
+					<li><a href="booking-search.jsp">Flüge</a></li>
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
 					<li><a href="#">Link</a></li>
