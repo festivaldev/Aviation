@@ -7,7 +7,7 @@
 #
 # Host: 192.168.178.48 (MySQL 5.7.23-0ubuntu0.16.04.1)
 # Datenbank: aviation
-# Erstellt am: 2018-08-26 17:30:14 +0000
+# Erstellt am: 2018-08-26 18:16:02 +0000
 # ************************************************************
 
 
@@ -31,6 +31,7 @@ CREATE TABLE `accounts` (
   `lastName` varchar(255) COLLATE latin1_general_cs NOT NULL DEFAULT '',
   `email` varchar(255) COLLATE latin1_general_cs NOT NULL DEFAULT '',
   `password` varchar(255) COLLATE latin1_general_cs NOT NULL DEFAULT '',
+  `isAdmin` tinyint(1) NOT NULL,
   `createdAt` datetime DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -41,9 +42,9 @@ CREATE TABLE `accounts` (
 LOCK TABLES `accounts` WRITE;
 /*!40000 ALTER TABLE `accounts` DISABLE KEYS */;
 
-INSERT INTO `accounts` (`id`, `firstName`, `lastName`, `email`, `password`, `createdAt`, `updatedAt`)
+INSERT INTO `accounts` (`id`, `firstName`, `lastName`, `email`, `password`, `isAdmin`, `createdAt`, `updatedAt`)
 VALUES
-	('87ab77d9b81def85ba3dc773d4887729','test','test','test@test.com','n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=','2018-08-12 17:38:34','2018-08-12 17:38:34');
+	('87ab77d9b81def85ba3dc773d4887729','test','test','test@test.com','n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=',0,'2018-08-12 17:38:34','2018-08-12 17:38:34');
 
 /*!40000 ALTER TABLE `accounts` ENABLE KEYS */;
 UNLOCK TABLES;
