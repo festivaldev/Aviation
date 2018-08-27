@@ -22,8 +22,12 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
-		<title><%= location.next() ? location.getString("location").split(",")[0] : "Fehler" %> – FESTIVAL Aviation</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"> 
+		<% if (location != null) { %>
+		<title><%= location.next() ? location.getString("location").split(",")[0] : "Fehler" %> – FESTIVAL Aviation</title> 
+		<% } else { %>
+		<title>Unsere Empfehlungen – FESTIVAL Aviation</title> 
+		<% } %>
 		<link rel="stylesheet" href="css/aviation.css">
 		<link rel="stylesheet" href="css/featured.built.css">
 	</head>
@@ -46,18 +50,17 @@
 				<ul class="nav-list">
 					<li><a href="/" class="link-home"></a></li>
 					<li><a href="booking-search.jsp">Flüge</a></li>
-					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
+					<li><a href="featured.jsp">Reiseziele</a></li>
+					<li><a href="sc-contact.jsp">Kontakt</a></li>
 					<li><a href="sc-index.jsp">Support</a></li>
 					<li><a href="dashboard.jsp" class="link-user-cp"></a></li>
 				</ul>
 			</div>
 		</nav> 
 		<%
-			location.beforeFirst();
-			if (location.next() && category.next()) {
+			if (location != null) {
+				location.beforeFirst();
+				if (location.next() && category.next()) {
 		%>
 		<section class="featured-item">
 			<div style="background-image: url(<%= location.getString("headerImage") %>)" class="item-header"></div>
@@ -68,7 +71,7 @@
 			</div>
 		</section> 
 		<%
-			} else {
+				} else if (request.getParameter("id") != null && !request.getParameter("id").isEmpty()) {
 		%>
 		<section class="featured-item">
 			<div class="section-content">
@@ -78,6 +81,46 @@
 			</div>
 		</section> 
 		<%
+				}
+			} else {
+		%>
+		<section>
+			<div class="section-content">
+				<h2 class="headline">Unsere Empfehlungen</h2>
+				<p class="body">Brauchst du eine Inspiration, wo du deinen nächsten Urlaub verbringen willst? Jede Woche stellen wir neue Reiseziele in den Kategorien "Sonne &amp; Strand", "Stadt &amp; Leben" und "Topen &amp; Abenteuer" vor, inklusive besondere Highlights und was man dort unternehmen kann. Sieh dir einfach unsere Empfehlungen an und entscheide dich, was du in deinem nächsten Urlaub machen möchtest.</p>
+			</div>
+		</section> 
+		<%
+				ResultSet categories = promoManager.getPromoCategories();
+				while (categories.next()) {
+		%>
+		<section class="no-padding">
+			<div class="section-content">
+				<h4 class="eyebrow"><%= categories.getString("title") %></h4>
+			</div>
+		</section>
+		<section class="promo-articles">
+			<div class="section-content">
+				 
+				<%
+					ResultSet locations = promoManager.getLocationsForCategory(categories.getString("id"));
+					while (locations.next()) {
+				%>
+				 
+				 <a href="featured.jsp?id=<%= locations.getString("id") %>">
+					<div class="promo-article">
+						<div style="background-image: url(<%= locations.getString("headerImage") %>)" class="header dark">
+							<p class="header-heading"><%= categories.getString("title") %></p>
+							<p class="header-title"><%= locations.getString("location") %></p>
+						</div>
+					</div></a> 
+				<%
+					}
+				%>
+			</div>
+		</section> 
+		<%
+				}
 			}
 		%>
 		<footer>
@@ -87,12 +130,14 @@
 						<h3 class="footer-directory-column-title">Aviation</h3>
 						<ul class="footer-directory-column-list">
 							<li><a href="booking-search.jsp">Flüge</a></li>
-							<li><a href="#">Link</a></li>
+							<li><a href="featured.jsp">Reiseziele</a></li>
 							<li><a href="#">Link</a></li>
 							<li><a href="#">Link</a></li>
 							<li><a href="#">Link</a></li>
 							<li><a href="sc-index.jsp">Support</a></li>
 							<li><a href="dashboard.jsp">Benutzerkontrollzentrum</a></li>
+							<li><a href="imprint.html">Impressum</a></li>
+							<li><a href="privacy.html">Datenschutzerklärung</a></li>
 						</ul>
 					</div>
 					<div class="footer-directory-column"></div>

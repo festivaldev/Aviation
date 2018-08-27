@@ -4,7 +4,7 @@
 <%@ page import="org.json.*" %>
 <%@ page import="java.time.*" %>
 <%@ page import="java.time.format.DateTimeFormatter"%>
-<%@ page import="java.sql.Time" %>
+<%@ page import="java.sql.*" %>
  
 <%
 	JSONObject requestData = new JSONObject();
@@ -23,11 +23,11 @@
 		requestData.put("stops", request.getParameter("stops"));
 		requestData.put("price", request.getParameter("price"));
  
-		demoData = SearchResultsDemo.getServiceData(requestData);
+		demoData = SearchResultsDemo.getJSONData(requestData);
 	} catch (Exception e) {
- 
+		e.printStackTrace();
 	}
-	out.println(requestData);
+	// out.println(requestData);
 %>
  <!DOCTYPE html>
 <html>
@@ -57,10 +57,8 @@
 				<ul class="nav-list">
 					<li><a href="/" class="link-home"></a></li>
 					<li><a href="booking-search.jsp">Flüge</a></li>
-					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
+					<li><a href="featured.jsp">Reiseziele</a></li>
+					<li><a href="sc-contact.jsp">Kontakt</a></li>
 					<li><a href="sc-index.jsp">Support</a></li>
 					<li><a href="dashboard.jsp" class="link-user-cp"></a></li>
 				</ul>
@@ -97,7 +95,8 @@
 						</li>
 						<li data-progress-made="false">
 							 
-							 <span>Bestellung abschließen</span>
+							 <span>Buchung abschließen</span>
+							<div class="pipe"></div>
 						</li>
 					</ul>
 				</div>
@@ -184,9 +183,49 @@
 							<h4 class="date"><span>Dienste</span></h4>
 							<p>Im Ticketpreis bereits enthalten ist eine Beteiligung an den Betriebskosten des jeweiligen Fluges. Um Tickets so günstig anbieten zu können, werden zusätzliche Dienste, wie etwa die Mitnahme von Gepäck, extra angeboten. So zahlst du wirklich nur für das, was du brauchst. Solltest du unerwartet einen Dienst in Anspruch nehmen müssen, mach dir keine Sorgen. Gebühren können auch nach der Reise bezahlt werden.</p>
 						</div>
+						<div class="results">
+							 
+							<%
+								JSONArray serviceData = SearchResultsDemo.getServiceData();
+								for (int i=0; i<serviceData.length(); i++) {
+							%>
+							<div data-service-id="<%= serviceData.getJSONObject(i).getString("serviceId") %>" class="result-cell no-arrow row">
+								<div class="column column-6">
+									<p><%= serviceData.getJSONObject(i).getString("title") %></p>
+								</div>
+								<div class="column column-6 align-right">
+									<p><%= serviceData.getJSONObject(i).getString("price") %>€</p>
+								</div>
+							</div> 
+							<%
+								}
+							%>
+						</div>
+					</div>
+					<div class="fill-background"></div>
+					<div class="results-footer">
+						<button onclick="window.history.back()" class="outline blue">Zurück</button>
+						<button onclick="document.forms[0].submit()" class="fill blue continue-button">Fortfahren</button>
 					</div>
 				</div>
 			</div>
 		</section>
+		<form action="booking-billing.jsp" method="POST" name="selectedItem" class="hidden">
+			<input name="depart_iata" value="<%= requestData.get("depart_iata") %>">
+			<input name="arrv_iata" value="<%= requestData.get("arrv_iata") %>">
+			<input name="depart_date" value="<%= requestData.get("depart_date") %>">
+			<input name="arrv_date" value="<%= requestData.get("arrv_date") %>">
+			<input name="flight_number" value="<%= requestData.get("flight_number") %>">
+			<input name="passengers" value="<%= requestData.get("passengers") %>">
+			<input name="flight_class" value="<%= requestData.get("flight_class") %>">
+			<input name="services"> 
+			 
+			<!-- DO NOT USE THIS IN PRODUCTION!!! -->
+			<!-- This is for demonstration purposes only! -->
+			<input name="duration" value="<%= requestData.get("duration") %>">
+			<input name="stops" value="<%= requestData.get("stops") %>">
+			<input name="price" value="<%= requestData.get("price") %>">
+		</form>
+		<script type="text/javascript" src="js/flight-search.js"></script>
 	</body>
 </html>

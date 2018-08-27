@@ -99,7 +99,7 @@
 				<ul class="nav-list">
 					<li><a href="/" class="link-home"></a></li>
 					<li><a href="booking-search.jsp">Flüge</a></li>
-					<li><a href="#">Reiseziele</a></li>
+					<li><a href="featured.jsp">Reiseziele</a></li>
 					<li><a href="sc-contact.jsp">Kontakt</a></li>
 					<li><a href="sc-index.jsp">Support</a></li>
 					<li><a href="dashboard.jsp" class="link-user-cp"></a></li>
@@ -207,7 +207,7 @@
 							<p class="description">Gib hier die E-Mail-Adresse des Accounts an, der die Gutschrift bekommen soll.</p>
 							<input type="email" name="email" id="email" value="<%= email %>">
 							<label for="message">Grund der Stornierung (optional)</label>
-							<textarea name="message" id="message" lines="12"></textarea>
+							<textarea name="message" id="message" rows="12"></textarea>
 							<button data-modal-type="error" data-modal-title="Ticket wirklich stornieren?" data-modal-text="Wenn alle Eingaben korrekt sind, wird das Ticket unwiderruflich storniert und unbrauchbar. Die Stornierung kann nicht rückgängig gemacht werden." data-modal-primary="Ticket stornieren" data-modal-primary-action="submit" class="fill blue modal-trigger">Absenden</button>
 						</form>
 					</div>
@@ -221,7 +221,7 @@
 						<h3 class="footer-directory-column-title">Aviation</h3>
 						<ul class="footer-directory-column-list">
 							<li><a href="booking-search.jsp">Flüge</a></li>
-							<li><a href="#">Link</a></li>
+							<li><a href="featured.jsp">Reiseziele</a></li>
 							<li><a href="#">Link</a></li>
 							<li><a href="#">Link</a></li>
 							<li><a href="#">Link</a></li>

@@ -59,10 +59,8 @@
 				<ul class="nav-list">
 					<li><a href="/" class="link-home"></a></li>
 					<li><a href="booking-search.jsp">Flüge</a></li>
-					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
+					<li><a href="featured.jsp">Reiseziele</a></li>
+					<li><a href="sc-contact.jsp">Kontakt</a></li>
 					<li><a href="sc-index.jsp">Support</a></li>
 					<li><a href="dashboard.jsp" class="link-user-cp"></a></li>
 				</ul>

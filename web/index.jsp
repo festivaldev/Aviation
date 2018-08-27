@@ -33,10 +33,8 @@
 				<ul class="nav-list">
 					<li><a href="/" class="link-home"></a></li>
 					<li><a href="booking-search.jsp">Flüge</a></li>
-					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
+					<li><a href="featured.jsp">Reiseziele</a></li>
+					<li><a href="sc-contact.jsp">Kontakt</a></li>
 					<li><a href="sc-index.jsp">Support</a></li>
 					<li><a href="dashboard.jsp" class="link-user-cp"></a></li>
 				</ul>
@@ -53,23 +51,35 @@
 								<p>Von (Ort oder Flughafen)</p>
 							</div>
 							<input type="text" id="depart" placeholder="Abreiseort eingeben" required>
-							<input type="text" id="depart_iata" name="depart_iata" class="hidden">
-							<ul class="suggestions"></ul>
+							<input type="text" id="depart_iata" name="depart_iata" required class="hidden">
+							<div class="suggestions">
+								<div class="suggestions-header">
+									<div class="header-eyebrow">Startflughafen</div>
+									<div class="header-title">Ergebnisse</div>
+								</div>
+								<ul class="suggestions-list"></ul>
+							</div>
 						</div>
 						<div data-key="arrival" class="input-wrapper">
 							<div class="column-title"><img src="img/icon-arrival.svg">
 								<p>Nach (Ort oder Flughafen)</p>
 							</div>
 							<input type="text" placeholder="Ankunftsort eingeben" required>
-							<input type="text" id="arrv_iata" name="arrv_iata" class="hidden">
-							<ul class="suggestions"></ul>
+							<input type="text" id="arrv_iata" name="arrv_iata" required class="hidden">
+							<div class="suggestions">
+								<div class="suggestions-header">
+									<div class="header-eyebrow">Zielflughafen</div>
+									<div class="header-title">Ergebnisse</div>
+								</div>
+								<ul class="suggestions-list"></ul>
+							</div>
 						</div>
 						<div data-key="date" class="input-wrapper">
 							<div class="column-title"><img src="img/icon-date.svg" required class="icon">
 								<p>Abflugdatum</p>
 							</div>
 							<input type="text" placeholder="Abflugdatum auswählen" required>
-							<input type="date" id="depart_date" name="depart_date" class="hidden">
+							<input type="date" id="depart_date" name="depart_date" required class="hidden">
 							<div class="calendar"></div>
 						</div>
 						<button class="fill blue search-button">Suchen</button>
@@ -151,12 +161,14 @@
 						<h3 class="footer-directory-column-title">Aviation</h3>
 						<ul class="footer-directory-column-list">
 							<li><a href="booking-search.jsp">Flüge</a></li>
-							<li><a href="#">Link</a></li>
+							<li><a href="featured.jsp">Reiseziele</a></li>
 							<li><a href="#">Link</a></li>
 							<li><a href="#">Link</a></li>
 							<li><a href="#">Link</a></li>
 							<li><a href="sc-index.jsp">Support</a></li>
 							<li><a href="dashboard.jsp">Benutzerkontrollzentrum</a></li>
+							<li><a href="imprint.html">Impressum</a></li>
+							<li><a href="privacy.html">Datenschutzerklärung</a></li>
 						</ul>
 					</div>
 					<div class="footer-directory-column"></div>

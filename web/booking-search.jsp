@@ -42,10 +42,8 @@
 				<ul class="nav-list">
 					<li><a href="/" class="link-home"></a></li>
 					<li><a href="booking-search.jsp">Flüge</a></li>
-					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
+					<li><a href="featured.jsp">Reiseziele</a></li>
+					<li><a href="sc-contact.jsp">Kontakt</a></li>
 					<li><a href="sc-index.jsp">Support</a></li>
 					<li><a href="dashboard.jsp" class="link-user-cp"></a></li>
 				</ul>
@@ -82,7 +80,8 @@
 						</li>
 						<li data-progress-made="false">
 							 
-							 <span>Bestellung abschließen</span>
+							 <span>Buchung abschließen</span>
+							<div class="pipe"></div>
 						</li>
 					</ul>
 				</div>
@@ -207,14 +206,14 @@
 					<div class="fill-background"></div>
 					<div class="results-footer">
 						<button class="outline red">Abbrechen</button>
-						<button disabled class="fill blue continue-button">Fortfahren</button>
+						<button disabled onclick="document.forms[0].submit()" class="fill blue continue-button">Fortfahren</button>
 					</div>
 				</div>
 			</div>
 		</section>
 		<form action="booking-services.jsp" method="POST" name="selectedItem" class="hidden">
-			<input name="depart_iata">
-			<input name="arrv_iata">
+			<input name="depart_iata" value="<%= demoData.get("departureIATA") %>">
+			<input name="arrv_iata" , value="<%= demoData.get("arrivalIATA") %>">
 			<input name="depart_date">
 			<input name="arrv_date">
 			<input name="flight_number">
