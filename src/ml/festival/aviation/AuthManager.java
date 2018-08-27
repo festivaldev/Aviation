@@ -54,7 +54,7 @@ public class AuthManager {
 			ResultSet existingAccount = statement.executeQuery();
 
 			if (!existingAccount.next()) {
-				statement = conn.prepareStatement("INSERT INTO `accounts` VALUES (?, ?, ?, ?, ?, default, default)");
+				statement = conn.prepareStatement("INSERT INTO `accounts` VALUES (?, ?, ?, ?, ?, FALSE, default, default)");
 
 				statement.setString(1, bytesToHex(MessageDigest.getInstance("SHA-256").digest(String.format("%s%s%s%s%d", firstName, lastName, email, password, System.currentTimeMillis() / 1000L).getBytes(StandardCharsets.UTF_8))).substring(0, 32));
 				statement.setString(2, firstName);
@@ -163,7 +163,7 @@ public class AuthManager {
 			ResultSet session = statement.executeQuery();
 
 			if (session.next()) {
-				statement = conn.prepareStatement("SELECT firstName, lastName, email FROM accounts WHERE id = ?");
+				statement = conn.prepareStatement("SELECT firstName, lastName, email, isAdmin FROM accounts WHERE id = ?");
 				statement.setString(1, session.getString("accountId"));
 
 				return statement.executeQuery();
