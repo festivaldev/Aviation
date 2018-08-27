@@ -111,7 +111,7 @@
 								<div class="form-textbox-wrapper">
 									<input type="password" name="passwordConfirm" id="passwordConfirm" placeholder=" " required class="form-textbox"><span class="form-textbox-placeholder">Passwort bestätigen</span>
 								</div>
-								<button class="call">Registrieren</button>
+								<button class="fill blue call">Registrieren</button>
 							</form><a href="login.jsp">Schon registriert?</a>
 						</div>
 					</div>

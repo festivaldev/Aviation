@@ -88,23 +88,45 @@ section.landing-hero .hero-content .hero-search-bar form .input-wrapper .suggest
   top: 56px;
   left: -16px;
   right: 0;
-  background-color: #F3F3F3;
+  background-color: #FFFFFF;
   list-style: none;
-  border-radius: 0 0 8px 8px;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.16);
-  overflow: hidden;
 }
 section.landing-hero .hero-content .hero-search-bar form .input-wrapper .suggestions:not(.visible) {
   display: none;
 }
-section.landing-hero .hero-content .hero-search-bar form .input-wrapper .suggestions .suggestion-item {
-  height: 32px;
-  padding: 6px 16px;
+section.landing-hero .hero-content .hero-search-bar form .input-wrapper .suggestions .suggestions-header {
+  padding: 16px;
+  background-color: #00B0EE;
+  color: #FFFFFF;
+}
+section.landing-hero .hero-content .hero-search-bar form .input-wrapper .suggestions .suggestions-header .header-eyebrow {
+  font-size: 12px;
+  text-transform: uppercase;
+}
+section.landing-hero .hero-content .hero-search-bar form .input-wrapper .suggestions .suggestions-header .header-title {
+  font-size: 22px;
+}
+section.landing-hero .hero-content .hero-search-bar form .input-wrapper .suggestions ul.suggestions-list {
+  list-style: none;
+}
+section.landing-hero .hero-content .hero-search-bar form .input-wrapper .suggestions ul.suggestions-list .suggestion-item {
+  height: 44px;
+  padding: 13px 16px;
   overflow: hidden ;
   text-overflow: ellipsis;
+  cursor: pointer;
 }
-section.landing-hero .hero-content .hero-search-bar form .input-wrapper .suggestions .suggestion-item:hover:not(:active) {
-  background-color: #FFFFFF;
+section.landing-hero .hero-content .hero-search-bar form .input-wrapper .suggestions ul.suggestions-list .suggestion-item:hover:not(:active) {
+  background-color: #F3F3F3;
+}
+section.landing-hero .hero-content .hero-search-bar form .input-wrapper .suggestions ul.suggestions-list .suggestion-item:not(:last-child) {
+  border-bottom: 1px solid #F3F3F3;
+}
+section.landing-hero .hero-content .hero-search-bar form .input-wrapper .suggestions ul.suggestions-list .suggestion-item.no-results {
+  font-style: italic;
+  opacity: 0.75;
+  pointer-events: none;
+  cursor: default;
 }
 section.landing-hero .hero-content .hero-search-bar form .input-wrapper ::placeholder {
   color: #555555;

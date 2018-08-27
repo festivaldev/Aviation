@@ -174,4 +174,27 @@ public class AuthManager {
 
 		return null;
 	}
+
+	public ResultSet getBillingAddress(String sessionId) {
+		try {
+			PreparedStatement statement = conn.prepareStatement("SELECT accountID FROM sessions WHERE id = ?");
+			statement.setString(1, sessionId);
+			ResultSet session = statement.executeQuery();
+
+			if (session.next()) {
+				statement = conn.prepareStatement("SELECT * FROM billing_addresses WHERE accountId = ?");
+				statement.setString(1, session.getString("accountId"));
+
+				ResultSet billingAddress = statement.executeQuery();
+
+				if (billingAddress.next()) {
+					return billingAddress;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
 }

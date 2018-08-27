@@ -29,9 +29,7 @@
  
 			if (authManager.login(email, hashedPassword) == AuthManager.ErrorCode.OK) {
 				if (authManager.generateSession(email) == AuthManager.ErrorCode.OK) {
-					Cookie sessionCookie = new Cookie("sid", authManager.getCurrentSessionId(email));
-					sessionCookie.setMaxAge(7200);
-					response.addCookie(sessionCookie);
+					session.setAttribute("sid", authManager.getCurrentSessionId(email)); 
  
 					response.sendRedirect("dashboard.jsp");
 				}
@@ -91,7 +89,7 @@
 								<div class="form-textbox-wrapper">
 									<input type="password" name="password" id="password" placeholder=" " class="form-textbox"><span class="form-textbox-placeholder">Passwort</span>
 								</div>
-								<button class="call">Anmelden</button>
+								<button class="fill blue call">Anmelden</button>
 							</form><a href="register.jsp">Noch nicht registriert?</a>
 						</div>
 					</div>

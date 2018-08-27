@@ -7,7 +7,7 @@
 #
 # Host: 192.168.178.48 (MySQL 5.7.23-0ubuntu0.16.04.1)
 # Datenbank: aviation
-# Erstellt am: 2018-08-24 12:06:46 +0000
+# Erstellt am: 2018-08-26 18:16:02 +0000
 # ************************************************************
 
 
@@ -31,6 +31,7 @@ CREATE TABLE `accounts` (
   `lastName` varchar(255) COLLATE latin1_general_cs NOT NULL DEFAULT '',
   `email` varchar(255) COLLATE latin1_general_cs NOT NULL DEFAULT '',
   `password` varchar(255) COLLATE latin1_general_cs NOT NULL DEFAULT '',
+  `isAdmin` tinyint(1) NOT NULL,
   `createdAt` datetime DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -41,12 +42,41 @@ CREATE TABLE `accounts` (
 LOCK TABLES `accounts` WRITE;
 /*!40000 ALTER TABLE `accounts` DISABLE KEYS */;
 
-INSERT INTO `accounts` (`id`, `firstName`, `lastName`, `email`, `password`, `createdAt`, `updatedAt`)
+INSERT INTO `accounts` (`id`, `firstName`, `lastName`, `email`, `password`, `isAdmin`, `createdAt`, `updatedAt`)
 VALUES
-	('87ab77d9b81def85ba3dc773d4887729','test','test','test@test.com','n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=','2018-08-12 17:38:34','2018-08-12 17:38:34');
+	('87ab77d9b81def85ba3dc773d4887729','test','test','test@test.com','n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=',0,'2018-08-12 17:38:34','2018-08-12 17:38:34');
 
 /*!40000 ALTER TABLE `accounts` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+# Export von Tabelle airports
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `airports`;
+
+CREATE TABLE `airports` (
+  `id` int(6) unsigned NOT NULL,
+  `ident` varchar(7) DEFAULT '',
+  `type` text,
+  `name` text,
+  `latitude_deg` float DEFAULT NULL,
+  `longitude_deg` float DEFAULT NULL,
+  `elevation_ft` float DEFAULT NULL,
+  `continent` varchar(2) DEFAULT NULL,
+  `iso_country` varchar(2) DEFAULT NULL,
+  `iso_region` text,
+  `municipality` text,
+  `scheduled_service` varchar(10) DEFAULT NULL,
+  `gps_code` varchar(4) DEFAULT NULL,
+  `iata_code` varchar(4) DEFAULT NULL,
+  `local_code` text,
+  `home_link` text,
+  `wikipedia_link` text,
+  `keywords` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 
 # Export von Tabelle billing_addresses
@@ -77,13 +107,41 @@ CREATE TABLE `billing_addresses` (
 
 
 
+# Export von Tabelle bookings
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `bookings`;
+
+CREATE TABLE `bookings` (
+  `id` varchar(32) NOT NULL DEFAULT '',
+  `svid` varchar(8) NOT NULL DEFAULT '',
+  `holder` text NOT NULL,
+  `flightId` text NOT NULL,
+  `fromIATA` varchar(4) NOT NULL DEFAULT '',
+  `toIATA` varchar(4) NOT NULL DEFAULT '',
+  `departure` datetime NOT NULL,
+  `class` text NOT NULL,
+  `extras` text NOT NULL,
+  `createdAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `svid` (`svid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
 # Export von Tabelle cancellations
 # ------------------------------------------------------------
 
 DROP TABLE IF EXISTS `cancellations`;
 
 CREATE TABLE `cancellations` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` varchar(32) NOT NULL DEFAULT '',
+  `ticketId` varchar(32) NOT NULL DEFAULT '',
+  `refundEmail` text NOT NULL,
+  `reason` text NOT NULL,
+  `createdAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -99,7 +157,8 @@ CREATE TABLE `contacts` (
   `firstName` varchar(255) NOT NULL DEFAULT '',
   `lastName` varchar(255) NOT NULL DEFAULT '',
   `email` varchar(255) NOT NULL DEFAULT '',
-  `message` varchar(255) NOT NULL DEFAULT '',
+  `type` varchar(255) NOT NULL DEFAULT '',
+  `message` text NOT NULL,
   `createdAt` datetime DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -165,6 +224,34 @@ VALUES
 	('fe47068e0076968db9190b8b813d3601','e6f369780453fe3dcb600ecabd1f6e03','Times Square, New York City','<p><span class=\"italic\">New York City</span> liegt an der Ostküste der Vereinigten Staaten von Amerika und ist für viele die wohl bekannteste Stadt der USA. Das liegt wahrscheinlich vor allem daran, dass sie mit 8,5 Millionen Einwohnern eine der bevölkerungsreichsten Städte der Welt ist. Ihrem Status wird sie vor allem dann gerecht, blickt man auf der Sehenswürdigkeiten der Stadt: Neben der weltberühmten <span class=\"italic\">Freiheitsstatue</span> mit ihren 305 Metern Höhe sind auch der <span class=\"italic\">Central Park</span> und das <span class=\"italic\">Empire State Building</span> beliebte Ausflugsziele. Die Innenstadt bietet zudem eine Vielzahl an Wolkenkratzern, weshalb sich ein Besuch dort ohne jeden Zweifel lohnt.</p>\n<p><span class=\"bold\">Unser Reisetipp:</span> Ein ganz besonderer Touristenmagnet ist der <span class=\"italic\">Times Square</span>. Benannt nach der New York Times, dessen Gebäude hier errichtet wurde, liegt der Times Square im Zentrum des Theaterviertels von Manhattan. Gerade nachts zieht es die Touristen hier her, um dieses atemberaubende Feuerwerk an Beleuchtung und riesigen Werbeschildern zu bestaunen. Lassen auch Sie sich New York nicht entgehen!</p>','https://images.fineartamerica.com/images/artworkimages/mediumlarge/1/times-square-at-night-in-new-york-city-lanjee-chee.jpg','2018-08-21 13:46:06','2018-08-21 13:46:06');
 
 /*!40000 ALTER TABLE `promo_texts` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Export von Tabelle questions
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `questions`;
+
+CREATE TABLE `questions` (
+  `id` varchar(32) NOT NULL DEFAULT '',
+  `linkId` varchar(255) NOT NULL DEFAULT '',
+  `questionText` text,
+  `answerText` text,
+  `createdAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `linkId` (`linkId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `questions` WRITE;
+/*!40000 ALTER TABLE `questions` DISABLE KEYS */;
+
+INSERT INTO `questions` (`id`, `linkId`, `questionText`, `answerText`, `createdAt`, `updatedAt`)
+VALUES
+	('308d571b612e85ec27348ab0e9d66081','cancellation-tcs','Welche Bedingungen gelten für Stornierungen?','<p>Jedes Ticket kann kostenfrei bis 24h vor dem Abflug storniert werden. Ab 24 Stunden vor Abflug werden 50% des Ticketpreises erstattet, nach dem Abflug werden nicht eingelöste Tickets nur bei Unfällen, Naturkatastrophen, Inneren Unruhen oder offiziellen Reisewarnungen des Auswärtigen Amtes erstattet. Der erstattete Betrag wird als Gutschein einem Aviation-Konto gutgeschrieben und nur in Ausnahmefällen ausbezahlt. Zur Stornierung über den Support ist sowohl die Ticket-, als auch die Storno-Verifizierungs-ID notwendig.</p>','2018-08-24 19:29:51','2018-08-24 19:29:51'),
+	('da0c7f6aec4c15d98d37d3aa6a406f2e','how-to-cancel','Wie kann ich ein Ticket stornieren?','<p>Du kannst dein Ticket jederzeit im Dashboard unter \"Tickets\" stornieren. Wenn du dein Ticket ohne Account erworben hast, oder auf den Account aktuell keinen Zugriff hast, kannst du unter <a href=\"sc-cancellations.html\">Stornierungen</a> dein Ticket ebenfalls stornieren.</p>','2018-08-24 19:30:14','2018-08-25 08:43:50');
+
+/*!40000 ALTER TABLE `questions` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
