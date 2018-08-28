@@ -34,7 +34,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
-		<title>Übersicht – FESTIVAL Aviation</title>
+		<title>Rechnungsadresse – FESTIVAL Aviation</title>
 		<link rel="stylesheet" href="css/aviation.css">
 		<link rel="stylesheet" href="css/booking.built.css">
 	</head>
@@ -55,7 +55,7 @@
 					</div><a href="#" class="link-home"></a><a href="dashboard.jsp" class="link-user-cp"></a>
 				</div>
 				<ul class="nav-list">
-					<li><a href="/" class="link-home"></a></li>
+					<li><a href="index.jsp" class="link-home"></a></li>
 					<li><a href="booking-search.jsp">Flüge</a></li>
 					<li><a href="featured.jsp">Reiseziele</a></li>
 					<li><a href="sc-contact.jsp">Kontakt</a></li>
@@ -106,130 +106,132 @@
 							<h4 class="date"><span>Rechnungsadresse</span></h4>
 							<p>Um die Buchung abzuschließen, benötigen wir eine gültige Rechnungsadresse. Solltest du gerade angemeldet sein, wird das Formular für dich automatisch ausgefüllt. Wenn nicht, kannst du hier deine Rechnungsadresse eintragen. Bitte stelle sicher, dass alle Daten korrekt eingetragen sind, da es sonst später zu Problemen bei der Rückerstattung kommen kann.</p>
 						</div>
-						<div class="row no-justify">
-							<div class="column column-3">
-								<label for="title">Anrede</label>
-							</div>
-							<div class="column column-6">
-								<select name="title" id="title">
-									<option value="none"></option> 
-									<%
-										if (billingAddress != null) {
-											if (billingAddress.getString("prefix").equals("male")) {
-									%>
-									<option value="male" selected>Herr</option>
-									<option value="female">Frau</option> 
-									<%
-										 	} else if (billingAddress.getString("prefix").equals("female")) {
-									%>
-									<option value="male">Herr</option>
-									<option value="female" selected>Frau</option> 
-									<%
+						<form name="billingAddress">
+							<div class="row no-justify">
+								<div class="column column-3">
+									<label for="title">Anrede</label>
+								</div>
+								<div class="column column-6">
+									<select name="title" id="title" required>
+										<option value=""></option> 
+										<%
+											if (billingAddress != null) {
+												if (billingAddress.getString("prefix").equals("male")) {
+										%>
+										<option value="male" selected>Herr</option>
+										<option value="female">Frau</option> 
+										<%
+											 	} else if (billingAddress.getString("prefix").equals("female")) {
+										%>
+										<option value="male">Herr</option>
+										<option value="female" selected>Frau</option> 
+										<%
+												}
+											} else {
+										%>
+										<option value="male">Herr</option>
+										<option value="female">Frau</option> 
+										<%
 											}
-										} else {
-									%>
-									<option value="male">Herr</option>
-									<option value="female">Frau</option> 
-									<%
-										}
-									%>
-								</select>
+										%>
+									</select>
+								</div>
 							</div>
-						</div>
-						<div class="row no-justify">
-							<div class="column column-3">
-								<label for="firstName">Vorname</label>
+							<div class="row no-justify">
+								<div class="column column-3">
+									<label for="firstName">Vorname</label>
+								</div>
+								<div class="column column-6">
+									<input type="text" name="firstName" id="firstName" value="<%= billingAddress != null ? billingAddress.getString("firstName") : "" %>" required>
+								</div>
 							</div>
-							<div class="column column-6">
-								<input type="text" name="firstName" id="firstName" value="<%= billingAddress != null ? billingAddress.getString("firstName") : "" %>">
+							<div class="row no-justify">
+								<div class="column column-3">
+									<label for="lastName">Nachname</label>
+								</div>
+								<div class="column column-6">
+									<input type="text" name="lastName" id="lastName" value="<%= billingAddress != null ? billingAddress.getString("lastName") : "" %>" required>
+								</div>
 							</div>
-						</div>
-						<div class="row no-justify">
-							<div class="column column-3">
-								<label for="lastName">Nachname</label>
+							<div class="row no-justify">
+								<div class="column column-3">
+									<label for="lastName">Straße</label>
+								</div>
+								<div class="column column-6">
+									<input type="text" name="street" id="street" value="<%= billingAddress != null ? billingAddress.getString("street") : "" %>" required>
+								</div>
 							</div>
-							<div class="column column-6">
-								<input type="text" name="lastName" id="lastName" value="<%= billingAddress != null ? billingAddress.getString("lastName") : "" %>">
+							<div class="row no-justify">
+								<div class="column column-3">
+									<label for="lastName">PLZ/Ort</label>
+								</div>
+								<div class="column column-2">
+									<input type="text" name="zip" id="zip" value="<%= billingAddress != null ? billingAddress.getString("postalCode") : "" %>" required>
+								</div>
+								<div class="column column-4">
+									<input type="text" name="city" id="city" value="<%= billingAddress != null ? billingAddress.getString("postalCity") : "" %>" required>
+								</div>
 							</div>
-						</div>
-						<div class="row no-justify">
-							<div class="column column-3">
-								<label for="lastName">Straße</label>
-							</div>
-							<div class="column column-6">
-								<input type="text" name="street" id="street" value="<%= billingAddress != null ? billingAddress.getString("street") : "" %>">
-							</div>
-						</div>
-						<div class="row no-justify">
-							<div class="column column-3">
-								<label for="lastName">PLZ/Ort</label>
-							</div>
-							<div class="column column-2">
-								<input type="text" name="zip" id="zip" value="<%= billingAddress != null ? billingAddress.getString("postalCode") : "" %>">
-							</div>
-							<div class="column column-4">
-								<input type="text" name="city" id="city" value="<%= billingAddress != null ? billingAddress.getString("postalCity") : "" %>">
-							</div>
-						</div>
-						<div class="row no-justify">
-							<div class="column column-3">
-								<label for="country">Land</label>
-							</div>
-							<div class="column column-6">
-								<select name="country" id="country">
-									 
-									<%
-										if (billingAddress != null) {
-											if (billingAddress.getString("country").equals("de")) {
-									%>
-									<option value="de" selected>Deutschland</option>
-									<option value="at">Österreich</option>
-									<option value="ch">Schweiz</option> 
-									<%
-										 	} else if (billingAddress.getString("country").equals("at")) {
-									%>
-									<option value="de">Deutschland</option>
-									<option value="at" selected>Österreich</option>
-									<option value="ch">Schweiz</option><%
-										 	} else if (billingAddress.getString("country").equals("ch")) {
-									%>
-									<option value="de">Deutschland</option>
-									<option value="at">Österreich</option>
-									<option value="ch" selected>Schweiz</option> 
-									<%
+							<div class="row no-justify">
+								<div class="column column-3">
+									<label for="country">Land</label>
+								</div>
+								<div class="column column-6">
+									<select name="country" id="country" required>
+										 
+										<%
+											if (billingAddress != null) {
+												if (billingAddress.getString("country").equals("de")) {
+										%>
+										<option value="de" selected>Deutschland</option>
+										<option value="at">Österreich</option>
+										<option value="ch">Schweiz</option> 
+										<%
+											 	} else if (billingAddress.getString("country").equals("at")) {
+										%>
+										<option value="de">Deutschland</option>
+										<option value="at" selected>Österreich</option>
+										<option value="ch">Schweiz</option><%
+											 	} else if (billingAddress.getString("country").equals("ch")) {
+										%>
+										<option value="de">Deutschland</option>
+										<option value="at">Österreich</option>
+										<option value="ch" selected>Schweiz</option> 
+										<%
+												}
+											} else {
+										%>
+										<option value="de">Deutschland</option>
+										<option value="at">Österreich</option>
+										<option value="ch">Schweiz</option> 
+										<%
 											}
-										} else {
-									%>
-									<option value="de">Deutschland</option>
-									<option value="at">Österreich</option>
-									<option value="ch">Schweiz</option> 
-									<%
-										}
-									%>
-								</select>
+										%>
+									</select>
+								</div>
 							</div>
-						</div>
-						<div class="row no-justify">
-							<div class="column column-3">
-								<label for="email">E-Mail</label>
+							<div class="row no-justify">
+								<div class="column column-3">
+									<label for="email">E-Mail</label>
+								</div>
+								<div class="column column-6">
+									<input type="email" name="email" id="email" value="<%= billingAddress != null ? billingAddress.getString("email") : "" %>" required>
+								</div>
 							</div>
-							<div class="column column-6">
-								<input type="email" name="email" id="email" value="<%= billingAddress != null ? billingAddress.getString("email") : "" %>">
+							<div class="row no-justify">
+								<div class="column column-3">
+									<label for="phone">Telefon</label>
+								</div>
+								<div class="column column-6">
+									<input type="phone" name="phone" id="phone" value="<%= billingAddress != null ? billingAddress.getString("phoneNumber") : "" %>" required>
+								</div>
 							</div>
-						</div>
-						<div class="row no-justify">
-							<div class="column column-3">
-								<label for="phone">Telefon</label>
-							</div>
-							<div class="column column-6">
-								<input type="phone" name="phone" id="phone" value="<%= billingAddress != null ? billingAddress.getString("phoneNumber") : "" %>">
-							</div>
-						</div>
+						</form>
 					</div>
 					<div class="fill-background"></div>
 					<div class="results-footer">
 						<button onclick="window.history.back()" class="outline blue">Zurück</button>
-						<button onclick="document.forms[0].submit()" class="fill blue continue-button">Buchung abschließen</button>
+						<button class="fill blue continue-button">Buchung abschließen</button>
 					</div>
 				</div>
 			</div>
@@ -243,7 +245,9 @@
 			<%
 				}
 			%>
+			<input name="billingId">
 		</form>
+		<script type="text/javascript" src="js/flight-search.js"></script>
 	</body>
 </html> 
 <% authManager.closeConnection(); %>

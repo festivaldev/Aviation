@@ -1,7 +1,6 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="ml.festival.aviation.SearchResultsDemo" %>
-<%@ page import="ml.festival.aviation.AuthManager" %>
 <%@ page import="org.json.*" %>
 <%@ page import="java.time.*" %>
 <%@ page import="java.time.format.DateTimeFormatter"%>
@@ -9,27 +8,27 @@
 <%@ page import="java.util.Map" %>
  
 <%
-	AuthManager authManager = new AuthManager();
 	JSONObject requestData = new JSONObject();
 	JSONObject demoData = new JSONObject();
  
-	try {
+	Boolean didCompleteBooking = false;
+	/*try {
 		Map<String, String[]> parameters = request.getParameterMap();
 		for(String parameter : parameters.keySet()) {
 			requestData.put(parameter, request.getParameter(parameter));
 		}
  
-		SearchResultsDemo.completeBooking(requestData);
+		didCompleteBooking = SearchResultsDemo.completeBooking(requestData);
 	} catch (Exception e) {
 		e.printStackTrace();
-	}
+	}*/
 %>
  <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
-		<title>Übersicht – FESTIVAL Aviation</title>
+		<title>Buchung abschließen – FESTIVAL Aviation</title>
 		<link rel="stylesheet" href="css/aviation.css">
 		<link rel="stylesheet" href="css/booking.built.css">
 	</head>
@@ -50,7 +49,7 @@
 					</div><a href="#" class="link-home"></a><a href="dashboard.jsp" class="link-user-cp"></a>
 				</div>
 				<ul class="nav-list">
-					<li><a href="/" class="link-home"></a></li>
+					<li><a href="index.jsp" class="link-home"></a></li>
 					<li><a href="booking-search.jsp">Flüge</a></li>
 					<li><a href="featured.jsp">Reiseziele</a></li>
 					<li><a href="sc-contact.jsp">Kontakt</a></li>
@@ -98,14 +97,27 @@
 				<div class="search-results-container column column-12 medium-8">
 					<div class="scroll-container billing-address">
 						<div class="result-header">
+							 
+							<%
+								if (didCompleteBooking) {
+							%>
 							<h4 class="date"><span>Buchung abschließen</span></h4>
 							<p>Deine Buchung ist jetzt getätigt! Da wäre nur noch eine Sache: das Finanzielle. Bitte zahle innerhalb der nächsten 24 Stunden über unseren Bezahldienst VirtuaMonetenPay, damit du dich ganz ohne Sorgen auf deinen Urlaub freuen kannst!</p><!-- HIER WIDGET EINFÜGEN -->
+							 
+							<%
+								} else {
+							%>
+							<h4 class="date"><span>Da hat etwas nicht geklappt.</span></h4>
+							<p>Bei der Buchung ist leider etwas schief gelaufen. Das Problem liegt entweder auf unserer Seite ('tschuldigung) oder auf deiner Seite. Probiere es doch in wenigen Minuten erneut. Auf keinen Fall solltest du die Seite konstant neu laden, das kann unsere Katze nicht so gut ab.</p> 
+							<%
+								}
+							%>
 						</div>
 					</div>
 					<div class="fill-background"></div>
 					<div class="results-footer">
-						<button onclick="window.history.back()" class="outline blue">Zur Startseite</button>
-						<button onclick="document.forms[0].submit()" class="fill blue continue-button">Zum Dashboard</button>
+						<button onclick="location.href = &quot;index.jsp&quot;" class="outline blue">Zur Startseite</button>
+						<button onclick="location.href = &quot;dashboard.jsp&quot;" class="fill blue continue-button">Zum Dashboard</button>
 					</div>
 				</div>
 			</div>

@@ -13,14 +13,8 @@
 	Boolean validAuth = false;
 	AuthManager authManager = new AuthManager();
  
-	Cookie[] cookies = request.getCookies();
-	for (int i=0; i<cookies.length; i++) {
-		if (cookies[i].getName().equals("sid")) {
-			if (authManager.validate(cookies[i].getValue())) {
-				validAuth = true;
-				break;
-			}
-		}
+	if (authManager.validate(String.valueOf(session.getAttribute("sid")))) {
+		validAuth = true;
 	}
  
 	if (!validAuth) {
@@ -57,7 +51,7 @@
 					</div><a href="#" class="link-home"></a><a href="dashboard.jsp" class="link-user-cp"></a>
 				</div>
 				<ul class="nav-list">
-					<li><a href="/" class="link-home"></a></li>
+					<li><a href="index.jsp" class="link-home"></a></li>
 					<li><a href="booking-search.jsp">Flüge</a></li>
 					<li><a href="featured.jsp">Reiseziele</a></li>
 					<li><a href="sc-contact.jsp">Kontakt</a></li>
@@ -86,6 +80,8 @@
 							 <a href="?p=tickets" class="menu-item <%= isCurrentPage(request.getParameter("p"), "tickets") ? "selected" : "" %>">
 								<li>Tickets</li></a>
 						</ul>
+						<ul class="user-cp-menu"><a href="?p=logout" class="menu-item">
+								<li>Abmelden</li></a></ul>
 					</div> 
 					<% if (isCurrentPage(request.getParameter("p"), "profile")) { %>
 					<div class="column column-8 offset-1">
@@ -124,7 +120,7 @@
 								</div>
 								<div class="column column-6">
 									<select name="title" id="title">
-										<option value="none" selected></option>
+										<option value="" selected></option>
 										<option value="male">Herr</option>
 										<option value="female">Frau</option>
 									</select>
@@ -194,6 +190,20 @@
 								</div>
 							</div>
 						</form>
+					</div> 
+					<% } %>
+					 
+					<% if (isCurrentPage(request.getParameter("p"), "logout")) { %>
+					<div class="column column-8 offset-1">
+						<h2>Abmeldung erfolgt...</h2>
+						<p>Du wirst in kürze abgemeldet und zur Startseite umgeleitet</p> 
+						<%
+							authManager.openConnection();
+							if (authManager.destroySession(String.valueOf(session.getAttribute("sid"))) == AuthManager.ErrorCode.OK) {
+								response.sendRedirect("index.jsp");
+							}
+							authManager.closeConnection();
+						%>
 					</div> 
 					<% } %>
 				</div>

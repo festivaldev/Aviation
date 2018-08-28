@@ -24,9 +24,17 @@ public class AuthManager {
 
 	public AuthManager() {
 		try {
+			openConnection();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void openConnection() {
+		try {
 			initialContext = new InitialContext();
-			environmentContext = (Context)initialContext.lookup("java:/comp/env");
-			dataSource = (DataSource)environmentContext.lookup("jdbc/aviation");
+			environmentContext = (Context) initialContext.lookup("java:/comp/env");
+			dataSource = (DataSource) environmentContext.lookup("jdbc/aviation");
 			conn = dataSource.getConnection();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -127,6 +135,19 @@ public class AuthManager {
 			} else {
 				return ErrorCode.USER_NOT_FOUND;
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ErrorCode.SERVER_ERROR;
+		}
+	}
+
+	public ErrorCode destroySession(String sessionId) {
+		try {
+			PreparedStatement statement = conn.prepareStatement("DELETE FROM sessions WHERE id = ?");
+			statement.setString(1, sessionId);
+			statement.execute();
+
+			return ErrorCode.OK;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ErrorCode.SERVER_ERROR;

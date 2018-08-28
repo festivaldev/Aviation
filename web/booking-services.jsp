@@ -5,12 +5,20 @@
 <%@ page import="java.time.*" %>
 <%@ page import="java.time.format.DateTimeFormatter"%>
 <%@ page import="java.sql.*" %>
+<%@ page import="java.util.Map" %>
  
 <%
 	JSONObject requestData = new JSONObject();
 	JSONObject demoData = new JSONObject();
  
+	// FIX JAVA'S FUCKING TIMEZONE HANDLING!!!
+	LocalDateTime depart_time = null;
+	LocalDateTime arrv_time = null;
+ 
 	try {
+		depart_time = Instant.parse(request.getParameter("depart_date")).atZone(ZoneId.of("Europe/Berlin")).toLocalDateTime();
+		arrv_time = Instant.parse(request.getParameter("arrv_date")).atZone(ZoneId.of("Europe/Berlin")).toLocalDateTime();
+ 
 		requestData.put("depart_iata", request.getParameter("depart_iata"));
 		requestData.put("arrv_iata", request.getParameter("arrv_iata"));
 		requestData.put("depart_date", request.getParameter("depart_date"));
@@ -27,7 +35,6 @@
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
-	// out.println(requestData);
 %>
  <!DOCTYPE html>
 <html>
@@ -55,7 +62,7 @@
 					</div><a href="#" class="link-home"></a><a href="dashboard.jsp" class="link-user-cp"></a>
 				</div>
 				<ul class="nav-list">
-					<li><a href="/" class="link-home"></a></li>
+					<li><a href="index.jsp" class="link-home"></a></li>
 					<li><a href="booking-search.jsp">Flüge</a></li>
 					<li><a href="featured.jsp">Reiseziele</a></li>
 					<li><a href="sc-contact.jsp">Kontakt</a></li>
@@ -141,13 +148,13 @@
 								<div class="column-title">
 									<p><%= demoData.getString("departureName") %></p>
 								</div>
-								<p class="column-content"><%= LocalDateTime.parse(requestData.getString("depart_date"), DateTimeFormatter.ISO_DATE_TIME).format(DateTimeFormatter.ofPattern("HH:mm")) %></p>
+								<p class="column-content"><%= depart_time.format(DateTimeFormatter.ofPattern("HH:mm")) %></p>
 							</div>
 							<div class="column column-2 align-right">
 								<div class="column-title"> 
 									<p><%= demoData.getString("arrivalName") %></p>
 								</div>
-								<p class="column-content"><%= LocalDateTime.parse(requestData.getString("arrv_date"), DateTimeFormatter.ISO_DATE_TIME).format(DateTimeFormatter.ofPattern("HH:mm")) %></p>
+								<p class="column-content"><%= arrv_time.format(DateTimeFormatter.ofPattern("HH:mm")) %></p>
 							</div>
 							<div class="column column-2 column-offset-1">
 								<div class="column-title">
@@ -205,26 +212,20 @@
 					<div class="fill-background"></div>
 					<div class="results-footer">
 						<button onclick="window.history.back()" class="outline blue">Zurück</button>
-						<button onclick="document.forms[0].submit()" class="fill blue continue-button">Fortfahren</button>
+						<button onclick="document.forms[&quot;selectedItem&quot;].submit()" class="fill blue continue-button">Fortfahren</button>
 					</div>
 				</div>
 			</div>
 		</section>
-		<form action="booking-billing.jsp" method="POST" name="selectedItem" class="hidden">
-			<input name="depart_iata" value="<%= requestData.get("depart_iata") %>">
-			<input name="arrv_iata" value="<%= requestData.get("arrv_iata") %>">
-			<input name="depart_date" value="<%= requestData.get("depart_date") %>">
-			<input name="arrv_date" value="<%= requestData.get("arrv_date") %>">
-			<input name="flight_number" value="<%= requestData.get("flight_number") %>">
-			<input name="passengers" value="<%= requestData.get("passengers") %>">
-			<input name="flight_class" value="<%= requestData.get("flight_class") %>">
-			<input name="services"> 
-			 
-			<!-- DO NOT USE THIS IN PRODUCTION!!! -->
-			<!-- This is for demonstration purposes only! -->
-			<input name="duration" value="<%= requestData.get("duration") %>">
-			<input name="stops" value="<%= requestData.get("stops") %>">
-			<input name="price" value="<%= requestData.get("price") %>">
+		<form action="booking-billing.jsp" method="POST" name="selectedItem" class="hidden"><%
+				Map<String, String[]> parameters = request.getParameterMap();
+				for(String parameter : parameters.keySet()) {
+			%>
+			<input name="<%= parameter %>" value="<%= request.getParameter(parameter) %>"> 
+			<%
+				}
+			%>
+			<input name="services">
 		</form>
 		<script type="text/javascript" src="js/flight-search.js"></script>
 	</body>

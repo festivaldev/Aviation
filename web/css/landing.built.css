@@ -110,7 +110,7 @@ section.landing-hero .hero-content .hero-search-bar form .input-wrapper .suggest
   list-style: none;
 }
 section.landing-hero .hero-content .hero-search-bar form .input-wrapper .suggestions ul.suggestions-list .suggestion-item {
-  height: 44px;
+  min-height: 44px;
   padding: 13px 16px;
   overflow: hidden ;
   text-overflow: ellipsis;
@@ -190,6 +190,15 @@ section.landing-hero .hero-content .hero-search-bar .search-button:before {
     margin: 0 !important;
     padding: 0 8px;
     box-shadow: inset 0 -1px 0 0 rgba(0, 0, 0, 0.16) !important;
+  }
+  section.landing-hero .hero-content .hero-search-bar form .input-wrapper .suggestions {
+    left: 0;
+    z-index: 50;
+  }
+  section.landing-hero .hero-content .hero-search-bar form .input-wrapper .calendar {
+    left: 0;
+    width: 100%;
+    z-index: 5;
   }
   section.landing-hero .hero-content .hero-search-bar .search-button {
     font-size: 16px;

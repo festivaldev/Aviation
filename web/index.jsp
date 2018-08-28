@@ -31,7 +31,7 @@
 					</div><a href="#" class="link-home"></a><a href="dashboard.jsp" class="link-user-cp"></a>
 				</div>
 				<ul class="nav-list">
-					<li><a href="/" class="link-home"></a></li>
+					<li><a href="index.jsp" class="link-home"></a></li>
 					<li><a href="booking-search.jsp">Flüge</a></li>
 					<li><a href="featured.jsp">Reiseziele</a></li>
 					<li><a href="sc-contact.jsp">Kontakt</a></li>
@@ -45,7 +45,7 @@
 				<h2 class="hero-title">Die günstigsten Flugreisen aller Zeiten</h2>
 				<h4 class="hero-subtitle">Einfach nur das buchen, was du wirklich brauchst – das ist aviation.</h4>
 				<div class="hero-search-bar">
-					<form method="post" action="booking-search.jsp">
+					<form method="post" action="booking-results.jsp">
 						<div data-key="departure" class="input-wrapper">
 							<div class="column-title"><img src="img/icon-departure.svg">
 								<p>Von (Ort oder Flughafen)</p>
@@ -79,7 +79,7 @@
 								<p>Abflugdatum</p>
 							</div>
 							<input type="text" placeholder="Abflugdatum auswählen" required>
-							<input type="date" id="depart_date" name="depart_date" required class="hidden">
+							<input type="text" id="depart_date" name="depart_date" required class="hidden">
 							<div class="calendar"></div>
 						</div>
 						<button class="fill blue search-button">Suchen</button>
@@ -125,17 +125,12 @@
 					<h2 class="headline">Flugreisen – so wie du sie brauchst</h2>
 					<p class="body">Flugreisen sind meist sehr teuer. Das liegt vor allem daran, dass oft Dienste im Preis enthalten sind, die vielleicht gar nicht benötigt werden. Dein Flug geht nur von Hamburg nach Berlin und du hast bereits gut gefrühstückt? Warum solltest du extra für Essen bezahlen, wenn du es doch sowieso nicht essen wirst?<br><br>Genau das will aviation ändern. Du buchst einfach nur deinen Platz im Flugzeug, und das drückt den Preis. Und wenn du einen zusätzlichen Dienst benötigst, buchst du ihn einfach dazu. Besser kann es gar nicht sein.</p>
 				</div>
-				<div class="column column-12 medium-5 medium-offset-1">
-					<p class="body">Test</p>
-				</div>
+				<div class="column column-12 medium-5 medium-offset-1"><img src="img/promo_services.png"></div>
 			</div>
 		</section>
-		<section class="promo-text">
+		<section style="background-image: url(img/flying-people-sitting-public-transportation.jpg?);" class="promo-text light">
 			<div class="section-content row">
-				<div class="column column-12 medium-5">
-					<p class="body">Test</p>
-				</div>
-				<div class="column column-12 medium-6 medium-offset-1">
+				<div class="column column-12 medium-6 medium-offset-6">
 					<h4 class="eyebrow">Gestalte deine Flugreise</h4>
 					<h2 class="headline">Ein Platz – viele Möglichkeiten</h2>
 					<p class="body">Wenn du eine Flugreise über aviation buchst, bekommst du grundsätzlich die Erlaubnis, das Flugzeug betreten zu dürfen. Im Grundpreis enthalten ist eine Beteiligung an den Flugkosten, wie etwa Treibstoff oder Parkgebühren. Das ist in etwa vergleichbar mit Car Sharing, wo sich die Passagiere auch an den Fahrtkosten beteiligen. Willst du zum Beispiel Gepäck mitnehmen, kostet dies nur eine geringe Gebühr statt einer festen Pauschale, die bereits im Ticketpreis enthalten ist. So können wir Flugreisen um bis zu 50% günstiger anbieten als die etablierte Konkurrenz.</p>
@@ -149,9 +144,7 @@
 					<h2 class="headline">Nicht zufrieden? Dann sag's uns!</h2>
 					<p class="body">Sollte mal etwas nicht zu deiner Zufriedenheit sein, dann freuen wir uns, von dir zu hören! Nimm einfach Kontakt mit uns auf und wir helfen dir, dein Problem zu lösen. Außerdem arbeiten wir mit immer mehr Fluggesellschaften zusammen, um noch günstigere Reisen anbieten zu können. Damit kannst du dich bald auf eine noch größere Auswahl der bisher günstigsten Flüge freuen!</p>
 				</div>
-				<div class="column column-12 medium-5 medium-offset-1">
-					<p class="body">Test</p>
-				</div>
+				<div class="column column-12 medium-5 medium-offset-1"><img src="img/promo_feedback.png"></div>
 			</div>
 		</section>
 		<footer>
