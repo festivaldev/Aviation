@@ -178,7 +178,7 @@ public class SearchResultsDemo {
 				statement.setString(10, requestData.getString("services"));
 				statement.setString(11, requestData.getString("price"));
 
-				return statement.execute();
+				return statement.executeUpdate() > 0;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

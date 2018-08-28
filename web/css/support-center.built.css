@@ -107,6 +107,13 @@ section.support h3 {
   font-weight: 600;
   margin: 1em 0 0.5em 0;
 }
+section.support kbd {
+  background-color: #EEE;
+  border-radius: 4px;
+  font-family: 'Consolas', monospace;
+  font-weight: 500;
+  padding: 3px 6px;
+}
 section.support .privacy h4 {
   margin: 1em 0 0.5em 0;
 }
@@ -329,6 +336,113 @@ section.support .flag a {
 }
 section.support .flag a:hover {
   text-decoration: none;
+}
+section.support table {
+  width: 100%;
+}
+section.support th {
+  padding: 6px 0;
+  text-align: center;
+}
+section.support th:first-of-type {
+  text-align: left;
+}
+section.support th:last-of-type {
+  text-align: right;
+}
+section.support td {
+  padding: 6px 0;
+  text-align: center;
+}
+section.support td:first-of-type {
+  text-align: left;
+}
+section.support td:first-of-type.error {
+  background-color: #DE350B;
+  color: #FFF;
+}
+section.support td:first-of-type.error .icon span {
+  color: #FFF;
+  fill: #DE350B;
+}
+section.support td:first-of-type.info {
+  background-color: #0747A6;
+  color: #FFF;
+}
+section.support td:first-of-type.info .icon span {
+  color: #FFF;
+  fill: #0747A6;
+}
+section.support td:first-of-type.question {
+  background-color: #F3F5F8;
+  color: #172B4D;
+}
+section.support td:first-of-type.question .icon span {
+  color: #172B4D;
+  fill: #F3F5F8;
+}
+section.support td:first-of-type.success {
+  background-color: #33B025;
+  color: #FFF;
+}
+section.support td:first-of-type.success .icon span {
+  color: #FFF;
+  fill: #33B025;
+}
+section.support td:first-of-type.warning {
+  background-color: #FFC400;
+  color: #253858;
+}
+section.support td:first-of-type.warning .icon span {
+  color: #253858;
+  fill: #FFAB00;
+}
+section.support td:last-of-type {
+  text-align: right;
+}
+section.support td button,
+section.support td input {
+  margin: 0 auto;
+}
+section.support button.icon.error {
+  background-color: #DE350B;
+  color: #FFF;
+}
+section.support button.icon.error svg {
+  color: #FFF;
+  fill: #DE350B;
+}
+section.support button.icon.info {
+  background-color: #0747A6;
+  color: #FFF;
+}
+section.support button.icon.info svg {
+  color: #FFF;
+  fill: #0747A6;
+}
+section.support button.icon.question {
+  background-color: #F3F5F8;
+  color: #172B4D;
+}
+section.support button.icon.question svg {
+  color: #172B4D;
+  fill: #F3F5F8;
+}
+section.support button.icon.success {
+  background-color: #33B025;
+  color: #FFF;
+}
+section.support button.icon.success svg {
+  color: #FFF;
+  fill: #33B025;
+}
+section.support button.icon.warning {
+  background-color: #FFC400;
+  color: #253858;
+}
+section.support button.icon.warning svg {
+  color: #253858;
+  fill: #FFAB00;
 }
 section.modal {
   --modal-background: #FFF;
