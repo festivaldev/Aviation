@@ -7,7 +7,7 @@
 #
 # Host: 192.168.178.48 (MySQL 5.7.23-0ubuntu0.16.04.1)
 # Datenbank: aviation
-# Erstellt am: 2018-08-26 18:16:02 +0000
+# Erstellt am: 2018-08-28 14:50:39 +0000
 # ************************************************************
 
 
@@ -44,7 +44,7 @@ LOCK TABLES `accounts` WRITE;
 
 INSERT INTO `accounts` (`id`, `firstName`, `lastName`, `email`, `password`, `isAdmin`, `createdAt`, `updatedAt`)
 VALUES
-	('87ab77d9b81def85ba3dc773d4887729','test','test','test@test.com','n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=',0,'2018-08-12 17:38:34','2018-08-12 17:38:34');
+	('87ab77d9b81def85ba3dc773d4887729','test','test','test@test.com','n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=',0,'2018-08-12 17:38:34','2018-08-28 14:30:50');
 
 /*!40000 ALTER TABLE `accounts` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -52,8 +52,6 @@ UNLOCK TABLES;
 
 # Export von Tabelle airports
 # ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `airports`;
 
 CREATE TABLE `airports` (
   `id` int(6) unsigned NOT NULL,
@@ -86,25 +84,31 @@ DROP TABLE IF EXISTS `billing_addresses`;
 
 CREATE TABLE `billing_addresses` (
   `id` varchar(32) NOT NULL DEFAULT '',
-  `accountId` varchar(32) CHARACTER SET latin1 COLLATE latin1_general_cs NOT NULL DEFAULT '',
-  `male` tinyint(1) NOT NULL,
+  `accountId` varchar(32) CHARACTER SET latin1 COLLATE latin1_general_cs DEFAULT '',
+  `prefix` varchar(6) NOT NULL DEFAULT '',
   `firstName` varchar(255) NOT NULL DEFAULT '',
   `lastName` varchar(255) NOT NULL DEFAULT '',
   `street` varchar(255) NOT NULL DEFAULT '',
-  `postalCode` int(11) NOT NULL,
+  `postalCode` varchar(11) NOT NULL DEFAULT '',
   `postalCity` varchar(255) NOT NULL DEFAULT '',
   `country` varchar(10) NOT NULL DEFAULT '',
   `email` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_cs NOT NULL DEFAULT '',
   `phoneNumber` varchar(255) NOT NULL DEFAULT '',
   `createdAt` datetime DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `accountId` (`accountId`),
-  UNIQUE KEY `email` (`email`),
-  CONSTRAINT `billing_addresses_ibfk_1` FOREIGN KEY (`accountId`) REFERENCES `accounts` (`id`),
-  CONSTRAINT `billing_addresses_ibfk_2` FOREIGN KEY (`email`) REFERENCES `accounts` (`email`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+LOCK TABLES `billing_addresses` WRITE;
+/*!40000 ALTER TABLE `billing_addresses` DISABLE KEYS */;
+
+INSERT INTO `billing_addresses` (`id`, `accountId`, `prefix`, `firstName`, `lastName`, `street`, `postalCode`, `postalCity`, `country`, `email`, `phoneNumber`, `createdAt`, `updatedAt`)
+VALUES
+	('0815997ce23895cff7f18871975b3555','','male','Janik','Schmidt','EichstraÃ?e 43','30880','Laatzen','de','janikschmidt@gmx.de','0511825559','2018-08-28 15:40:38','2018-08-28 15:57:57'),
+	('48837ec91332014b2ff18d768b85b403','87ab77d9b81def85ba3dc773d4887729','male','Janik','Schmidt','EichstraÃ?e 43','30880','Laatzen','de','janikschmidt@gmx.de','0511825559','2018-08-27 12:36:46','2018-08-28 15:57:57');
+
+/*!40000 ALTER TABLE `billing_addresses` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Export von Tabelle bookings
@@ -114,14 +118,17 @@ DROP TABLE IF EXISTS `bookings`;
 
 CREATE TABLE `bookings` (
   `id` varchar(32) NOT NULL DEFAULT '',
-  `svid` varchar(8) NOT NULL DEFAULT '',
+  `svid` varchar(13) NOT NULL DEFAULT '',
   `holder` text NOT NULL,
   `flightId` text NOT NULL,
   `fromIATA` varchar(4) NOT NULL DEFAULT '',
   `toIATA` varchar(4) NOT NULL DEFAULT '',
   `departure` datetime NOT NULL,
   `class` text NOT NULL,
+  `passengerCount` int(11) NOT NULL,
   `extras` text NOT NULL,
+  `price` float NOT NULL,
+  `paid` tinyint(1) NOT NULL,
   `createdAt` datetime DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -252,6 +259,34 @@ VALUES
 	('da0c7f6aec4c15d98d37d3aa6a406f2e','how-to-cancel','Wie kann ich ein Ticket stornieren?','<p>Du kannst dein Ticket jederzeit im Dashboard unter \"Tickets\" stornieren. Wenn du dein Ticket ohne Account erworben hast, oder auf den Account aktuell keinen Zugriff hast, kannst du unter <a href=\"sc-cancellations.html\">Stornierungen</a> dein Ticket ebenfalls stornieren.</p>','2018-08-24 19:30:14','2018-08-25 08:43:50');
 
 /*!40000 ALTER TABLE `questions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Export von Tabelle services
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `services`;
+
+CREATE TABLE `services` (
+  `id` varchar(32) NOT NULL DEFAULT '',
+  `serviceId` varchar(255) NOT NULL DEFAULT '',
+  `title` text NOT NULL,
+  `price` float NOT NULL,
+  `createdAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `services` WRITE;
+/*!40000 ALTER TABLE `services` DISABLE KEYS */;
+
+INSERT INTO `services` (`id`, `serviceId`, `title`, `price`, `createdAt`, `updatedAt`)
+VALUES
+	('2dde8162fc83ba05cc6e0c70910cb084','luggage','Gepäckmitnahme',15,'2018-08-26 22:28:03','2018-08-26 22:28:06'),
+	('66898c79410ab9fa933c4f73cebd3892','children','Kleinkinder',9999,'2018-08-26 22:28:52','2018-08-26 22:28:52'),
+	('b783624a19318a402fa66922104c6768','food','Essen &amp; Trinken',24,'2018-08-26 22:28:18','2018-08-26 22:28:31');
+
+/*!40000 ALTER TABLE `services` ENABLE KEYS */;
 UNLOCK TABLES;
 
 

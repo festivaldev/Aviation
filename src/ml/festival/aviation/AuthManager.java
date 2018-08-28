@@ -24,9 +24,17 @@ public class AuthManager {
 
 	public AuthManager() {
 		try {
+			openConnection();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void openConnection() {
+		try {
 			initialContext = new InitialContext();
-			environmentContext = (Context)initialContext.lookup("java:/comp/env");
-			dataSource = (DataSource)environmentContext.lookup("jdbc/aviation");
+			environmentContext = (Context) initialContext.lookup("java:/comp/env");
+			dataSource = (DataSource) environmentContext.lookup("jdbc/aviation");
 			conn = dataSource.getConnection();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -56,7 +64,7 @@ public class AuthManager {
 			if (!existingAccount.next()) {
 				statement = conn.prepareStatement("INSERT INTO `accounts` VALUES (?, ?, ?, ?, ?, FALSE, default, default)");
 
-				statement.setString(1, bytesToHex(MessageDigest.getInstance("SHA-256").digest(String.format("%s%s%s%s%d", firstName, lastName, email, password, System.currentTimeMillis() / 1000L).getBytes(StandardCharsets.UTF_8))).substring(0, 32));
+					statement.setString(1, bytesToHex(MessageDigest.getInstance("SHA-256").digest(String.format("%s%s%s%s%d", firstName, lastName, email, password, System.currentTimeMillis() / 1000L).getBytes(StandardCharsets.UTF_8))).substring(0, 32));
 				statement.setString(2, firstName);
 				statement.setString(3, lastName);
 				statement.setString(4, email);
@@ -127,6 +135,19 @@ public class AuthManager {
 			} else {
 				return ErrorCode.USER_NOT_FOUND;
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ErrorCode.SERVER_ERROR;
+		}
+	}
+
+	public ErrorCode destroySession(String sessionId) {
+		try {
+			PreparedStatement statement = conn.prepareStatement("DELETE FROM sessions WHERE id = ?");
+			statement.setString(1, sessionId);
+			statement.execute();
+
+			return ErrorCode.OK;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ErrorCode.SERVER_ERROR;

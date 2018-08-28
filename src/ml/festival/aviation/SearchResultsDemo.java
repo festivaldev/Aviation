@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.sql.*;
 import javax.sql.*;
 import javax.naming.*;
+import javax.xml.transform.Result;
 
 public class SearchResultsDemo {
 	private static String[] flightCompanies = {"NZ", "EK", "EY", "AY", "LH", "MH", "QF", "QR", "SK", "SQ", "TK", "UA", "VS"};
@@ -149,27 +150,39 @@ public class SearchResultsDemo {
 		return null;
 	}
 
-	public static void completeBooking(JSONObject requestData) {
+	public static boolean completeBooking(JSONObject requestData) {
 		try {
+			System.out.println(requestData);
 			InitialContext initialContext = new InitialContext();
 			Context environmentContext = (Context) initialContext.lookup("java:/comp/env");
 			DataSource dataSource = (DataSource) environmentContext.lookup("jdbc/aviation");
 			Connection conn = dataSource.getConnection();
 
-			PreparedStatement statement = conn.prepareStatement("INSERT INTO bookings VALUES(?, 'SVID', '', ?, ?, ?, ?, ?, ?, ?, 0, DEFAULT, DEFAULT)");
-			statement.setString(1, bytesToHex(MessageDigest.getInstance("SHA-256").digest(String.format("%d", System.currentTimeMillis() / 1000L).getBytes(StandardCharsets.UTF_8))).substring(0, 32));
-			statement.setString(2, requestData.getString("flight_number"));
-			statement.setString(3, requestData.getString("depart_iata"));
-			statement.setString(4, requestData.getString("arrv_iata"));
+			PreparedStatement statement = conn.prepareStatement("SELECT firstName, lastName FROM billing_addresses WHERE id = ?");
+			statement.setString(1, requestData.getString("billingId"));
+			ResultSet holder = statement.executeQuery();
 
-			LocalDateTime dateTime = LocalDateTime.parse(requestData.getString("depart_date"), DateTimeFormatter.ISO_DATE_TIME);
-			statement.setString(5, dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")));
-			statement.setString(6, requestData.getString("flight_class"));
-			statement.setString(7, requestData.getString("passengers"));
-			statement.setString(8, requestData.getString("services"));
-			statement.execute();
+			if (holder.next()) {
+				statement = conn.prepareStatement("INSERT INTO bookings VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, DEFAULT, DEFAULT)");
+				statement.setString(1, bytesToHex(MessageDigest.getInstance("SHA-256").digest(String.format("%d", System.currentTimeMillis() / 1000L).getBytes(StandardCharsets.UTF_8))).substring(0, 32));
+				statement.setString(2, bytesToHex(MessageDigest.getInstance("SHA-256").digest(String.format("%d", System.currentTimeMillis() / 1000L + new Random().nextInt((int)1e8)).getBytes(StandardCharsets.UTF_8))).substring(0, 13));
+				statement.setString(3, holder.getString("firstName") + " " + holder.getString("lastName"));
+				statement.setString(4, requestData.getString("flight_number"));
+				statement.setString(5, requestData.getString("depart_iata"));
+				statement.setString(6, requestData.getString("arrv_iata"));
+
+				LocalDateTime dateTime = LocalDateTime.parse(requestData.getString("depart_date"), DateTimeFormatter.ISO_DATE_TIME);
+				statement.setString(7, dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")));
+				statement.setString(8, requestData.getString("flight_class"));
+				statement.setString(9, requestData.getString("passengers"));
+				statement.setString(10, requestData.getString("services"));
+				statement.setString(11, requestData.getString("price"));
+
+				return statement.execute();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
 }
