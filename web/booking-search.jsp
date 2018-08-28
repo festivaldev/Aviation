@@ -141,7 +141,7 @@
 					</div>
 					<div class="results-footer">
 						<button onclick="if (confirm(&quot;Möchtest du wirklich abbrechen?&quot;)) history.back()" class="outline red">Abbrechen</button>
-						<button onclick="document.forms[&quot;selectedItem&quot;].submit()" class="fill blue continue-button">Suchen</button>
+						<button onclick="document.forms[0].submit()" class="fill blue continue-button">Suchen</button>
 					</div>
 				</div>
 			</div>

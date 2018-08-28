@@ -12,7 +12,7 @@
 	JSONObject demoData = new JSONObject();
  
 	Boolean didCompleteBooking = false;
-	/*try {
+	try {
 		Map<String, String[]> parameters = request.getParameterMap();
 		for(String parameter : parameters.keySet()) {
 			requestData.put(parameter, request.getParameter(parameter));
@@ -21,7 +21,7 @@
 		didCompleteBooking = SearchResultsDemo.completeBooking(requestData);
 	} catch (Exception e) {
 		e.printStackTrace();
-	}*/
+	}
 %>
  <!DOCTYPE html>
 <html>

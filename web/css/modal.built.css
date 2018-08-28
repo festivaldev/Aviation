@@ -1,0 +1,140 @@
+section.modal {
+  --modal-background: #FFF;
+  --modal-color: #000;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  left: 0;
+  opacity: 0;
+  padding: 0;
+  pointer-events: none;
+  position: fixed;
+  transition: all 0.2s ease 0.2s;
+  top: 0;
+  width: 100vw;
+  z-index: 9999999;
+  -webkit-backdrop-filter: saturate(100%) blur(20px);
+}
+@media all and (min-width: 576px) {
+  section.modal {
+    padding: 24px;
+  }
+}
+section.modal.error {
+  --modal-background: #DE350B;
+  --modal-color: #FFF;
+}
+section.modal.error .icon.error {
+  display: inline-block !important;
+}
+section.modal.info {
+  --modal-background: #0747A6;
+  --modal-color: #FFF;
+}
+section.modal.info .icon.info {
+  display: inline-block !important;
+}
+section.modal.question {
+  --modal-background: #172B4D;
+  --modal-color: #F3F5F8;
+}
+section.modal.question .icon.question {
+  display: inline-block !important;
+}
+section.modal.success {
+  --modal-background: #33B025;
+  --modal-color: #FFF;
+}
+section.modal.success .icon.success {
+  display: inline-block !important;
+}
+section.modal.warning {
+  --modal-background: #FFC400;
+  --modal-color: #253858;
+}
+section.modal.warning .icon.warning {
+  display: inline-block !important;
+}
+section.modal .modal-inner {
+  background-color: #FFF;
+  color: #172B4D;
+  height: 100%;
+  opacity: 0;
+  padding: 1em;
+  position: relative;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+@media all and (min-width: 576px) {
+  section.modal .modal-inner {
+    border-radius: 12px;
+  }
+}
+@media all and (min-width: 768px) {
+  section.modal .modal-inner {
+    height: auto;
+    max-width: 90%;
+  }
+}
+@media all and (min-width: 992px) {
+  section.modal .modal-inner {
+    max-width: 75%;
+  }
+}
+@media all and (min-width: 1200px) {
+  section.modal .modal-inner {
+    max-width: 50%;
+  }
+}
+section.modal .modal-inner .content {
+  max-height: calc(100% - 1.5em - 32px);
+  min-height: 10em;
+  padding: 1em;
+  padding-bottom: 3em;
+}
+section.modal .modal-inner .content .title-bar {
+  display: flex;
+  margin-bottom: 1em;
+}
+section.modal .modal-inner .content .icon {
+  color: var(--modal-background);
+  display: none;
+  fill: var(--modal-color);
+  margin-right: 0.75em;
+}
+section.modal .modal-inner .content .title {
+  font-weight: 600;
+  line-height: 22px;
+}
+section.modal .modal-inner .buttons {
+  bottom: 1em;
+  display: flex;
+  position: absolute;
+  right: 1em;
+}
+section.modal .modal-inner .buttons button {
+  background-color: var(--modal-background);
+  color: var(--modal-color);
+  display: block;
+  font-size: 13px;
+  margin: 0;
+  margin-left: 0.5em;
+}
+section.modal .modal-inner .buttons button:last-of-type {
+  background-color: #EBECF0;
+  color: #172B4D;
+}
+body.modal-open {
+  overflow-y: hidden;
+}
+body.modal-open section.modal {
+  opacity: 1;
+  pointer-events: all;
+  transition: all 0.2s ease;
+}
+body.modal-open section.modal .modal-inner {
+  opacity: 1;
+  transition: all 0.2s ease 0.2s;
+}
