@@ -12,7 +12,7 @@
 	JSONObject demoData = new JSONObject();
  
 	Boolean didCompleteBooking = false;
-	try {
+	/*try {
 		Map<String, String[]> parameters = request.getParameterMap();
 		for(String parameter : parameters.keySet()) {
 			requestData.put(parameter, request.getParameter(parameter));
@@ -21,7 +21,7 @@
 		didCompleteBooking = SearchResultsDemo.completeBooking(requestData);
 	} catch (Exception e) {
 		e.printStackTrace();
-	}
+	}*/
 %>
  <!DOCTYPE html>
 <html>
@@ -97,8 +97,21 @@
 				<div class="search-results-container column column-12 medium-8">
 					<div class="scroll-container billing-address">
 						<div class="result-header">
+							 
+							<%
+								if (didCompleteBooking) {
+							%>
 							<h4 class="date"><span>Buchung abschließen</span></h4>
 							<p>Deine Buchung ist jetzt getätigt! Da wäre nur noch eine Sache: das Finanzielle. Bitte zahle innerhalb der nächsten 24 Stunden über unseren Bezahldienst VirtuaMonetenPay, damit du dich ganz ohne Sorgen auf deinen Urlaub freuen kannst!</p><!-- HIER WIDGET EINFÜGEN -->
+							 
+							<%
+								} else {
+							%>
+							<h4 class="date"><span>Da hat etwas nicht geklappt.</span></h4>
+							<p>Bei der Buchung ist leider etwas schief gelaufen. Das Problem liegt entweder auf unserer Seite ('tschuldigung) oder auf deiner Seite. Probiere es doch in wenigen Minuten erneut. Auf keinen Fall solltest du die Seite konstant neu laden, das kann unsere Katze nicht so gut ab.</p> 
+							<%
+								}
+							%>
 						</div>
 					</div>
 					<div class="fill-background"></div>
