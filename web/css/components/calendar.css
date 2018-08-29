@@ -45,6 +45,7 @@
 .calendar .calendar-content .calendar-toolbar .next-year {
   width: 27px;
   padding: 8px;
+  cursor: pointer;
 }
 .calendar .calendar-content .calendar-toolbar .prev-month:after,
 .calendar .calendar-content .calendar-toolbar .next-month:after,
@@ -80,6 +81,7 @@
   line-height: 36px;
   text-align: center;
   font-weight: 500;
+  cursor: default;
 }
 .calendar .calendar-content .days {
   display: flex;
