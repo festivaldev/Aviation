@@ -184,7 +184,7 @@ public class AuthManager {
 			ResultSet session = statement.executeQuery();
 
 			if (session.next()) {
-				statement = conn.prepareStatement("SELECT firstName, lastName, email, isAdmin FROM accounts WHERE id = ?");
+				statement = conn.prepareStatement("SELECT * FROM accounts WHERE id = ?");
 				statement.setString(1, session.getString("accountId"));
 
 				return statement.executeQuery();
