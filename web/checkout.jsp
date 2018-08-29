@@ -219,17 +219,27 @@
 							<h2>Rechnung #<%= invoice %></h2>
 							<table>
 								<tr>
-									<td>Flugticket für <%= flightId %><br><%= fromIATA %> &rarr; <%= toIATA %></td>
-									<td></td>
-								</tr>
+									<td>Flugticket für <%= flightId %><br><%= fromIATA %> &rarr; <%= toIATA %><br><%= flightClass.toUpperCase() %></td>
+									<td><%= String.format("%.2f", price) %>€</td>
+								</tr> 
+								<%
+									for (int i = 0; i < extras.split(",").length; i++) {
+									    PreparedStatement stm = conn.prepareStatement("SELECT * FROM services WHERE serviceId = ?");
+									    stm.setString(1, extras.split(",")[i]);
+								 
+									    ResultSet extra = stm.executeQuery();
+								 
+									    if (extra.next()) {
+									        price += extra.getFloat("price");
+								%>
 								<tr>
-									<td><%= flightClass %></td>
-									<td></td>
-								</tr>
-								<tr>
-									<td><%= extras %></td>
-									<td></td>
-								</tr>
+									<td><%= extra.getString("title") %></td>
+									<td><%= String.format("%.2f", extra.getFloat("price")) %>€</td>
+								</tr> 
+								<%
+										}
+									}
+								%>
 							</table>
 							<h3>Total: <%= price %>€</h3>
 						</article>
@@ -242,15 +252,15 @@
 								<%
 									if (!paymentError && !paymentOk) {
 								%>
-								<input type="hidden" id="invoice" name="invoice" value="&lt;%= invoice %&gt;">
+								<input type="hidden" id="invoice" name="invoice" value="<%= invoice %>">
 								<div class="input-wrapper">
-									<input type="text" data-corresponds="holder" id="holder" name="holder" placeholder=" " value="&lt;%= holder %&gt;"><span>Karteninhaber</span>
+									<input type="text" data-corresponds="holder" id="holder" name="holder" placeholder=" " value="<%= holder %>"><span>Karteninhaber</span>
 								</div>
 								<div class="input-wrapper">
-									<input type="text" data-corresponds="number" id="number" name="number" maxlength="19" placeholder=" " value="&lt;%= number %&gt;"><span>Kartennummer</span>
+									<input type="text" data-corresponds="number" id="number" name="number" maxlength="19" placeholder=" " value="<%= number %>"><span>Kartennummer</span>
 								</div>
 								<div class="input-wrapper">
-									<input type="text" data-corresponds="expiration" id="expiration" name="expiration" maxlength="5" placeholder=" " value="&lt;%= expiration %&gt;"><span>Gültig bis</span>
+									<input type="text" data-corresponds="expiration" id="expiration" name="expiration" maxlength="5" placeholder=" " value="<%= expiration %>"><span>Gültig bis</span>
 								</div>
 								<div class="input-wrapper">
 									<input type="password" maxlength="3" id="cvv" name="cvv" placeholder=" "><span>CVV</span>
@@ -271,7 +281,7 @@
 									<%
 										} else {
 									%>
-									<button data-modal-type="warning" data-modal-title="Kauf bestätigen" data-modal-text="Bitte bestätige, dass du den Kauf wirklich tätigen willst." data-modal-primary="Kostenpflichtig kaufen" data-modal-primary-action="submit" data-modal-primary-action-timeout="3000" data-modal-secondary="Kauf abbrechen" class="modal-trigger"><%= price %>€ Bezahlen</button> 
+									<button data-modal-type="warning" data-modal-title="Kauf bestätigen" data-modal-text="Bitte bestätige, dass du den Kauf wirklich tätigen willst." data-modal-primary="Kostenpflichtig kaufen" data-modal-primary-action="submit" data-modal-primary-action-timeout="3000" data-modal-secondary="Kauf abbrechen" class="modal-trigger"><%= String.format("%.2f", price) %>€ Bezahlen</button> 
 									<%
 										}
 									%>
@@ -294,7 +304,10 @@
 								<p>Powered by <span>VirtuaMonetenPay</span></p>
 							</form>
 						</article>
-					</div>
+					</div> 
+					<%
+						}
+					%>
 				</div>
 			</section>
 		</div>

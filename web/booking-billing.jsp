@@ -37,6 +37,7 @@
 		<title>Rechnungsadresse – FESTIVAL Aviation</title>
 		<link rel="stylesheet" href="css/aviation.css">
 		<link rel="stylesheet" href="css/booking.built.css">
+		<link rel="stylesheet" href="css/modal.built.css">
 	</head>
 	<body>
 		<nav class="global-nav">
@@ -64,6 +65,20 @@
 				</ul>
 			</div>
 		</nav>
+		<section class="modal">
+			<div class="modal-inner">
+				<div class="content">
+					<div id="modal-title-bar" class="title-bar"><span class="icon error"><span class="ai ai-error"></span></span><span class="icon info"><span class="ai ai-info"></span></span><span class="icon question"><span class="ai ai-question"></span></span><span class="icon success"><span class="ai ai-success"></span></span><span class="icon warning"><span class="ai ai-warning"></span></span>
+						<p id="modal-title" class="title"></p>
+					</div>
+					<p id="modal-text"></p>
+				</div>
+				<div class="buttons">
+					<button id="modal-primary"></button>
+					<button id="modal-close">Schließen</button>
+				</div>
+			</div>
+		</section>
 		<section class="search-results">
 			<div class="section-content row">
 				<div class="progress-overview column medium-3">
@@ -247,6 +262,8 @@
 			%>
 			<input name="billingId">
 		</form>
+		<script src="js/icons.js"></script>
+		<script src="js/modal.js"></script>
 		<script type="text/javascript" src="js/flight-search.js"></script>
 	</body>
 </html> 

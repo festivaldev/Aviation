@@ -134,9 +134,6 @@ section.search-results .search-results-container .search-results-header .row .co
   font-weight: 600;
   line-height: 16px;
   color: #555555;
-  white-space: nowrap ;
-  overflow: hidden ;
-  text-overflow: ellipsis ;
   text-transform: uppercase;
 }
 section.search-results .search-results-container .search-results-header .row .column .column-content {
@@ -147,6 +144,11 @@ section.search-results .search-results-container .search-results-header .row .co
   padding: 2px 0;
   text-transform: uppercase;
   background: transparent;
+}
+section.search-results .search-results-container .search-results-header .row .column p.column-content {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 section.search-results .search-results-container .search-results-header .row .column ::placeholder {
   color: rgba(0, 0, 0, 0.4);
@@ -335,10 +337,10 @@ section.search-results .search-results-container .fill-background {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
   background-color: #F3F3F3;
 }
-section.search-results .search-results-container .fill-background p.placeholder-text {
+section.search-results .search-results-container .fill-background .placeholder-text {
   text-align: center;
   color: rgba(0, 0, 0, 0.4);
   font-size: 18px;

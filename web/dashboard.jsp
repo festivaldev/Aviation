@@ -33,6 +33,7 @@
 		<title>Dashboard – FESTIVAL Aviation</title>
 		<link rel="stylesheet" href="css/aviation.css">
 		<link rel="stylesheet" href="css/dashboard.built.css">
+		<link rel="stylesheet" href="css/components/tables.css">
 	</head>
 	<body>
 		<nav class="global-nav">
@@ -75,10 +76,10 @@
 						</ul>
 						<ul class="user-cp-menu">
 							<li class="menu-item heading">Buchungen</li> 
-							 <a href="?p=bookings" class="menu-item <%= isCurrentPage(request.getParameter("p"), "bookings") ? "selected" : "" %>">
-								<li>Alle Buchungen</li></a> 
-							 <a href="?p=tickets" class="menu-item <%= isCurrentPage(request.getParameter("p"), "tickets") ? "selected" : "" %>">
-								<li>Tickets</li></a>
+							 <a href="?p=openBookings" class="menu-item <%= isCurrentPage(request.getParameter("p"), "openBookings") ? "selected" : "" %>">
+								<li>Offene Buchungen</li></a> 
+							 <a href="?p=completedBookings" class="menu-item <%= isCurrentPage(request.getParameter("p"), "completedBookings") ? "selected" : "" %>">
+								<li>Abgeschlossene Buchungen</li></a>
 						</ul>
 						<ul class="user-cp-menu"><a href="?p=logout" class="menu-item">
 								<li>Abmelden</li></a></ul>
@@ -190,6 +191,75 @@
 								</div>
 							</div>
 						</form>
+					</div> 
+					<% } %>
+					 
+					<% if (isCurrentPage(request.getParameter("p"), "complaints")) { %>
+					<div class="column column-8 offset-1">
+						<h2>Beschwerden</h2>
+						<p>Hier siehst du eine Liste all deiner Beschwerden und ob diese bereits gelöst wurden.</p>
+						<table>
+							<thead>
+								<tr>
+									<th>Beschwerde-ID</th>
+									<th>Art</th>
+									<th>Eingereicht</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>#0123456789abcdef</td>
+									<td>Werbung + Marceting</td>
+									<td>01.01.1970 01:00</td>
+								</tr>
+							</tbody>
+						</table>
+					</div> 
+					<% } %>
+					 
+					<% if (isCurrentPage(request.getParameter("p"), "openBookings")) { %>
+					<div class="column column-8 offset-1">
+						<h2>Offene Buchungen</h2>
+						<p>Hier siehst du eine Liste all deiner noch offenen Buchungen, die bezahlt werden müssen. Sonst darfst du nicht fliegen, yo!</p>
+						<table>
+							<thead>
+								<tr>
+									<th>Beschwerde-ID</th>
+									<th>Art</th>
+									<th>Eingereicht</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>#0123456789abcdef</td>
+									<td>Werbung + Marceting</td>
+									<td>01.01.1970 01:00</td>
+								</tr>
+							</tbody>
+						</table>
+					</div> 
+					<% } %>
+					 
+					<% if (isCurrentPage(request.getParameter("p"), "completedBookings")) { %>
+					<div class="column column-8 offset-1">
+						<h2>Abgeschlossene Buchungen</h2>
+						<p>Hier siehst du eine Liste all deiner abgeschlossenen Buchungen, die die bereits bezahlt wurden.</p>
+						<table>
+							<thead>
+								<tr>
+									<th>Beschwerde-ID</th>
+									<th>Art</th>
+									<th>Eingereicht</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>#0123456789abcdef</td>
+									<td>Werbung + Marceting</td>
+									<td>01.01.1970 01:00</td>
+								</tr>
+							</tbody>
+						</table>
 					</div> 
 					<% } %>
 					 

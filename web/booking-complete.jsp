@@ -10,15 +10,15 @@
 <%
 	JSONObject requestData = new JSONObject();
 	JSONObject demoData = new JSONObject();
+	String bookingResultId = null;
  
-	Boolean didCompleteBooking = false;
 	try {
 		Map<String, String[]> parameters = request.getParameterMap();
 		for(String parameter : parameters.keySet()) {
 			requestData.put(parameter, request.getParameter(parameter));
 		}
  
-		didCompleteBooking = SearchResultsDemo.completeBooking(requestData);
+		bookingResultId = SearchResultsDemo.completeBooking(requestData);
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
@@ -99,7 +99,7 @@
 						<div class="result-header">
 							 
 							<%
-								if (didCompleteBooking) {
+								if (bookingResultId != null && !bookingResultId.isEmpty()) {
 							%>
 							<h4 class="date"><span>Buchung abschließen</span></h4>
 							<p>Deine Buchung ist jetzt getätigt! Da wäre nur noch eine Sache: das Finanzielle. Bitte zahle innerhalb der nächsten 24 Stunden über unseren Bezahldienst VirtuaMonetenPay, damit du dich ganz ohne Sorgen auf deinen Urlaub freuen kannst!</p><!-- HIER WIDGET EINFÜGEN -->
@@ -114,7 +114,11 @@
 							%>
 						</div>
 					</div>
-					<div class="fill-background"></div>
+					<div class="fill-background">
+						<p class="placeholder-text">Hier klicken, um zu bezahlen</p>
+						<div class="placeholder-text"><a href="checkout.jsp?invoice=<%= bookingResultId %>">
+								<button class="call fill red">Jetzt bezahlen</button></a></div>
+					</div>
 					<div class="results-footer">
 						<button onclick="location.href = &quot;index.jsp&quot;" class="outline blue">Zur Startseite</button>
 						<button onclick="location.href = &quot;dashboard.jsp&quot;" class="fill blue continue-button">Zum Dashboard</button>

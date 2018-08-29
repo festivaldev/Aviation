@@ -41,6 +41,15 @@ public class SearchResultsDemo {
 			if (departureSet.next() && arrivalSet.next()) {
 				JSONObject returnObj = new JSONObject();
 
+				if (departureSet.getString("gps_code").equals("OSTF")) {
+					returnObj.put("redirect", String.format("secret.jsp?key=%s", Base64.getEncoder().encodeToString(departureSet.getString("home_link").getBytes())));
+					return returnObj;
+				}
+				if (arrivalSet.getString("gps_code").equals("OSTF")) {
+					returnObj.put("redirect", String.format("secret.jsp?key=%s", Base64.getEncoder().encodeToString(arrivalSet.getString("home_link").getBytes())));
+					return returnObj;
+				}
+
 				returnObj.put("departureDate", departureDate);
 				returnObj.put("departureName", departureSet.getString("name"));
 				returnObj.put("departureMunicipality", departureSet.getString("municipality"));
@@ -150,9 +159,8 @@ public class SearchResultsDemo {
 		return null;
 	}
 
-	public static boolean completeBooking(JSONObject requestData) {
+	public static String completeBooking(JSONObject requestData) {
 		try {
-			System.out.println(requestData);
 			InitialContext initialContext = new InitialContext();
 			Context environmentContext = (Context) initialContext.lookup("java:/comp/env");
 			DataSource dataSource = (DataSource) environmentContext.lookup("jdbc/aviation");
@@ -163,9 +171,11 @@ public class SearchResultsDemo {
 			ResultSet holder = statement.executeQuery();
 
 			if (holder.next()) {
+				String bookingId = bytesToHex(MessageDigest.getInstance("SHA-256").digest(String.format("%d", System.currentTimeMillis() / 1000L).getBytes(StandardCharsets.UTF_8))).substring(0, 32);
+
 				statement = conn.prepareStatement("INSERT INTO bookings VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, DEFAULT, DEFAULT)");
-				statement.setString(1, bytesToHex(MessageDigest.getInstance("SHA-256").digest(String.format("%d", System.currentTimeMillis() / 1000L).getBytes(StandardCharsets.UTF_8))).substring(0, 32));
-				statement.setString(2, bytesToHex(MessageDigest.getInstance("SHA-256").digest(String.format("%d", System.currentTimeMillis() / 1000L + new Random().nextInt((int)1e8)).getBytes(StandardCharsets.UTF_8))).substring(0, 13));
+				statement.setString(1, bookingId);
+				statement.setString(2, bytesToHex(MessageDigest.getInstance("SHA-256").digest(String.format("%d", System.currentTimeMillis() / 1000L + new Random().nextInt((int) 1e8)).getBytes(StandardCharsets.UTF_8))).substring(0, 13));
 				statement.setString(3, holder.getString("firstName") + " " + holder.getString("lastName"));
 				statement.setString(4, requestData.getString("flight_number"));
 				statement.setString(5, requestData.getString("depart_iata"));
@@ -178,11 +188,13 @@ public class SearchResultsDemo {
 				statement.setString(10, requestData.getString("services"));
 				statement.setString(11, requestData.getString("price"));
 
-				return statement.executeUpdate() > 0;
+				if (statement.executeUpdate() > 0) {
+					return bookingId;
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return false;
+		return null;
 	}
 }
