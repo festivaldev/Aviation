@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
-		<title>Beschwerden – FESTIVAL Aviation Support</title>
+		<title>Impressum – FESTIVAL Aviation Support</title>
 		<link rel="stylesheet" href="css/aviation.css">
 		<link rel="stylesheet" href="css/support-center.built.css">
 	</head>
@@ -25,11 +25,9 @@
 				</div>
 				<ul class="nav-list">
 					<li><a href="/" class="link-home"></a></li>
-					<li><a href="search.jsp">Flüge</a></li>
-					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
+					<li><a href="booking-search.jsp">Flüge</a></li>
+					<li><a href="featured.jsp">Reiseziele</a></li>
+					<li><a href="sc-contact.jsp">Kontakt</a></li>
 					<li><a href="sc-index.jsp">Support</a></li>
 					<li><a href="dashboard.jsp" class="link-user-cp"></a></li>
 				</ul>
@@ -51,41 +49,28 @@
 		</section>
 		<div class="content-wrapper">
 			<section class="support">
-				<div class="section-content row reversed">
+				<div class="section-content row">
 					<div class="column column-3">
-						<ul class="sc-menu">
-							<li class="menu-item heading">Support</li><a href="sc-index.jsp" class="menu-item">
-								<li>FAQ</li></a><a href="sc-contact.jsp" class="menu-item">
-								<li>Kontakt</li></a><a href="sc-cancellations.html" class="menu-item">
-								<li>Stornierungen</li></a><a href="sc-complaints.html" class="menu-item selected">
-								<li>Beschwerden</li></a><a href="sc-rights.html" class="menu-item">
-								<li>Fluggastrechte</li></a>
-						</ul>
+						<ul class="sc-menu"><a href="imprint.html" class="menu-item selected">
+								<li>Impressum</li></a><a href="privacy.html" class="menu-item">
+								<li>Datenschutzerklärung</li></a></ul>
 					</div>
 					<div class="column column-8 offset-1">
-						<h2>Beschwerde einreichen</h2>
-						<p class="flow">Etwas lief bei deiner letzten Buchung schief oder du bist mit dem Flug nicht zufrieden gewesen? Was es auch sein mag, wir kümmern uns drum; Denn du verdienst es!</p>
-						<p class="flow">Allerdings benötigen wir dafür ein paar Details von dir. Versuch das wichtigste in deiner Nachricht zu erwähnen, dann müssen wir nicht so viel nachfragen und können uns schneller und besser um dein Problem kümmern!</p>
-						<form action="#">
-							<label for="firstName">Vorname</label>
-							<input type="text" name="firstName" id="firstName">
-							<label for="lastName">Nachname</label>
-							<input type="text" name="lastName" id="lastName">
-							<label for="email">E-Mail-Adresse</label>
-							<input type="email" name="email" id="email"><a data-modal-type="question" data-modal-title="Warum muss ich eine E-Mail-Adresse angeben?" data-modal-text="Ohne Angabe einer E-Mail-Adresse können wir nicht auf dein Anliegen antworten. Aber keine Sorge, alle deine Daten werden vertraulich behandelt und nur bis zur Aufklärung deiner Anfrage aufbewahrt." class="help modal-trigger">Ist das notwendig?</a>
-							<label for="complaintType">Art der Beschwerde</label>
-							<select name="complaintType" id="complaintType">
-								<option value="general">Allgemeine Beschwerde</option>
-								<option value="search">Suche								</option>
-								<option value="offer">Anegbot</option>
-								<option value="ads-marketing">Werbung + Marceting</option>
-								<option value="flight">Flug</option>
-								<option value="other">Sonstige</option>
-							</select>
-							<label for="message">Ihre Nachricht</label>
-							<textarea name="message" id="message" lines="12"></textarea>
-							<button data-modal-type="warning" data-modal-title="Passt das so?" data-modal-text="Du kannst deine Nachricht nach dem Abschicken nicht mehr bearbeiten. Bist du sicher, dass du deine Nachricht so abschicken willst?" data-modal-primary="Das passt so!" data-modal-primary-action="submit" data-modal-secondary="Ne noch nicht" class="modal-trigger">Absenden</button>
-						</form>
+						<h2>Impressum</h2><img src="img/logo-dark.svg" width="200" style="margin: 2em 0" alt="Aviation Logo">
+						<h3>FESTIVΛL Aviation Oy</h3>
+						<p class="flow">Postfach 12 34<br>D-30421 Hannover</p>
+						<h3>Registereintrag</h3>
+						<p class="flow">Landgericht Hannover HRA 1234</p>
+						<h3>Umsatzsteuer-Ident-Nummer</h3>
+						<p class="flow">DE 123 456 789</p>
+						<h3>Herausgeber</h3>
+						<p class="flow">FESTIVΛL Aviation Oy<br>Konzernkommunikation</p>
+						<h3>Redaktion</h3>
+						<p class="flow">Jonas Z.</p>
+						<h3>Design & tech. Umsetzung</h3>
+						<p class="flow">Fabian K.<br>Janik S.</p>
+						<h3>Kontakt</h3>
+						<p class="flow">E-Mail: kustomersatisfaktion@festival.aero</p>
 					</div>
 				</div>
 			</section>
@@ -96,13 +81,15 @@
 					<div class="footer-directory-column">
 						<h3 class="footer-directory-column-title">Aviation</h3>
 						<ul class="footer-directory-column-list">
-							<li><a href="search.jsp">Flüge</a></li>
-							<li><a href="#">Link</a></li>
+							<li><a href="booking-search.jsp">Flüge</a></li>
+							<li><a href="featured.jsp">Reiseziele</a></li>
 							<li><a href="#">Link</a></li>
 							<li><a href="#">Link</a></li>
 							<li><a href="#">Link</a></li>
 							<li><a href="sc-index.jsp">Support</a></li>
 							<li><a href="dashboard.jsp">Benutzerkontrollzentrum</a></li>
+							<li><a href="imprint.html">Impressum</a></li>
+							<li><a href="privacy.html">Datenschutzerklärung</a></li>
 						</ul>
 					</div>
 					<div class="footer-directory-column"></div>
@@ -129,7 +116,6 @@
 			</div>
 		</footer>
 	</body>
-	<script src="js/support-center.js"></script>
 	<script src="js/modal.js"></script>
 	<script src="js/icons.js"></script>
 </html>

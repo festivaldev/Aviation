@@ -13,14 +13,8 @@
 	Boolean validAuth = false;
 	AuthManager authManager = new AuthManager();
  
-	Cookie[] cookies = request.getCookies();
-	for (int i=0; i<cookies.length; i++) {
-		if (cookies[i].getName().equals("sid")) {
-			if (authManager.validate(cookies[i].getValue())) {
-				validAuth = true;
-				break;
-			}
-		}
+	if (authManager.validate(String.valueOf(session.getAttribute("sid")))) {
+		validAuth = true;
 	}
  
 	if (!validAuth) {
@@ -39,6 +33,7 @@
 		<title>Dashboard – FESTIVAL Aviation</title>
 		<link rel="stylesheet" href="css/aviation.css">
 		<link rel="stylesheet" href="css/dashboard.built.css">
+		<link rel="stylesheet" href="css/components/tables.css">
 	</head>
 	<body>
 		<nav class="global-nav">
@@ -57,12 +52,10 @@
 					</div><a href="#" class="link-home"></a><a href="dashboard.jsp" class="link-user-cp"></a>
 				</div>
 				<ul class="nav-list">
-					<li><a href="/" class="link-home"></a></li>
-					<li><a href="search.jsp">Flüge</a></li>
-					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
-					<li><a href="#">Link</a></li>
+					<li><a href="index.jsp" class="link-home"></a></li>
+					<li><a href="booking-search.jsp">Flüge</a></li>
+					<li><a href="featured.jsp">Reiseziele</a></li>
+					<li><a href="sc-contact.jsp">Kontakt</a></li>
 					<li><a href="sc-index.jsp">Support</a></li>
 					<li><a href="dashboard.jsp" class="link-user-cp"></a></li>
 				</ul>
@@ -83,11 +76,13 @@
 						</ul>
 						<ul class="user-cp-menu">
 							<li class="menu-item heading">Buchungen</li> 
-							 <a href="?p=bookings" class="menu-item <%= isCurrentPage(request.getParameter("p"), "bookings") ? "selected" : "" %>">
-								<li>Alle Buchungen</li></a> 
-							 <a href="?p=tickets" class="menu-item <%= isCurrentPage(request.getParameter("p"), "tickets") ? "selected" : "" %>">
-								<li>Tickets</li></a>
+							 <a href="?p=openBookings" class="menu-item <%= isCurrentPage(request.getParameter("p"), "openBookings") ? "selected" : "" %>">
+								<li>Offene Buchungen</li></a> 
+							 <a href="?p=completedBookings" class="menu-item <%= isCurrentPage(request.getParameter("p"), "completedBookings") ? "selected" : "" %>">
+								<li>Abgeschlossene Buchungen</li></a>
 						</ul>
+						<ul class="user-cp-menu"><a href="?p=logout" class="menu-item">
+								<li>Abmelden</li></a></ul>
 					</div> 
 					<% if (isCurrentPage(request.getParameter("p"), "profile")) { %>
 					<div class="column column-8 offset-1">
@@ -100,7 +95,7 @@
 							<input type="text" name="lastName" id="lastName">
 							<label for="email">E-Mail-Adresse</label>
 							<input type="email" name="email" id="email">
-							<button>Profil speichern</button>
+							<button class="fill blue">Profil speichern</button>
 						</form>
 						<h3>Passwort ändern</h3>
 						<form action="#">
@@ -110,7 +105,7 @@
 							<input type="password" name="newPassword" id="newPassword">
 							<label for="oldPassword">Neues Passwort bestätigen</label>
 							<input type="password" name="newPasswordConfirm" id="newPasswordConfirm">
-							<button>Passwort ändern </button>
+							<button class="fill blue">Passwort ändern </button>
 						</form>
 					</div> 
 					<% } %>
@@ -126,7 +121,7 @@
 								</div>
 								<div class="column column-6">
 									<select name="title" id="title">
-										<option value="none" selected></option>
+										<option value="" selected></option>
 										<option value="male">Herr</option>
 										<option value="female">Frau</option>
 									</select>
@@ -196,6 +191,89 @@
 								</div>
 							</div>
 						</form>
+					</div> 
+					<% } %>
+					 
+					<% if (isCurrentPage(request.getParameter("p"), "complaints")) { %>
+					<div class="column column-8 offset-1">
+						<h2>Beschwerden</h2>
+						<p>Hier siehst du eine Liste all deiner Beschwerden und ob diese bereits gelöst wurden.</p>
+						<table>
+							<thead>
+								<tr>
+									<th>Beschwerde-ID</th>
+									<th>Art</th>
+									<th>Eingereicht</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>#0123456789abcdef</td>
+									<td>Werbung + Marceting</td>
+									<td>01.01.1970 01:00</td>
+								</tr>
+							</tbody>
+						</table>
+					</div> 
+					<% } %>
+					 
+					<% if (isCurrentPage(request.getParameter("p"), "openBookings")) { %>
+					<div class="column column-8 offset-1">
+						<h2>Offene Buchungen</h2>
+						<p>Hier siehst du eine Liste all deiner noch offenen Buchungen, die bezahlt werden müssen. Sonst darfst du nicht fliegen, yo!</p>
+						<table>
+							<thead>
+								<tr>
+									<th>Beschwerde-ID</th>
+									<th>Art</th>
+									<th>Eingereicht</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>#0123456789abcdef</td>
+									<td>Werbung + Marceting</td>
+									<td>01.01.1970 01:00</td>
+								</tr>
+							</tbody>
+						</table>
+					</div> 
+					<% } %>
+					 
+					<% if (isCurrentPage(request.getParameter("p"), "completedBookings")) { %>
+					<div class="column column-8 offset-1">
+						<h2>Abgeschlossene Buchungen</h2>
+						<p>Hier siehst du eine Liste all deiner abgeschlossenen Buchungen, die die bereits bezahlt wurden.</p>
+						<table>
+							<thead>
+								<tr>
+									<th>Beschwerde-ID</th>
+									<th>Art</th>
+									<th>Eingereicht</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>#0123456789abcdef</td>
+									<td>Werbung + Marceting</td>
+									<td>01.01.1970 01:00</td>
+								</tr>
+							</tbody>
+						</table>
+					</div> 
+					<% } %>
+					 
+					<% if (isCurrentPage(request.getParameter("p"), "logout")) { %>
+					<div class="column column-8 offset-1">
+						<h2>Abmeldung erfolgt...</h2>
+						<p>Du wirst in kürze abgemeldet und zur Startseite umgeleitet</p> 
+						<%
+							authManager.openConnection();
+							if (authManager.destroySession(String.valueOf(session.getAttribute("sid"))) == AuthManager.ErrorCode.OK) {
+								response.sendRedirect("index.jsp");
+							}
+							authManager.closeConnection();
+						%>
 					</div> 
 					<% } %>
 				</div>

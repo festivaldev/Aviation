@@ -10,14 +10,9 @@
 	Boolean serverError = false;
 	AuthManager authManager = new AuthManager();
  
-	Cookie[] cookies = request.getCookies();
-	for (int i=0; i<cookies.length; i++) {
-		if (cookies[i].getName().equals("sid")) {
-			if (authManager.validate(cookies[i].getValue())) {
-				response.sendRedirect("dashboard.jsp");
-				return;
-			}
-		}
+	if (authManager.validate(String.valueOf(session.getAttribute("sid")))) {
+		response.sendRedirect("dashboard.jsp");
+		return;
 	}
  
 	if (request.getParameter("firstName") != null &&
@@ -40,10 +35,7 @@
  
 				if (authManager.register(firstName, lastName, email, hashedPassword) == AuthManager.ErrorCode.OK) {
 					if (authManager.generateSession(email) == AuthManager.ErrorCode.OK) {
-						Cookie sessionCookie = new Cookie("sid", authManager.getCurrentSessionId(email));
-						sessionCookie.setMaxAge(7200);
-						response.addCookie(sessionCookie);
- 
+						session.setAttribute("sid", authManager.getCurrentSessionId(email));
 						response.sendRedirect("dashboard.jsp");
 					}
 				} else {
@@ -111,7 +103,7 @@
 								<div class="form-textbox-wrapper">
 									<input type="password" name="passwordConfirm" id="passwordConfirm" placeholder=" " required class="form-textbox"><span class="form-textbox-placeholder">Passwort bestätigen</span>
 								</div>
-								<button class="call">Registrieren</button>
+								<button class="fill blue call">Registrieren</button>
 							</form><a href="login.jsp">Schon registriert?</a>
 						</div>
 					</div>

@@ -146,7 +146,17 @@ var Calendar = function(element, options) {
                 calendar.show.getDate() === first.getDate()
             ) {
                 day.classList.add("show");
-            }
+			}
+			
+			if (calendar.options.hidePast) {
+				if (
+					first.getFullYear() < calendar.today.getFullYear() ||
+					(first.getMonth() < calendar.today.getMonth() && first.getFullYear() == calendar.today.getFullYear()) ||
+					(first.getDate() < calendar.today.getDate() && first.getMonth() == calendar.today.getMonth() && first.getFullYear() == calendar.today.getFullYear())
+				) {
+					day.classList.add("outside");
+				}
+			}
 			
 			counter++;
 			if (counter % 7 == 0) {
@@ -212,13 +222,12 @@ var Calendar = function(element, options) {
 			});
 		});
 		
-		calendar.element.querySelectorAll(".day:not(.outside)").forEach(item => {
+		calendar.element.querySelectorAll(".days .day:not(.outside)").forEach(item => {
 			item.addEventListener("click", () => {
 				calendar.show = new Date(parseInt(item.getAttribute("date")));
 				_build();
 				
 				if (typeof calendar.options.onDateSelected === "function") {
-					console.log(calendar.show);
 					calendar.options.onDateSelected(calendar.show);
 				}
 			})

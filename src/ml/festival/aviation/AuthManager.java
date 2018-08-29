@@ -24,9 +24,17 @@ public class AuthManager {
 
 	public AuthManager() {
 		try {
+			openConnection();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void openConnection() {
+		try {
 			initialContext = new InitialContext();
-			environmentContext = (Context)initialContext.lookup("java:/comp/env");
-			dataSource = (DataSource)environmentContext.lookup("jdbc/aviation");
+			environmentContext = (Context) initialContext.lookup("java:/comp/env");
+			dataSource = (DataSource) environmentContext.lookup("jdbc/aviation");
 			conn = dataSource.getConnection();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -133,6 +141,19 @@ public class AuthManager {
 		}
 	}
 
+	public ErrorCode destroySession(String sessionId) {
+		try {
+			PreparedStatement statement = conn.prepareStatement("DELETE FROM sessions WHERE id = ?");
+			statement.setString(1, sessionId);
+			statement.execute();
+
+			return ErrorCode.OK;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ErrorCode.SERVER_ERROR;
+		}
+	}
+
 	public String getCurrentSessionId(String email) {
 		try {
 			PreparedStatement statement = conn.prepareStatement("SELECT id, password FROM accounts WHERE email = ?");
@@ -167,6 +188,29 @@ public class AuthManager {
 				statement.setString(1, session.getString("accountId"));
 
 				return statement.executeQuery();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	public ResultSet getBillingAddress(String sessionId) {
+		try {
+			PreparedStatement statement = conn.prepareStatement("SELECT accountID FROM sessions WHERE id = ?");
+			statement.setString(1, sessionId);
+			ResultSet session = statement.executeQuery();
+
+			if (session.next()) {
+				statement = conn.prepareStatement("SELECT * FROM billing_addresses WHERE accountId = ?");
+				statement.setString(1, session.getString("accountId"));
+
+				ResultSet billingAddress = statement.executeQuery();
+
+				if (billingAddress.next()) {
+					return billingAddress;
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

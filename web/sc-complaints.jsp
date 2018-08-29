@@ -18,60 +18,63 @@
 %>
  
 <%
-	InitialContext initialContext;
-	Context environmentContext;
-	DataSource dataSource;
-	Connection conn = null;
+    InitialContext initialContext;
+    Context environmentContext;
+    DataSource dataSource;
+    Connection conn = null;
  
-	String firstName = "";
-	String lastName = "";
-	String email = "";
-	String message = "";
+    String firstName = "";
+    String lastName = "";
+    String email = "";
+    String type = "";
+    String message = "";
  
-	boolean invalid = false;
-	boolean send = false;
-	boolean error = false;
+    boolean invalid = false;
+    boolean send = false;
+    boolean error = false;
  
-	request.setCharacterEncoding("UTF-8");
+    request.setCharacterEncoding("UTF-8");
  
-	if ("POST".equals(request.getMethod())) {
-	    firstName = request.getParameter("firstName");
-	    lastName = request.getParameter("lastName");
-	    email = request.getParameter("email");
-	    message = request.getParameter("message");
+    if ("POST".equals(request.getMethod())) {
+        firstName = request.getParameter("firstName");
+        lastName = request.getParameter("lastName");
+        email = request.getParameter("email");
+        type = request.getParameter("complaintType");
+        message = request.getParameter("message");
  
-	    if (firstName != null && !firstName.isEmpty() && lastName != null && !lastName.isEmpty() && email != null && !email.isEmpty() && message != null && !message.isEmpty()) {
-	        try {
-	            initialContext = new InitialContext();
-	            environmentContext = (Context)initialContext.lookup("java:/comp/env");
-	            dataSource = (DataSource)environmentContext.lookup("jdbc/aviation");
-	            conn = dataSource.getConnection();
+        if (firstName != null && !firstName.isEmpty() && lastName != null && !lastName.isEmpty() && email != null && !email.isEmpty() && message != null && !message.isEmpty()) {
+            try {
+                initialContext = new InitialContext();
+                environmentContext = (Context)initialContext.lookup("java:/comp/env");
+                dataSource = (DataSource)environmentContext.lookup("jdbc/aviation");
+                conn = dataSource.getConnection();
  
-	            PreparedStatement statement = conn.prepareStatement("INSERT INTO `contacts` VALUES (?, ?, ?, ?, 'contact', ?, default, default)");
+                PreparedStatement statement = conn.prepareStatement("INSERT INTO `contacts` VALUES (?, ?, ?, ?, ?, ?, default, default)");
  
-	            statement.setString(1, bytesToHex(MessageDigest.getInstance("SHA-256").digest(String.format("%s%s%s%s%d", firstName, lastName, email, message, System.currentTimeMillis() / 1000L).getBytes(StandardCharsets.UTF_8))).substring(0, 32));
-	            statement.setString(2, firstName);
-	            statement.setString(3, lastName);
-	            statement.setString(4, email);
-	            statement.setString(5, message);
+                statement.setString(1, bytesToHex(MessageDigest.getInstance("SHA-256").digest(String.format("%s%s%s%s%d", firstName, lastName, email, message, System.currentTimeMillis() / 1000L).getBytes(StandardCharsets.UTF_8))).substring(0, 32));
+                statement.setString(2, firstName);
+                statement.setString(3, lastName);
+                statement.setString(4, email);
+                statement.setString(5, type);
+                statement.setString(6, message);
  
-	            statement.execute();
+                statement.execute();
  
-	            send = true;
-	        } catch (Exception e) {
-	            error = true;
-	            e.printStackTrace();
-	        }
-	    } else {
-	        invalid = true;
-	    }
-	}
+                send = true;
+            } catch (Exception e) {
+                error = true;
+                e.printStackTrace();
+            }
+        } else {
+            invalid = true;
+        }
+    }
 %><!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
-		<title>Kontakt – FESTIVAL Aviation Support</title>
+		<title>Beschwerden – FESTIVAL Aviation Support</title>
 		<link rel="stylesheet" href="css/aviation.css">
 		<link rel="stylesheet" href="css/support-center.built.css">
 	</head>
@@ -121,24 +124,26 @@
 					<div class="column column-3">
 						<ul class="sc-menu">
 							<li class="menu-item heading">Support</li><a href="sc-index.jsp" class="menu-item">
-								<li>FAQ</li></a><a href="sc-contact.jsp" class="menu-item selected">
+								<li>FAQ</li></a><a href="sc-contact.jsp" class="menu-item">
 								<li>Kontakt</li></a><a href="sc-cancellations.jsp" class="menu-item">
-								<li>Stornierungen</li></a><a href="sc-complaints.jsp" class="menu-item">
+								<li>Stornierungen</li></a><a href="sc-complaints.jsp" class="menu-item selected">
 								<li>Beschwerden</li></a><a href="sc-rights.html" class="menu-item">
 								<li>Fluggastrechte</li></a>
 						</ul>
 					</div>
 					<div class="column column-8 offset-1">
-						<h2>Kontakt</h2> 
+						<h2>Beschwerde einreichen</h2>
+						<p class="flow">Etwas lief bei deiner letzten Buchung schief oder du bist mit dem Flug nicht zufrieden gewesen? Was es auch sein mag, wir kümmern uns drum; Denn du verdienst es!</p>
+						<p class="flow">Allerdings benötigen wir dafür ein paar Details von dir. Versuch das wichtigste in deiner Nachricht zu erwähnen, dann müssen wir nicht so viel nachfragen und können uns schneller und besser um dein Problem kümmern!</p> 
 						<%
 							if (send) {
 						%>
 						<article class="flag success">
 							<div class="header">
-								<div class="icon"><span><span class="ai ai-success"></span></span></div><span class="title">Nachricht abgeschickt</span>
+								<div class="icon"><span><span class="ai ai-success"></span></span></div><span class="title">Beschwerde abgeschickt</span>
 							</div>
 							<div class="content">
-								<p>Deine Nachricht wurde erfolgreich abgeschickt. Wir kümmern uns jetzt so schnell wie möglich um deine Anfrage.</p>
+								<p>Deine Beschwerde wurde erfolgreich abgeschickt. Wir kümmern uns jetzt so schnell wie möglich um dein Anliegen.</p>
 							</div>
 						</article> 
 						<%
@@ -151,7 +156,7 @@
 								<div class="icon"><span><span class="ai ai-error"></span></span></div><span class="title">Hier funktioniert etwas nicht</span>
 							</div>
 							<div class="content">
-								<p>Beim Absenden deiner Nachricht ist ein Fehler aufgetreten. Bitte versuch es später noch einmal.</p>
+								<p>Beim Absenden deiner Beschwerde ist ein Fehler aufgetreten. Bitte versuch es später noch einmal.</p>
 							</div>
 						</article> 
 						<%
@@ -170,15 +175,24 @@
 						<%
 							}
 						%>
-						<form method="POST" action="sc-contact.jsp" novalidate>
+						<form action="#">
 							<label for="firstName">Vorname</label>
-							<input type="text" name="firstName" id="firstName" value="<%= firstName %>">
+							<input type="text" name="firstName" id="firstName">
 							<label for="lastName">Nachname</label>
-							<input type="text" name="lastName" id="lastName" value="<%= lastName %>">
+							<input type="text" name="lastName" id="lastName">
 							<label for="email">E-Mail-Adresse</label>
-							<input type="email" name="email" id="email" value="<%= email %>"><a data-modal-type="question" data-modal-title="Warum muss ich eine E-Mail-Adresse angeben?" data-modal-text="Ohne Angabe einer E-Mail-Adresse können wir nicht auf dein Anliegen antworten. Aber keine Sorge, alle deine Daten werden vertraulich behandelt und nur bis zur Aufklärung deiner Anfrage aufbewahrt." class="help modal-trigger">Ist das notwendig?</a>
+							<input type="email" name="email" id="email"><a data-modal-type="question" data-modal-title="Warum muss ich eine E-Mail-Adresse angeben?" data-modal-text="Ohne Angabe einer E-Mail-Adresse können wir nicht auf dein Anliegen antworten. Aber keine Sorge, alle deine Daten werden vertraulich behandelt und nur bis zur Aufklärung deiner Anfrage aufbewahrt." class="help modal-trigger">Ist das notwendig?</a>
+							<label for="complaintType">Art der Beschwerde</label>
+							<select name="complaintType" id="complaintType">
+								<option value="general">Allgemeine Beschwerde</option>
+								<option value="search">Suche</option>
+								<option value="offer">Anegbot</option>
+								<option value="ads-marketing">Werbung + Marceting</option>
+								<option value="flight">Flug</option>
+								<option value="other">Sonstige</option>
+							</select>
 							<label for="message">Ihre Nachricht</label>
-							<textarea name="message" id="message" rows="12"><%= message %></textarea>
+							<textarea name="message" id="message" lines="12"></textarea>
 							<button data-modal-type="warning" data-modal-title="Passt das so?" data-modal-text="Du kannst deine Nachricht nach dem Abschicken nicht mehr bearbeiten. Bist du sicher, dass du deine Nachricht so abschicken willst?" data-modal-primary="Das passt so!" data-modal-primary-action="submit" data-modal-secondary="Ne noch nicht" class="fill blue modal-trigger">Absenden</button>
 						</form>
 					</div>

@@ -36,12 +36,18 @@ if (triggers) {
                     if (el.hasAttribute("data-modal-primary-action-target")) {
                         modal.setAttribute("data-primary-action-target", el.getAttribute("data-modal-primary-action-target"));
                     }
+
+                    if (el.hasAttribute("data-modal-primary-action-timeout")) {
+                        modal.setAttribute("data-primary-action-timeout", el.getAttribute("data-modal-primary-action-timeout"));
+                    }
                 } else {
                     modalPrimary.style.visibility = "hidden";
                 }
 
                 if (el.hasAttribute("data-modal-secondary")) {
                     modalClose.innerText = el.getAttribute("data-modal-secondary");
+                } else {
+                    modalClose.innerText = "Schließen";
                 }
 
                 if (el.hasAttribute("data-modal-text")) {
@@ -61,17 +67,25 @@ if (triggers) {
 if (modalPrimary) {
     modalPrimary.addEventListener("click", ev => {
         ev.preventDefault();
+        document.body.classList.remove("modal-open");
 
-        switch (modal.getAttribute("data-primary-action")) {
-            case "submit": {
-                if (!modal.hasAttribute("data-primary-action-target")) {
-                    document.querySelector("form").submit();
-                } else {
-                    document.querySelector(modal.getAttribute("data-primary-action-target")).submit();
-                }
-                break;
-            }
+        let timeout = 0;
+        if (modal.hasAttribute("data-primary-action-timeout")) {
+            timeout = modal.getAttribute("data-primary-action-timeout");
         }
+
+        setTimeout(() => {
+            switch (modal.getAttribute("data-primary-action")) {
+                case "submit": {
+                    if (!modal.hasAttribute("data-primary-action-target")) {
+                        document.querySelector("form").submit();
+                    } else {
+                        document.querySelector(modal.getAttribute("data-primary-action-target")).submit();
+                    }
+                    break;
+                }
+            }
+        }, timeout);
     });
 }
 
