@@ -227,7 +227,7 @@
                             }
                         %>
 
-                        <form action="#">
+                        <form method="POST" action="sc-complaints.jsp" novalidate>
                             <label for="firstName">Vorname</label>
                             <input type="text" name="firstName" id="firstName">
                             <label for="lastName">Nachname</label>
