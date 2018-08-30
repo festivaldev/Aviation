@@ -113,7 +113,7 @@
                     </div><a href="#" class="link-home"></a><a href="dashboard.jsp" class="link-user-cp"></a>
                 </div>
                 <ul class="nav-list">
-                    <li><a href="/" class="link-home"></a></li>
+                    <li><a href="index.jsp" class="link-home"></a></li>
                     <li><a href="booking-search.jsp">Flüge</a></li>
                     <li><a href="featured.jsp">Reiseziele</a></li>
                     <li><a href="sc-contact.jsp">Kontakt</a></li>
