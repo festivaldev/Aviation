@@ -28,7 +28,7 @@
  
 	if ("POST".equals(request.getMethod())) {
 		holder = request.getParameter("holder");
-		ticketId = request.getParameter("ticketId");
+		ticketId = request.getParameter("bookingId");
 		svid = request.getParameter("svid");
 		email = request.getParameter("email");
 		message = request.getParameter("message");
@@ -40,7 +40,7 @@
 				dataSource = (DataSource)environmentContext.lookup("jdbc/aviation");
 				conn = dataSource.getConnection();
  
-				PreparedStatement statement = conn.prepareStatement("SELECT svid, holder FROM tickets WHERE id = ?");
+				PreparedStatement statement = conn.prepareStatement("SELECT svid, holder FROM bookings WHERE id = ?");
  
 				statement.setString(1, ticketId);
  
@@ -48,11 +48,12 @@
  
 				if (ticket != null && ticket.next()) {
 				    if (ticket.getString("holder").equals(holder) && ticket.getString("svid").equals(svid)) {
-						statement = conn.prepareStatement("INSERT INTO `cancellations` VALUES (DEFAULT, ?, ?, ?)");
+						statement = conn.prepareStatement("INSERT INTO `cancellations` VALUES (?, ?, ?, ?, DEFAULT, DEFAULT)");
  
 						statement.setString(1, ticketId);
-						statement.setString(2, email);
-						statement.setString(3, message);
+						statement.setString(2, ticketId);
+						statement.setString(3, email);
+						statement.setString(4, message);
  
 						statement.execute();
  
@@ -97,7 +98,7 @@
 					</div><a href="#" class="link-home"></a><a href="dashboard.jsp" class="link-user-cp"></a>
 				</div>
 				<ul class="nav-list">
-					<li><a href="/" class="link-home"></a></li>
+					<li><a href="index.jsp" class="link-home"></a></li>
 					<li><a href="booking-search.jsp">Flüge</a></li>
 					<li><a href="featured.jsp">Reiseziele</a></li>
 					<li><a href="sc-contact.jsp">Kontakt</a></li>
@@ -156,7 +157,7 @@
 								<div class="icon"><span><span class="ai ai-error"></span></span></div><span class="title">Hier funktioniert etwas nicht</span>
 							</div>
 							<div class="content">
-								<p>Beim Absenden deiner Stornierung ist ein Fehler aufgetreten. Bitte versuch es später noch einmal oder überprüfe deine Ticket-ID.</p>
+								<p>Beim Absenden deiner Stornierung ist ein Fehler aufgetreten. Bitte versuch es später noch einmal oder überprüfe deine Buchungs-ID.</p>
 							</div>
 						</article> 
 						<%
@@ -187,20 +188,22 @@
 						</article> 
 						<%
 							}
+						 
+						   if (!send) {
 						%>
 						<article class="flag warning">
 							<div class="header">
 								<div class="icon"><span><span class="ai ai-warning"></span></span></div><span class="title">Hinweis</span>
 							</div>
 							<div class="content">
-								<p>Wenn du auf den Account, mit dem das Ticket gekauft wurde, Zugriff hast, storniere dein Ticket bitte im <a href="dashboard.jsp">Dashboard</a>. Nur wenn du dein Ticket ohne Account erworben hast oder keinen Zugriff auf den Account hast, solltest du dein Ticket hier stornieren.</p>
+								<p>Hier kannst du nur Buchungen stornieren, die ohne Account erstellt wurden. Wenn du deine Buchung von einem Account aus getätigt hast, storniere deine sie bitte im <a href="dashboard.jsp?p=completedBookings">Dashboard</a>.</p>
 							</div>
 						</article>
 						<form method="POST" action="sc-cancellations.jsp" novalidate>
 							<label for="holder">Name des Passagiers</label>
 							<input type="text" name="holder" id="holder" value="<%= holder %>">
-							<label for="ticketId">Ticket-ID</label>
-							<input type="text" name="ticketId" id="ticketId" value="<%= ticketId %>"><a data-modal-type="question" data-modal-title="Was ist die Ticket-ID?" data-modal-text="Die Ticket-ID ist eine für jedes Ticket einzigartige Nummer, die es ermöglicht ein Ticket eindeutig zu identifizieren. Sie befindet sich auf der Rechnung und am unteren Rand des Tickets." class="help modal-trigger">Was ist das?</a>
+							<label for="bookingId">Buchungs-ID</label>
+							<input type="text" name="bookingId" id="bookingId" value="<%= ticketId %>"><a data-modal-type="question" data-modal-title="Was ist die Buchungs-ID?" data-modal-text="Die Buchungs-ID ist eine für jede Buchung einzigartige Nummer, die es ermöglicht eine Buchung eindeutig zu identifizieren. Sie befindet sich auf der Rechnung." class="help modal-trigger">Was ist das?</a>
 							<label for="svid">Storno-Verifizierungs-ID (SVID)</label>
 							<input type="text" name="svid" id="svid" value="<%= svid %>"><a data-modal-type="question" data-modal-title="Was ist die Storno-Verifizierungs-ID?" data-modal-text="Bei der Storno-Verifizierungs-ID handelt es sich um eine Nummer die als Sicherheit benötigt wird, um die Stornierung durchzuführen. Die Storno-Verifizierungs-ID findest du in deiner Rechnung." class="help modal-trigger">Was ist das?</a>
 							<label for="email">E-Mail-Adresse</label>
@@ -209,7 +212,10 @@
 							<label for="message">Grund der Stornierung (optional)</label>
 							<textarea name="message" id="message" rows="12"></textarea>
 							<button data-modal-type="error" data-modal-title="Ticket wirklich stornieren?" data-modal-text="Wenn alle Eingaben korrekt sind, wird das Ticket unwiderruflich storniert und unbrauchbar. Die Stornierung kann nicht rückgängig gemacht werden." data-modal-primary="Ticket stornieren" data-modal-primary-action="submit" class="fill blue modal-trigger">Absenden</button>
-						</form>
+						</form> 
+						<%
+							}
+						%>
 					</div>
 				</div>
 			</section>
@@ -222,9 +228,6 @@
 						<ul class="footer-directory-column-list">
 							<li><a href="booking-search.jsp">Flüge</a></li>
 							<li><a href="featured.jsp">Reiseziele</a></li>
-							<li><a href="#">Link</a></li>
-							<li><a href="#">Link</a></li>
-							<li><a href="#">Link</a></li>
 							<li><a href="sc-index.jsp">Support</a></li>
 							<li><a href="dashboard.jsp">Benutzerkontrollzentrum</a></li>
 							<li><a href="imprint.html">Impressum</a></li>
@@ -236,7 +239,7 @@
 					<div class="footer-directory-column">
 						<h3 class="footer-directory-column-title">Team FESTIVAL</h3>
 						<ul class="footer-directory-column-list">
-							<li><a href="#">Über uns</a></li>
+							<li><a href="about.html">Über uns</a></li>
 						</ul>
 					</div>
 					<div class="footer-directory-column">

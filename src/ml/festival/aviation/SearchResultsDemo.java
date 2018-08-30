@@ -250,7 +250,7 @@ public class SearchResultsDemo {
 			Connection conn = dataSource.getConnection();
 
 			// Check if we  have a billing address with the specified E-Mail address
-			PreparedStatement statement = conn.prepareStatement("SELECT firstName, lastName FROM billing_addresses WHERE id = ?");
+			PreparedStatement statement = conn.prepareStatement("SELECT firstName, lastName, accountId FROM billing_addresses WHERE id = ?");
 			statement.setString(1, requestData.getString("billingId"));
 			ResultSet holder = statement.executeQuery();
 
@@ -269,6 +269,7 @@ public class SearchResultsDemo {
 				if (!holder.getString("accountId").isEmpty()) {
 					// If we have an accountId in the billing address, we're using that as the holder.
 					/// TODO: Account verification
+					/// NOTE: Probably already did this just by getting the accountId from sessions
 					statement.setString(3, holder.getString("accountId"));
 				} else {
 					// Otherwise we just use first name and last name from the billing address

@@ -8,6 +8,16 @@
 <%@ page import="java.sql.PreparedStatement" %>
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="java.sql.Statement" %>
+<%@ page import="java.nio.charset.StandardCharsets" %>
+<%@ page import="java.security.MessageDigest" %>
+ 
+<%!
+    private String bytesToHex(byte[] bytes) {
+        StringBuffer result = new StringBuffer();
+        for (byte byt : bytes) result.append(Integer.toString((byt & 0xff) + 0x100, 16).substring(1));
+        return result.toString();
+    }
+%>
  
 <%
     AuthManager authManager = new AuthManager();
@@ -63,11 +73,12 @@
  
                 p.execute();
             } else if ("insert".equals(method)) {
-                PreparedStatement p = conn.prepareStatement("INSERT INTO questions VALUES (?, ?, ?)");
+                PreparedStatement p = conn.prepareStatement("INSERT INTO questions VALUES (?, ?, ?, ?, DEFAULT, DEFAULT)");
  
-                p.setString(1, id);
-                p.setString(2, request.getParameter("question"));
-                p.setString(3, request.getParameter("answer"));
+                p.setString(1, bytesToHex(MessageDigest.getInstance("SHA-256").digest(String.format("%s%s%s%d", id, request.getParameter("question"), request.getParameter("answer"), System.currentTimeMillis() / 1000L).getBytes(StandardCharsets.UTF_8))).substring(0, 32));
+                p.setString(2, id);
+                p.setString(3, request.getParameter("question"));
+                p.setString(4, request.getParameter("answer"));
  
                 p.execute();
             }
@@ -245,9 +256,6 @@
 						<ul class="footer-directory-column-list">
 							<li><a href="booking-search.jsp">Flüge</a></li>
 							<li><a href="featured.jsp">Reiseziele</a></li>
-							<li><a href="#">Link</a></li>
-							<li><a href="#">Link</a></li>
-							<li><a href="#">Link</a></li>
 							<li><a href="sc-index.jsp">Support</a></li>
 							<li><a href="dashboard.jsp">Benutzerkontrollzentrum</a></li>
 							<li><a href="imprint.html">Impressum</a></li>
@@ -259,7 +267,7 @@
 					<div class="footer-directory-column">
 						<h3 class="footer-directory-column-title">Team FESTIVAL</h3>
 						<ul class="footer-directory-column-list">
-							<li><a href="#">Über uns</a></li>
+							<li><a href="about.html">Über uns</a></li>
 						</ul>
 					</div>
 					<div class="footer-directory-column">

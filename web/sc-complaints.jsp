@@ -95,7 +95,7 @@
 					</div><a href="#" class="link-home"></a><a href="dashboard.jsp" class="link-user-cp"></a>
 				</div>
 				<ul class="nav-list">
-					<li><a href="/" class="link-home"></a></li>
+					<li><a href="index.jsp" class="link-home"></a></li>
 					<li><a href="booking-search.jsp">Flüge</a></li>
 					<li><a href="featured.jsp">Reiseziele</a></li>
 					<li><a href="sc-contact.jsp">Kontakt</a></li>
@@ -207,9 +207,6 @@
 						<ul class="footer-directory-column-list">
 							<li><a href="booking-search.jsp">Flüge</a></li>
 							<li><a href="featured.jsp">Reiseziele</a></li>
-							<li><a href="#">Link</a></li>
-							<li><a href="#">Link</a></li>
-							<li><a href="#">Link</a></li>
 							<li><a href="sc-index.jsp">Support</a></li>
 							<li><a href="dashboard.jsp">Benutzerkontrollzentrum</a></li>
 							<li><a href="imprint.html">Impressum</a></li>
@@ -221,7 +218,7 @@
 					<div class="footer-directory-column">
 						<h3 class="footer-directory-column-title">Team FESTIVAL</h3>
 						<ul class="footer-directory-column-list">
-							<li><a href="#">Über uns</a></li>
+							<li><a href="about.html">Über uns</a></li>
 						</ul>
 					</div>
 					<div class="footer-directory-column">

@@ -1,4 +1,14 @@
 
+<!--
+	booking-complete.jsp
+	FESTIVAL Aviation
+	
+	This page deals with completing a flight booking
+	
+	@author Janik Schmidt (jani.schmidt@ostfalia.de)
+	@version 1.0
+-->
+ 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="ml.festival.aviation.SearchResultsDemo" %>
 <%@ page import="org.json.*" %>
@@ -9,15 +19,16 @@
  
 <%
 	JSONObject requestData = new JSONObject();
-	JSONObject demoData = new JSONObject();
 	String bookingResultId = null;
  
 	try {
+		// Map every request parameter into a JSON object
 		Map<String, String[]> parameters = request.getParameterMap();
 		for(String parameter : parameters.keySet()) {
 			requestData.put(parameter, request.getParameter(parameter));
 		}
  
+		// Store the booking id so we know the booking has been created
 		bookingResultId = SearchResultsDemo.completeBooking(requestData);
 	} catch (Exception e) {
 		e.printStackTrace();
@@ -60,7 +71,7 @@
 		</nav>
 		<section class="search-results">
 			<div class="section-content row">
-				<div class="progress-overview column medium-3">
+				<aside class="progress-overview column medium-3">
 					<p class="progress-title">Flug buchen</p>
 					<p class="progress-section-title">Vorbereitung</p>
 					<ul>
@@ -93,12 +104,13 @@
 							<div class="pipe"></div>
 						</li>
 					</ul>
-				</div>
+				</aside>
 				<div class="search-results-container column column-12 medium-8">
 					<div class="scroll-container billing-address">
 						<div class="result-header">
 							 
 							<%
+								// Show this text only if the server has ACK'd the booking (bookingResultId is not NULL)
 								if (bookingResultId != null && !bookingResultId.isEmpty()) {
 							%>
 							<h4 class="date"><span>Buchung abschließen</span></h4>
@@ -106,6 +118,7 @@
 							 
 							<%
 								} else {
+									// Show this only when the server did return an error
 							%>
 							<h4 class="date"><span>Da hat etwas nicht geklappt.</span></h4>
 							<p>Bei der Buchung ist leider etwas schief gelaufen. Das Problem liegt entweder auf unserer Seite ('tschuldigung) oder auf deiner Seite. Probiere es doch in wenigen Minuten erneut. Auf keinen Fall solltest du die Seite konstant neu laden, das kann unsere Katze nicht so gut ab.</p> 
@@ -115,9 +128,17 @@
 						</div>
 					</div>
 					<div class="fill-background">
+						 
+						<%
+							// Show this text only if the server has ACK'd the booking (bookingResultId is not NULL)
+							if (bookingResultId != null && !bookingResultId.isEmpty()) {
+						%>
 						<p class="placeholder-text">Hier klicken, um zu bezahlen</p>
 						<div class="placeholder-text"><a href="checkout.jsp?invoice=<%= bookingResultId %>">
-								<button class="call fill red">Jetzt bezahlen</button></a></div>
+								<button class="call fill red">Jetzt bezahlen</button></a></div> 
+						<%
+							}
+						%>
 					</div>
 					<div class="results-footer">
 						<button onclick="location.href = &quot;index.jsp&quot;" class="outline blue">Zur Startseite</button>

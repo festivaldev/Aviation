@@ -1,4 +1,15 @@
 
+<!--
+	booking-search.jsp
+	FESTIVAL Aviation
+	
+	This page is the standalone variant of the search
+	bar found in index.jsp
+	
+	@author Jonas Zadach (j.zadach@ostfalia.de)
+	@version 1.0
+-->
+ 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
  <!DOCTYPE html>
 <html>
@@ -38,7 +49,7 @@
 		</nav>
 		<section class="search-results">
 			<div class="section-content row">
-				<div class="progress-overview column medium-3">
+				<aside class="progress-overview column medium-3">
 					<p class="progress-title">Flug buchen</p>
 					<p class="progress-section-title">Vorbereitung</p>
 					<ul>
@@ -71,7 +82,7 @@
 							<div class="pipe"></div>
 						</li>
 					</ul>
-				</div>
+				</aside>
 				<div class="search-results-container column column-12 medium-8">
 					<div class="search-results-header">
 						<form method="post" action="booking-results.jsp">

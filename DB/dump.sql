@@ -7,7 +7,7 @@
 #
 # Host: 192.168.178.48 (MySQL 5.7.23-0ubuntu0.16.04.1)
 # Datenbank: aviation
-# Erstellt am: 2018-08-28 14:50:39 +0000
+# Erstellt am: 2018-08-30 11:50:41 +0000
 # ************************************************************
 
 
@@ -51,6 +51,8 @@ UNLOCK TABLES;
 
 # Export von Tabelle airports
 # ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `airports`;
 
 CREATE TABLE `airports` (
   `id` int(6) unsigned NOT NULL,
@@ -98,16 +100,6 @@ CREATE TABLE `billing_addresses` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-LOCK TABLES `billing_addresses` WRITE;
-/*!40000 ALTER TABLE `billing_addresses` DISABLE KEYS */;
-
-INSERT INTO `billing_addresses` (`id`, `accountId`, `prefix`, `firstName`, `lastName`, `street`, `postalCode`, `postalCity`, `country`, `email`, `phoneNumber`, `createdAt`, `updatedAt`)
-VALUES
-	('0815997ce23895cff7f18871975b3555','','male','Janik','Schmidt','EichstraÃ?e 43','30880','Laatzen','de','janikschmidt@gmx.de','0511825559','2018-08-28 15:40:38','2018-08-28 15:57:57'),
-	('48837ec91332014b2ff18d768b85b403','87ab77d9b81def85ba3dc773d4887729','male','Janik','Schmidt','EichstraÃ?e 43','30880','Laatzen','de','janikschmidt@gmx.de','0511825559','2018-08-27 12:36:46','2018-08-28 15:57:57');
-
-/*!40000 ALTER TABLE `billing_addresses` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
 # Export von Tabelle bookings

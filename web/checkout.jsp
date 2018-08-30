@@ -219,7 +219,7 @@
 							<h2>Rechnung #<%= invoice %></h2>
 							<table>
 								<tr>
-									<td>Flugticket für <%= flightId %><br><%= fromIATA %> &rarr; <%= toIATA %><br><%= flightClass.toUpperCase() %></td>
+									<td>Flugticket für <%= flightId %><br><%= fromIATA %> &rarr; <%= toIATA %><br><%= flightClass.toUpperCase().replace("_", " ") %></td>
 									<td><%= String.format("%.2f", price) %>€</td>
 								</tr> 
 								<%
@@ -241,7 +241,7 @@
 									}
 								%>
 							</table>
-							<h3>Total: <%= price %>€</h3>
+							<h3>Total: <%= String.format("%.2f", price) %>€</h3>
 						</article>
 						<article class="card-input">
 							<form method="POST" action="checkout.jsp" novalidate>
@@ -297,7 +297,7 @@
 								%><a href="checkout.jsp?invoice=<%= invoice %>">Zahlung wiederholen</a> 
 								<%
 									} else if (paymentOk) {
-								%><a href="index.jsp">Zurück zur Startseite</a> 
+								%><a href="dashboard.jsp">Zurück zum Dashboard</a> 
 								<%
 									}
 								%>
@@ -319,9 +319,6 @@
 						<ul class="footer-directory-column-list">
 							<li><a href="booking-search.jsp">Flüge</a></li>
 							<li><a href="featured.jsp">Reiseziele</a></li>
-							<li><a href="#">Link</a></li>
-							<li><a href="#">Link</a></li>
-							<li><a href="#">Link</a></li>
 							<li><a href="sc-index.jsp">Support</a></li>
 							<li><a href="dashboard.jsp">Benutzerkontrollzentrum</a></li>
 							<li><a href="imprint.html">Impressum</a></li>
@@ -333,7 +330,7 @@
 					<div class="footer-directory-column">
 						<h3 class="footer-directory-column-title">Team FESTIVAL</h3>
 						<ul class="footer-directory-column-list">
-							<li><a href="#">Über uns</a></li>
+							<li><a href="about.html">Über uns</a></li>
 						</ul>
 					</div>
 					<div class="footer-directory-column">

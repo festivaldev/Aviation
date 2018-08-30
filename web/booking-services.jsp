@@ -1,4 +1,15 @@
 
+<!--
+	booking-services.jsp
+	FESTIVAL Aviation
+	
+	This page shows a selection of services a user
+	can add to his booked flight
+	
+	@author Janik Schmidt (jani.schmidt@ostfalia.de)
+	@version 1.0
+-->
+ 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="ml.festival.aviation.SearchResultsDemo" %>
 <%@ page import="org.json.*" %>
@@ -11,25 +22,19 @@
 	JSONObject requestData = new JSONObject();
 	JSONObject demoData = new JSONObject();
  
-	// FIX JAVA'S FUCKING TIMEZONE HANDLING!!!
 	LocalDateTime depart_time = null;
 	LocalDateTime arrv_time = null;
  
 	try {
+		// FIX JAVA'S FUCKING TIMEZONE HANDLING!!!
 		depart_time = Instant.parse(request.getParameter("depart_date")).atZone(ZoneId.of("Europe/Berlin")).toLocalDateTime();
 		arrv_time = Instant.parse(request.getParameter("arrv_date")).atZone(ZoneId.of("Europe/Berlin")).toLocalDateTime();
  
-		requestData.put("depart_iata", request.getParameter("depart_iata"));
-		requestData.put("arrv_iata", request.getParameter("arrv_iata"));
-		requestData.put("depart_date", request.getParameter("depart_date"));
-		requestData.put("arrv_date", request.getParameter("arrv_date"));
-		requestData.put("flight_number", request.getParameter("flight_number"));
-		requestData.put("passengers", request.getParameter("passengers"));
-		requestData.put("flight_class", request.getParameter("flight_class"));
- 
-		requestData.put("duration", request.getParameter("duration"));
-		requestData.put("stops", request.getParameter("stops"));
-		requestData.put("price", request.getParameter("price"));
+		// Map every request parameter into a JSON object
+		Map<String, String[]> parameters = request.getParameterMap();
+		for(String parameter : parameters.keySet()) {
+			requestData.put(parameter, request.getParameter(parameter));
+		}
  
 		demoData = SearchResultsDemo.getJSONData(requestData);
 	} catch (Exception e) {
@@ -73,7 +78,7 @@
 		</nav>
 		<section class="search-results">
 			<div class="section-content row">
-				<div class="progress-overview column medium-3">
+				<aside class="progress-overview column medium-3">
 					<p class="progress-title">Flug buchen</p>
 					<p class="progress-section-title">Vorbereitung</p>
 					<ul>
@@ -106,7 +111,7 @@
 							<div class="pipe"></div>
 						</li>
 					</ul>
-				</div>
+				</aside>
 				<div class="search-results-container column column-12 medium-8">
 					<div class="search-results-header">
 						<div class="row">
@@ -161,6 +166,7 @@
 									<p>Dauer</p>
 								</div> 
 								<%
+									// Parse the passed duration in millis into a Duration object
 									Duration duration = Duration.ofMillis(requestData.getInt("duration"));
 								%>
 								<p class="column-content"><%= String.format("%02dh %02dmin", duration.getSeconds() / 3600, (duration.getSeconds() % 3600) / 60) %></p>
@@ -193,6 +199,7 @@
 						<div class="results">
 							 
 							<%
+								// Print the services we got from the database
 								JSONArray serviceData = SearchResultsDemo.getServiceData();
 								for (int i=0; i<serviceData.length(); i++) {
 							%>
@@ -217,7 +224,9 @@
 				</div>
 			</div>
 		</section>
-		<form action="booking-billing.jsp" method="POST" name="selectedItem" class="hidden"><%
+		<form action="booking-billing.jsp" method="POST" name="selectedItem" class="hidden">
+			<%
+				// Create input fields for every request parameter
 				Map<String, String[]> parameters = request.getParameterMap();
 				for(String parameter : parameters.keySet()) {
 			%>
