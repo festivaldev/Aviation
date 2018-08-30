@@ -6,7 +6,8 @@
     Show open and completed bookings
     Link to support center admin panel if acitve user is admin
 
-    @author Fabian Krahtz (f.krahtz@ostfalia.de)
+    @author Fabian Krahtz (f.krahtz@ostfalia.de), Jonas Zadach (j.zadach@ostfalia)
+	@author Janik Schmidt (jani.schmidt@ostfalia.de): General page layout and design
     @version 1.0
 -->
 
@@ -76,6 +77,7 @@
     } else if (validAuth) {
 
         // Load and set profile details
+        // @author Jonas Zadach
 
         ResultSet profile = authManager.getProfileDetails(String.valueOf(session.getAttribute("sid")));
  
@@ -332,7 +334,10 @@
 
                     <!-- Dynamic Page Content -->
 
-                    <% if (isCurrentPage(request.getParameter("p"), "profile")) { %>
+                    <%
+						if (isCurrentPage(request.getParameter("p"), "profile")) {
+							// @author Jonas Zadach
+					%>
 
                     <div class="column column-8 offset-1">
                         <h2>Profil</h2>
@@ -366,6 +371,7 @@
                         }
                         
                         if (isCurrentPage(request.getParameter("p"), "billing")) {
+                        	// @author Fabian Krahtz
                     %>
 
                     <div class="column column-8 offset-1">
@@ -455,9 +461,10 @@
                     </div>
 
                     <%
-                       }
+                        }
                      
-                       if (isCurrentPage(request.getParameter("p"), "openBookings")) {
+                        if (isCurrentPage(request.getParameter("p"), "openBookings")) {
+                        	// @author Fabian Krahtz
                     %>
 
                     <div class="column column-8 offset-1">
@@ -570,6 +577,7 @@
                         }
                     
                         if (isCurrentPage(request.getParameter("p"), "completedBookings")) {
+                        	// @author Fabian Krahtz
                     %>
 
                     <div class="column column-8 offset-1">
@@ -716,6 +724,7 @@
                         }
                     
                         if (isCurrentPage(request.getParameter("p"), "logout")) {
+                        	// @author Janik Schmidt
                     %>
 
                     <div class="column column-8 offset-1">
