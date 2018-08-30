@@ -85,6 +85,9 @@
 .flag .content * {
   font-size: 14px !important;
 }
+.flag .content p {
+  margin-bottom: 0;
+}
 .flag a {
   color: inherit;
   text-decoration: underline;

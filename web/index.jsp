@@ -1,4 +1,20 @@
 
+<!--
+	index.jsp
+	FESTIVAL Aviation
+	
+	This is the landing page of FESTIVAL Aviation
+	Here we have a "hero" section that contains the project
+	name and a minimal flight search bar.
+	After that, we find a randomized selection of featured
+	travel places that are different with every reload.
+	Last but not least, we have several sections explaining
+	the idea behind Aviation.
+	
+	@author Janik Schmidt (jani.schmidt@ostfalia.de)
+	@version 1.0
+-->
+ 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.sql.*" %>
 <%@ page import="ml.festival.aviation.*" %>
@@ -43,7 +59,7 @@
 		<section class="landing-hero">
 			<div class="hero-content"><img src="img/logo-light.svg" class="hero-logo">
 				<h2 class="hero-title">Die günstigsten Flugreisen aller Zeiten</h2>
-				<h4 class="hero-subtitle">Einfach nur das buchen, was du wirklich brauchst – das ist aviation.</h4>
+				<h4 class="hero-subtitle">Einfach nur das buchen, was du wirklich brauchst – das ist Aviation.</h4>
 				<div class="hero-search-bar">
 					<form method="post" action="booking-results.jsp">
 						<div data-key="departure" class="input-wrapper">
@@ -88,31 +104,42 @@
 			</div>
 		</section>
 		<section class="promo-articles">
-			<div class="section-content"> 
+			<div class="section-content">
+				 
 				<%
+					// This thing gets our promo texts from the database
 					PromoManager promoManager = new PromoManager();
 					ResultSet categories = promoManager.getPromoCategories();
 					int index = 0;
+				 
+					// Here we store the main location ids, so that we can later show remaining locations
 					String[] locations = new String[3];
+				 
+					// Iterate through all location categories
 					while (categories.next()) {
 						index++;
 						ResultSet location = promoManager.getLocationForCategory(categories.getString("id"));
 						
+						// Display a single location with it's title and location description
 						if (location.next()) {
 							locations[index - 1] = location.getString("id");
 				%>
 				 
-				<div data-spring-animatable="promo_<%= index %>" class="promo-article">
+				<article data-spring-animatable="promo_<%= index %>" class="promo-article">
 					<div style="background-image: url(<%= location.getString("headerImage") %>)" class="header dark">
 						<p class="header-heading">Unsere Empfehlung</p>
 						<p class="header-title"><%= categories.getString("title") %></p>
 						<p class="header-subtitle"><%= location.getString("location") %></p>
 					</div>
-				</div> 
+				</article> 
 				<%
 						}
+				 
+						// Reset the selection index
 						location.beforeFirst();
 					}
+				 
+					// Reset the selection index
 					categories.beforeFirst();
 					index = 0;
 				%>
@@ -123,7 +150,7 @@
 				<div class="column column-12 medium-6">
 					<h4 class="eyebrow">Das FESTIVAL Prinzip</h4>
 					<h2 class="headline">Flugreisen – so wie du sie brauchst</h2>
-					<p class="body">Flugreisen sind meist sehr teuer. Das liegt vor allem daran, dass oft Dienste im Preis enthalten sind, die vielleicht gar nicht benötigt werden. Dein Flug geht nur von Hamburg nach Berlin und du hast bereits gut gefrühstückt? Warum solltest du extra für Essen bezahlen, wenn du es doch sowieso nicht essen wirst?<br><br>Genau das will aviation ändern. Du buchst einfach nur deinen Platz im Flugzeug, und das drückt den Preis. Und wenn du einen zusätzlichen Dienst benötigst, buchst du ihn einfach dazu. Besser kann es gar nicht sein.</p>
+					<p class="body">Flugreisen sind meist sehr teuer. Das liegt vor allem daran, dass oft Dienste im Preis enthalten sind, die vielleicht gar nicht benötigt werden. Dein Flug geht nur von Hamburg nach Berlin und du hast bereits gut gefrühstückt? Warum solltest du extra für Essen bezahlen, wenn du es doch sowieso nicht essen wirst?<br><br>Genau das will Aviation ändern. Du buchst einfach nur deinen Platz im Flugzeug, und das drückt den Preis. Und wenn du einen zusätzlichen Dienst benötigst, buchst du ihn einfach dazu. Besser kann es gar nicht sein.</p>
 				</div>
 				<div class="column column-12 medium-5 medium-offset-1"><img src="img/promo_services.png"></div>
 			</div>
@@ -133,7 +160,7 @@
 				<div class="column column-12 medium-6 medium-offset-6">
 					<h4 class="eyebrow">Gestalte deine Flugreise</h4>
 					<h2 class="headline">Ein Platz – viele Möglichkeiten</h2>
-					<p class="body">Wenn du eine Flugreise über aviation buchst, bekommst du grundsätzlich die Erlaubnis, das Flugzeug betreten zu dürfen. Im Grundpreis enthalten ist eine Beteiligung an den Flugkosten, wie etwa Treibstoff oder Parkgebühren. Das ist in etwa vergleichbar mit Car Sharing, wo sich die Passagiere auch an den Fahrtkosten beteiligen. Willst du zum Beispiel Gepäck mitnehmen, kostet dies nur eine geringe Gebühr statt einer festen Pauschale, die bereits im Ticketpreis enthalten ist. So können wir Flugreisen um bis zu 50% günstiger anbieten als die etablierte Konkurrenz.</p>
+					<p class="body">Wenn du eine Flugreise über Aviation buchst, bekommst du grundsätzlich die Erlaubnis, das Flugzeug betreten zu dürfen. Im Grundpreis enthalten ist eine Beteiligung an den Flugkosten, wie etwa Treibstoff oder Parkgebühren. Das ist in etwa vergleichbar mit Car Sharing, wo sich die Passagiere auch an den Fahrtkosten beteiligen. Willst du zum Beispiel Gepäck mitnehmen, kostet dies nur eine geringe Gebühr statt einer festen Pauschale, die bereits im Ticketpreis enthalten ist. So können wir Flugreisen um bis zu 50% günstiger anbieten als die etablierte Konkurrenz.</p>
 				</div>
 			</div>
 		</section>
@@ -155,9 +182,6 @@
 						<ul class="footer-directory-column-list">
 							<li><a href="booking-search.jsp">Flüge</a></li>
 							<li><a href="featured.jsp">Reiseziele</a></li>
-							<li><a href="#">Link</a></li>
-							<li><a href="#">Link</a></li>
-							<li><a href="#">Link</a></li>
 							<li><a href="sc-index.jsp">Support</a></li>
 							<li><a href="dashboard.jsp">Benutzerkontrollzentrum</a></li>
 							<li><a href="imprint.html">Impressum</a></li>
@@ -169,7 +193,7 @@
 					<div class="footer-directory-column">
 						<h3 class="footer-directory-column-title">Team FESTIVAL</h3>
 						<ul class="footer-directory-column-list">
-							<li><a href="#">Über uns</a></li>
+							<li><a href="about.html">Über uns</a></li>
 						</ul>
 					</div>
 					<div class="footer-directory-column">
@@ -188,16 +212,18 @@
 			</div>
 		</footer> 
 		<%
+			// Here we create the hidden expanded promo articles that will be shown using spring-animatable.js
 			while (categories.next()) {
 				index++;
 		 
+				// Get the location for the stored id and the locations for this category
 				ResultSet location = promoManager.getLocationForId(locations[index - 1]);
 				ResultSet locationSet = promoManager.getLocationsForCategory(categories.getString("id"));
 		 
 				if (location.next()) {
 		%>
 		 
-		<div data-spring-animatable-target="promo_<%= index %>" class="promo-article-details">
+		<article data-spring-animatable-target="promo_<%= index %>" class="promo-article-details">
 			<div style="background-image: url(<%= location.getString("headerImage") %>)" class="header dark">
 				<div class="close-button"></div>
 				<p class="header-heading">Unsere Empfehlung</p>
@@ -212,14 +238,15 @@
 					<div class="promo-article-wrapper">
 						<%
 							while (locationSet.next()) {
+								// Display all the locations that do not match the id of the already displayed location
 								if (!locationSet.getString("id").equals(location.getString("id"))) {
 						%><a href="featured.jsp?id=<%= locationSet.getString("id") %>">
-							<div class="promo-article">
+							<article class="promo-article">
 								<div style="background-image: url(<%= locationSet.getString("headerImage") %>)" class="header dark">
 									<p class="header-heading"><%= categories.getString("title") %></p>
 									<p class="header-title"><%= locationSet.getString("location") %></p>
 								</div>
-							</div></a> 
+							</article></a> 
 						<%
 								}
 							}
@@ -227,10 +254,12 @@
 					</div>
 				</div>
 			</div>
-		</div> 
+		</article> 
 		<%
 				}
 			}
+		 
+			// Close the connection because we need to
 			promoManager.closeConnection();
 		%>
 		 

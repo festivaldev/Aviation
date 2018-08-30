@@ -1,16 +1,34 @@
 
+<!--
+	featured.jsp
+	FESTIVAL Aviation
+	
+	This page displays a selection of promo texts or,
+	if parameter "id" is specified, a certain promo text
+	
+	@author Jonas Zadach (j.zadach@ostfalia.de)
+	@version 1.0
+-->
+ 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="ml.festival.aviation.*" %>
 <%@ page import="java.sql.ResultSet" %>
  
 <%
+	// Create result set references, we need them later
 	ResultSet location = null;
 	ResultSet category = null;
+ 
+	// This thing gets our promo texts from the database
 	PromoManager promoManager = new PromoManager();
  
+	// Only attempt to load promo texts if we have a usable "id" parameter
 	if (request.getParameter("id") != null && !request.getParameter("id").isEmpty()) {
+		// Get the location with the specified id
 		location = promoManager.getLocationForId(request.getParameter("id"));
  
+		// The location exists, reset selection index and load
+		// associated category
 		if (location != null && location.next()) {
 			category = promoManager.getCategoryForId(location.getString("categoryId"));
  
@@ -23,11 +41,21 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"> 
-		<% if (location != null) { %>
+		<%
+			// This is shown if we have a usable parameter "id"
+			if (location != null) {
+				// If the result set is not empty, we cut the title of the location before the comma
+				// Else we show that there was an error
+		%>
 		<title><%= location.next() ? location.getString("location").split(",")[0] : "Fehler" %> – FESTIVAL Aviation</title> 
-		<% } else { %>
+		<%
+			} else {
+				// We don't have a usable parameter "id"
+		%>
 		<title>Unsere Empfehlungen – FESTIVAL Aviation</title> 
-		<% } %>
+		<%
+			}
+		%>
 		<link rel="stylesheet" href="css/aviation.css">
 		<link rel="stylesheet" href="css/featured.built.css">
 	</head>
@@ -48,7 +76,7 @@
 					</div><a href="#" class="link-home"></a><a href="dashboard.jsp" class="link-user-cp"></a>
 				</div>
 				<ul class="nav-list">
-					<li><a href="/" class="link-home"></a></li>
+					<li><a href="index.jsp" class="link-home"></a></li>
 					<li><a href="booking-search.jsp">Flüge</a></li>
 					<li><a href="featured.jsp">Reiseziele</a></li>
 					<li><a href="sc-contact.jsp">Kontakt</a></li>
@@ -58,8 +86,12 @@
 			</div>
 		</nav> 
 		<%
+			// At this point, we *might* have valid data
 			if (location != null) {
+				// Reset location's selection index
 				location.beforeFirst();
+		 
+				// Check if we have valid data
 				if (location.next() && category.next()) {
 		%>
 		<section class="featured-item">
@@ -72,6 +104,7 @@
 		</section> 
 		<%
 				} else if (request.getParameter("id") != null && !request.getParameter("id").isEmpty()) {
+					// We have a parameter "id", but we didn't find any location
 		%>
 		<section class="featured-item">
 			<div class="section-content">
@@ -83,6 +116,7 @@
 		<%
 				}
 			} else {
+				// We don't have any paramter, so just display any location we have in a random order
 		%>
 		<section>
 			<div class="section-content">
@@ -91,6 +125,7 @@
 			</div>
 		</section> 
 		<%
+				// Get all categories and iterate through them
 				ResultSet categories = promoManager.getPromoCategories();
 				while (categories.next()) {
 		%>
@@ -103,17 +138,18 @@
 			<div class="section-content">
 				 
 				<%
+					// Get all locations for this category and iterate through them
 					ResultSet locations = promoManager.getLocationsForCategory(categories.getString("id"));
 					while (locations.next()) {
 				%>
 				 
 				 <a href="featured.jsp?id=<%= locations.getString("id") %>">
-					<div class="promo-article">
+					<article class="promo-article">
 						<div style="background-image: url(<%= locations.getString("headerImage") %>)" class="header dark">
 							<p class="header-heading"><%= categories.getString("title") %></p>
 							<p class="header-title"><%= locations.getString("location") %></p>
 						</div>
-					</div></a> 
+					</article></a> 
 				<%
 					}
 				%>
@@ -131,9 +167,6 @@
 						<ul class="footer-directory-column-list">
 							<li><a href="booking-search.jsp">Flüge</a></li>
 							<li><a href="featured.jsp">Reiseziele</a></li>
-							<li><a href="#">Link</a></li>
-							<li><a href="#">Link</a></li>
-							<li><a href="#">Link</a></li>
 							<li><a href="sc-index.jsp">Support</a></li>
 							<li><a href="dashboard.jsp">Benutzerkontrollzentrum</a></li>
 							<li><a href="imprint.html">Impressum</a></li>
@@ -145,7 +178,7 @@
 					<div class="footer-directory-column">
 						<h3 class="footer-directory-column-title">Team FESTIVAL</h3>
 						<ul class="footer-directory-column-list">
-							<li><a href="#">Über uns</a></li>
+							<li><a href="about.html">Über uns</a></li>
 						</ul>
 					</div>
 					<div class="footer-directory-column">
@@ -166,5 +199,6 @@
 	</body>
 </html> 
 <%
+	// Always close your database connection, people!
 	promoManager.closeConnection();
 %>
