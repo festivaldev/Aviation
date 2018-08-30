@@ -1,3 +1,13 @@
+/*
+    icons.js
+    FESTIVAL Aviation
+
+    Provides methods to add icons to the DOM
+
+    @author Fabian Krahtz (f.krahtz@ostfalia.de)
+    @version 1.0
+*/
+
 const errorIcon = '<svg width="24" height="24" viewBox="0 0 24 24" focusable="false"><g fill-rule="evenodd"><path d="M13.416 4.417a2.002 2.002 0 0 0-2.832 0l-6.168 6.167a2.002 2.002 0 0 0 0 2.833l6.168 6.167a2.002 2.002 0 0 0 2.832 0l6.168-6.167a2.002 2.002 0 0 0 0-2.833l-6.168-6.167z" fill="currentColor"></path><path d="M12 14a1 1 0 0 1-1-1V8a1 1 0 0 1 2 0v5a1 1 0 0 1-1 1m0 3a1 1 0 0 1 0-2 1 1 0 0 1 0 2" fill="inherit"></path></g></svg>';
 const infoIcon = '<svg width="24" height="24" viewBox="0 0 24 24" focusable="false"><g fill-rule="evenodd"><path d="M2 12c0 5.523 4.477 10 10 10s10-4.477 10-10S17.523 2 12 2 2 6.477 2 12z" fill="currentColor"></path><rect fill="inherit" x="11" y="10" width="2" height="7" rx="1"></rect><circle fill="inherit" cx="12" cy="8" r="1"></circle></g></svg>';
 const questionIcon = '<svg width="24" height="24" viewBox="0 0 24 24" focusable="false"><g fill-rule="evenodd"><circle fill="currentColor" cx="12" cy="12" r="10"></circle><circle fill="inherit" cx="12" cy="18" r="1"></circle><path d="M15.89 9.05a3.975 3.975 0 0 0-2.957-2.942C10.321 5.514 8.017 7.446 8 9.95l.005.147a.992.992 0 0 0 .982.904c.552 0 1-.447 1.002-.998a2.004 2.004 0 0 1 4.007-.002c0 1.102-.898 2-2.003 2H12a1 1 0 0 0-1 .987v2.014a1.001 1.001 0 0 0 2.004 0v-.782c0-.217.145-.399.35-.472A3.99 3.99 0 0 0 15.89 9.05" fill="inherit"></path></g></svg>';
@@ -10,8 +20,10 @@ const plusIcon = '<svg width="24" height="24" viewBox="0 0 24 24" focusable="fal
 
 if (document.querySelectorAll("span.ai")) {
     document.querySelectorAll("span.ai").forEach(el => {
+        // Get modifier for each element with class "ai" (Aviation Icon)
         const modifiers = el.className.split(" ").filter(c => c.startsWith("ai-")).map(c => c.substring(3));
 
+        // Replace the element with the svg code for the icon accordingly to it's modifier
         modifiers.forEach(m => {
             switch (m) {
                 case "error":
