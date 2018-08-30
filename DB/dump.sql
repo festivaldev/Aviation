@@ -7,7 +7,7 @@
 #
 # Host: 192.168.178.48 (MySQL 5.7.23-0ubuntu0.16.04.1)
 # Datenbank: aviation
-# Erstellt am: 2018-08-30 11:50:41 +0000
+# Erstellt am: 2018-08-30 12:10:57 +0000
 # ************************************************************
 
 
@@ -246,8 +246,9 @@ LOCK TABLES `questions` WRITE;
 
 INSERT INTO `questions` (`id`, `linkId`, `questionText`, `answerText`, `createdAt`, `updatedAt`)
 VALUES
-	('308d571b612e85ec27348ab0e9d66081','cancellation-tcs','Welche Bedingungen gelten für Stornierungen?','<p>Jedes Ticket kann kostenfrei bis 24h vor dem Abflug storniert werden. Ab 24 Stunden vor Abflug werden 50% des Ticketpreises erstattet, nach dem Abflug werden nicht eingelöste Tickets nur bei Unfällen, Naturkatastrophen, Inneren Unruhen oder offiziellen Reisewarnungen des Auswärtigen Amtes erstattet. Der erstattete Betrag wird als Gutschein einem Aviation-Konto gutgeschrieben und nur in Ausnahmefällen ausbezahlt. Zur Stornierung über den Support ist sowohl die Ticket-, als auch die Storno-Verifizierungs-ID notwendig.</p>','2018-08-24 19:29:51','2018-08-24 19:29:51'),
-	('da0c7f6aec4c15d98d37d3aa6a406f2e','how-to-cancel','Wie kann ich ein Ticket stornieren?','<p>Du kannst dein Ticket jederzeit im Dashboard unter \"Tickets\" stornieren. Wenn du dein Ticket ohne Account erworben hast, oder auf den Account aktuell keinen Zugriff hast, kannst du unter <a href=\"sc-cancellations.html\">Stornierungen</a> dein Ticket ebenfalls stornieren.</p>','2018-08-24 19:30:14','2018-08-25 08:43:50');
+	('308d571b612e85ec27348ab0e9d66081','cancellation-tcs','Welche Bedingungen gelten für Stornierungen?','<p>Jede Buchung kann kostenfrei bis 24h vor dem Abflug storniert werden. Ab 24 Stunden vor Abflug werden 50% des Preises erstattet, nach dem Abflug werden Buchungen von nicht eingelösten Tickets nur bei Unfällen, Naturkatastrophen, Inneren Unruhen oder offiziellen Reisewarnungen des Auswärtigen Amtes erstattet. Der erstattete Betrag wird als Gutschein einem Aviation-Konto gutgeschrieben und nur in Ausnahmefällen ausbezahlt. Zur Stornierung über den Support ist sowohl die Buchungs-, als auch die Storno-Verifizierungs-ID notwendig.</p>','2018-08-24 19:29:51','2018-08-30 10:26:36'),
+	('7649777d75c0b454e1c8b73d5e261e5d','payment-methods','Welche Bezahlmöglichkeiten stehen mir zur Verfügung?','<p>Aktuell unterstützen wir nur unseren eigenen Zahlungsdienstleister <em>VirtuaMonetenPay</em>.</p>','2018-08-30 13:37:40','2018-08-30 13:37:40'),
+	('da0c7f6aec4c15d98d37d3aa6a406f2e','how-to-cancel','Wie kann ich eine Buchung stornieren?','<p>Du kannst deine Buchung jederzeit im Dashboard unter <a href=\'dashboard.jsp?p=completedBookings\'>Abgeschlossene Buchungen</a> stornieren. Wenn du die Buchung ohne Account durchgeführt hast, kannst du unter <a href=\'sc-cancellations.html\'>Stornierungen</a> deine Buchung ebenfalls stornieren.</p>','2018-08-24 19:30:14','2018-08-30 10:30:11');
 
 /*!40000 ALTER TABLE `questions` ENABLE KEYS */;
 UNLOCK TABLES;
