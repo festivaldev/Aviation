@@ -1,3 +1,13 @@
+/*
+    checkout.js
+    FESTIVAL Aviation
+    
+    Provides events to update the credit card when the user inputs data
+    
+    @author Fabian Krahtz (f.krahtz@ostfalia.de)
+    @version 1.0
+*/
+
 let lastExpirationLength = 0;
 
 document.querySelectorAll("form input").forEach(el => {
