@@ -175,7 +175,8 @@
 
                         <article class="flag error">
                             <div class="header">
-                                <div class="icon"><span><span class="ai ai-error"></span></span></div><span class="title">Hier funktioniert etwas nicht...</span>
+                                <div class="icon"><span><span class="ai ai-error"></span></span></div>
+                                <span class="title">Hier funktioniert etwas nicht...</span>
                             </div>
                             <div class="content">
                                 <p>Es scheint als hätten wir Probleme im Hintergrund, sodass aktuell keine Fragen geladen werden können. Bitte versuch es später noch einmal.</p>
@@ -188,7 +189,8 @@
 
                         <article class="flag question">
                             <div class="header">
-                                <div class="icon"><span><span class="ai ai-question"></span></span></div><span class="title">Die richtige Antwort war nicht dabei?</span>
+                                <div class="icon"><span><span class="ai ai-question"></span></span></div>
+                                <span class="title">Die richtige Antwort war nicht dabei?</span>
                             </div>
                             <div class="content">
                                 <p>Stell uns deine Frage direkt: <a href="sc-contact.html">Kontakt</a></p>
