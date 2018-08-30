@@ -174,7 +174,7 @@
                 <%
                     // Show corresponding flag for each result
 
-                       if (!result.isEmpty()) {
+                        if (!result.isEmpty()) {
                 %>
 
                 <div style="margin-bottom: 2em" class="section-content">
