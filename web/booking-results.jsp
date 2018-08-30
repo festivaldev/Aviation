@@ -1,4 +1,16 @@
 
+<!--
+	booking-results.jsp
+	FESTIVAL Aviation
+	
+	This page shows flight data returned from the server
+	The query must contain the following: depart_iata, arrv_iata, depart_date
+	Optional data: passengers, flight_class
+	
+	@author Janik Schmidt (jani.schmidt@ostfalia.de)
+	@version 1.0
+-->
+ 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="ml.festival.aviation.SearchResultsDemo" %>
 <%@ page import="org.json.*" %>
@@ -10,11 +22,13 @@
 <%
 	JSONObject demoData = new JSONObject();
  
+	// Do stuff only if we have the minimum required data
 	if (request.getParameter("depart_iata") != null && request.getParameter("arrv_iata") != null && request.getParameter("depart_date") != null) {
+		// Fix Java's shitty UTC handling when using ISO date strings
 		ZonedDateTime zonedDateTime = Instant.parse(request.getParameter("depart_date")).atZone(ZoneId.of("Europe/Berlin"));
 		demoData = SearchResultsDemo.getDemoData(request.getParameter("depart_iata"), request.getParameter("arrv_iata"), zonedDateTime.toLocalDate());
  
-		System.out.println(demoData);
+		// There are no Easter Eggs up here
 		if (demoData.has("redirect")) {
 			response.sendRedirect(demoData.getString("redirect"));
 			return;
@@ -58,7 +72,7 @@
 		</nav>
 		<section class="search-results">
 			<div class="section-content row">
-				<div class="progress-overview column medium-3">
+				<aside class="progress-overview column medium-3">
 					<p class="progress-title">Flug buchen</p>
 					<p class="progress-section-title">Vorbereitung</p>
 					<ul>
@@ -91,7 +105,7 @@
 							<div class="pipe"></div>
 						</li>
 					</ul>
-				</div>
+				</aside>
 				<div class="search-results-container column column-12 medium-8">
 					<div class="search-results-header">
 						<div class="row">
@@ -126,6 +140,7 @@
 									<p>Klasse</p>
 								</div> 
 								<%
+									// If we got flight_class data, don't display that <select>
 									if (request.getParameter("flight_class") != null) {
 								%>
 								<p class="column-content"><%= request.getParameter("flight_class") %></p> 
@@ -149,7 +164,9 @@
 					<div class="scroll-container">
 						 
 						<%
+							// Check if we have got data from the server
 							if (demoData.has("items")) {
+								// Iterate through the available data
 							 	for (int i=0; i<((JSONArray)demoData.get("items")).length(); i++) {
 									JSONObject resultObj = ((JSONArray)demoData.get("items")).getJSONObject(i);
 									LocalDate departureDate = (LocalDate)resultObj.get("departureDate");
@@ -180,14 +197,18 @@
 						<div class="results">
 							 
 							<%
+									// Iterate through every flight in a single date object
 									for (int j=0; j<((JSONArray)resultObj.get("items")).length(); j++) {
 										JSONObject flightObj = ((JSONArray)resultObj.get("items")).getJSONObject(j);
 										
+										// Parse departure and arrival times
 										LocalTime departureTime = ((Time)flightObj.get("departureTime")).toLocalTime().withSecond(0);
 										LocalTime arrivalTime = ((Time)flightObj.get("arrivalTime")).toLocalTime().withSecond(0);
 							 
+										// Calculate the duration between departure and arrival
 										Duration duration = Duration.between(departureTime, arrivalTime);
 										if (duration.isNegative()) {
+											// If the arrival time is before departure, add 24 hours	
 											duration = duration.plusDays(1);
 										}
 							%>
@@ -222,28 +243,40 @@
 					</div>
 					<div class="fill-background"></div>
 					<div class="results-footer">
-						<button onclick="if (confirm(&quot;Möchtest du wirklich abbrechen?&quot;)) history.back()" class="outline red">Abbrechen</button>
+						<button onclick="history.back()" class="outline blue">Zurück</button>
 						<button disabled onclick="document.forms[&quot;selectedItem&quot;].submit()" class="fill blue continue-button">Fortfahren</button>
 					</div>
 				</div>
 			</div>
 		</section>
-		<form action="booking-services.jsp" method="POST" name="selectedItem" class="hidden"><%
+		<form action="booking-services.jsp" method="POST" name="selectedItem" class="hidden">
+			<%
+				// Create input fields for every request parameter
 				Map<String, String[]> parameters = request.getParameterMap();
 				for(String parameter : parameters.keySet()) {
 			%>
 			<input name="<%= parameter %>" value="<%= request.getParameter(parameter) %>"> 
 			<%
 				}
+			 
+				// Create an input field for passengers only if we dont have any passenger data
+				if (request.getParameter("passengers") == null) {
 			%>
+			<input name="passengers"> 
+			<%
+			 	}
 			 
-			<% if (request.getParameter("passengers") == null) { %>
-			<input name="passengers"><% } %>
-			 
-			<% if (request.getParameter("flight_class") == null) { %>
-			<input name="flight_class"><% } %>
+				// Create an input field for flight_class only if we dont have any flight class data
+				if (request.getParameter("flight_class") == null) {
+			%>
+			<input name="flight_class"> 
+			<%
+				}
+			%>
 			<input name="arrv_date">
-			<input name="flight_number"><!-- DO NOT USE THIS IN PRODUCTION!!! -->
+			<input name="flight_number"> 
+			 
+			<!-- DO NOT USE THIS IN PRODUCTION!!! -->
 			<!-- This is for demonstration purposes only! -->
 			<input name="duration">
 			<input name="stops">

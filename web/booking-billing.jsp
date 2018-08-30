@@ -1,4 +1,15 @@
 
+<!--
+	booking-billing.jsp
+	FESTIVAL Aviation
+	
+	This page deals with creating and updating billing
+	addresses while booking a flight
+	
+	@author Janik Schmidt (jani.schmidt@ostfalia.de)
+	@version 1.0
+-->
+ 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="ml.festival.aviation.SearchResultsDemo" %>
 <%@ page import="ml.festival.aviation.AuthManager" %>
@@ -11,19 +22,18 @@
 <%
 	AuthManager authManager = new AuthManager();
 	JSONObject requestData = new JSONObject();
-	JSONObject demoData = new JSONObject();
  
 	try {
+		// Map every request parameter into a JSON object
 		Map<String, String[]> parameters = request.getParameterMap();
 		for(String parameter : parameters.keySet()) {
 			requestData.put(parameter, request.getParameter(parameter));
 		}
- 
-		demoData = SearchResultsDemo.getJSONData(requestData);
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
  
+	// Fill the billing address if we're already logged in
 	ResultSet billingAddress = null;
 	if (authManager.validate(String.valueOf(session.getAttribute("sid")))) {
 		billingAddress = authManager.getBillingAddress(String.valueOf(session.getAttribute("sid")));
@@ -81,7 +91,7 @@
 		</section>
 		<section class="search-results">
 			<div class="section-content row">
-				<div class="progress-overview column medium-3">
+				<aside class="progress-overview column medium-3">
 					<p class="progress-title">Flug buchen</p>
 					<p class="progress-section-title">Vorbereitung</p>
 					<ul>
@@ -114,7 +124,7 @@
 							<div class="pipe"></div>
 						</li>
 					</ul>
-				</div>
+				</aside>
 				<div class="search-results-container column column-12 medium-8">
 					<div class="scroll-container billing-address">
 						<div class="result-header">
@@ -130,6 +140,7 @@
 									<select name="title" id="title" required>
 										<option value=""></option> 
 										<%
+											// A dirty workaround to select an existing <select> value by default
 											if (billingAddress != null) {
 												if (billingAddress.getString("prefix").equals("male")) {
 										%>
@@ -195,6 +206,7 @@
 									<select name="country" id="country" required>
 										 
 										<%
+											// A dirty workaround to select an existing <select> value by default
 											if (billingAddress != null) {
 												if (billingAddress.getString("country").equals("de")) {
 										%>
@@ -253,6 +265,7 @@
 		</section>
 		<form action="booking-complete.jsp" method="POST" name="selectedItem" class="hidden">
 			<%
+				// Create input fields for every request parameter
 				Map<String, String[]> parameters = request.getParameterMap();
 				for(String parameter : parameters.keySet()) {
 			%>
@@ -267,4 +280,7 @@
 		<script type="text/javascript" src="js/flight-search.js"></script>
 	</body>
 </html> 
-<% authManager.closeConnection(); %>
+<%
+	// Close the database connection just like always
+	authManager.closeConnection();
+%>

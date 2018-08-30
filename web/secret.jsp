@@ -362,9 +362,6 @@
 						<ul class="footer-directory-column-list">
 							<li><a href="booking-search.jsp">Flüge</a></li>
 							<li><a href="featured.jsp">Reiseziele</a></li>
-							<li><a href="#">Link</a></li>
-							<li><a href="#">Link</a></li>
-							<li><a href="#">Link</a></li>
 							<li><a href="sc-index.jsp">Support</a></li>
 							<li><a href="dashboard.jsp">Benutzerkontrollzentrum</a></li>
 							<li><a href="imprint.html">Impressum</a></li>
@@ -376,7 +373,7 @@
 					<div class="footer-directory-column">
 						<h3 class="footer-directory-column-title">Team FESTIVAL</h3>
 						<ul class="footer-directory-column-list">
-							<li><a href="#">Über uns</a></li>
+							<li><a href="about.html">Über uns</a></li>
 						</ul>
 					</div>
 					<div class="footer-directory-column">
