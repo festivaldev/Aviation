@@ -4,7 +4,7 @@
 
     Has methods to update a users profile in the dashboard
 
-    @author Fabian Krahtz (f.krahtz@ostfalia.de)
+    @author Jonas Zadach (j.zadach@ostfalia.de)
     @version 1.0
 -->
 
