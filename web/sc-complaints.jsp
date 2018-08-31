@@ -240,7 +240,7 @@
                                 <option value="general">Allgemeine Beschwerde</option>
                                 <option value="search">Suche</option>
                                 <option value="offer">Anegbot</option>
-                                <option value="ads-marketing">Werbung + Marceting</option>
+                                <option value="ads-marketing">Werbung + Marketing</option>
                                 <option value="flight">Flug</option>
                                 <option value="other">Sonstige</option>
                             </select>
