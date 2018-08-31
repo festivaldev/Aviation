@@ -232,7 +232,7 @@
                             <a data-modal-type="question" data-modal-title="Warum muss ich eine E-Mail-Adresse angeben?" data-modal-text="Ohne Angabe einer E-Mail-Adresse können wir nicht auf dein Anliegen antworten. Aber keine Sorge, alle deine Daten werden vertraulich behandelt und nur bis zur Aufklärung deiner Anfrage aufbewahrt." class="help modal-trigger">Ist das notwendig?</a>
                             <label for="message">Ihre Nachricht</label>
                             <textarea name="message" id="message" rows="12"><%= message %></textarea>
-                            <button data-modal-type="warning" data-modal-title="Passt das so?" data-modal-text="Du kannst deine Nachricht nach dem Abschicken nicht mehr bearbeiten. Bist du sicher, dass du deine Nachricht so abschicken willst?" data-modal-primary="Das passt so!" data-modal-primary-action="submit" data-modal-secondary="Ne noch nicht" class="fill blue modal-trigger">Absenden</button>
+                            <button data-modal-type="warning" data-modal-title="Passt das so?" data-modal-text="Du kannst deine Nachricht nach dem Abschicken nicht mehr bearbeiten. Bist du sicher, dass du deine Nachricht so abschicken willst?" data-modal-primary="Das passt so!" data-modal-primary-action="submit" data-modal-secondary="Halt, warte..." class="fill blue modal-trigger">Absenden</button>
                         </form>
                     </div>
                 </div>
