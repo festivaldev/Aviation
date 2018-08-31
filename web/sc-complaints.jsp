@@ -240,13 +240,13 @@
                                 <option value="general">Allgemeine Beschwerde</option>
                                 <option value="search">Suche</option>
                                 <option value="offer">Anegbot</option>
-                                <option value="ads-marketing">Werbung + Marceting</option>
+                                <option value="ads-marketing">Werbung + Marketing</option>
                                 <option value="flight">Flug</option>
                                 <option value="other">Sonstige</option>
                             </select>
                             <label for="message">Ihre Nachricht</label>
                             <textarea name="message" id="message" rows="12"></textarea>
-                            <button data-modal-type="warning" data-modal-title="Passt das so?" data-modal-text="Du kannst deine Nachricht nach dem Abschicken nicht mehr bearbeiten. Bist du sicher, dass du deine Nachricht so abschicken willst?" data-modal-primary="Das passt so!" data-modal-primary-action="submit" data-modal-secondary="Ne noch nicht" class="fill blue modal-trigger">Absenden</button>
+                            <button data-modal-type="warning" data-modal-title="Passt das so?" data-modal-text="Du kannst deine Nachricht nach dem Abschicken nicht mehr bearbeiten. Bist du sicher, dass du deine Nachricht so abschicken willst?" data-modal-primary="Das passt so!" data-modal-primary-action="submit" data-modal-secondary="Halt, warte..." class="fill blue modal-trigger">Absenden</button>
                         </form>
                     </div>
                 </div>
